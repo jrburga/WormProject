@@ -3,7 +3,8 @@ extends Spatial
 
 enum WormMove {
 	Slither,
-	Wiggle
+	Wiggle,
+	Slither2
 }
 
 export(WormMove) var move = WormMove.Slither;
@@ -25,18 +26,22 @@ var time = 0
 func _process(delta):
 #	_animate_wiggle(delta)
 #	_animate_slither(delta)
+
+	
 	
 	match (move):
 		WormMove.Slither:
 			_animate_slither(delta)
 		WormMove.Wiggle:
 			_animate_wiggle(delta)
+		WormMove.Slither2:
+			_animate_slither_2(delta)
 			
 	if time > 100:
 		time = 0
 	pass
 
-func _animate_slither(delta):
+func _animate_slither_2(delta):
 	var count = $Armature/Skeleton.get_bone_count()
 	var f = 1 / (float(count) / 2)
 	var amp = 1
@@ -46,12 +51,14 @@ func _animate_slither(delta):
 		new_transform.basis = Basis()
 		
 		var shift = sin(bone_index)
-		var x = cos(time * speed) * f * amp * shift
+		var x = cos(time * speed + bone_index * .5) * f * amp
 		var y = 0 
 		var z = 0
 		new_transform.origin = Vector3(x, y, 0)
 		$Armature/Skeleton.set_bone_pose(bone_index, new_transform)
+		
 	
+#	transform.origin.y = time
 	time += delta
 	
 func _animate_slither(delta):

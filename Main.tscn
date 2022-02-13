@@ -5,6 +5,7 @@
 [node name="Main" type="Spatial"]
 
 [node name="simple_worm" parent="." instance=ExtResource( 1 )]
+move = 2
 
-[node name="Camera" type="Camera" parent="simple_worm"]
+[node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.66813 )
