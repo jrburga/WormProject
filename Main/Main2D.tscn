@@ -5,9 +5,10 @@
 [node name="Main2D" type="Node2D"]
 
 [node name="Worm2D" parent="." instance=ExtResource( 1 )]
-position = Vector2( -54, -42 )
 num_segments = 10
 speed = 500.0
+force_pull = 100.0
+max_force = 500.0
 segments_mass = 0.1
 segments_rest_length = 10
 segments_drag = 0.01

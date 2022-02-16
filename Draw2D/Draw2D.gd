@@ -21,6 +21,7 @@ func _ready():
 func _draw():
 	
 	draw_circle(Vector2(), radius, color)
+	draw_circle(Vector2(0, -radius), radius, color)
 	
 func _set_radius(value):
 	radius = value

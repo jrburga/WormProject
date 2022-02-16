@@ -8,6 +8,9 @@ const scnWormBody2D = preload("res://Worm2D/WormBody2D.tscn")
 # the speed of the worm
 export(int, 0, 20) var num_segments = 3 setget _set_num_segments, _get_num_segments
 export(float) var speed = 10
+export(float) var force_pull = 1
+export(float) var force_attract = 1
+export(float) var max_force = 100
 export(float, 0, 10) var segments_mass = 10 setget _set_segments_mass, _get_segments_mass
 export(int) var segments_length = 20 setget _set_segments_length, _get_segments_length
 export(int) var segments_rest_length = 20 setget _set_segments_rest_length, _get_segments_rest_length
@@ -82,12 +85,17 @@ func _physics_process(delta):
 		
 	var head = $Worm0 as RigidBody2D
 	
-	if head:	
+	if head:
+#		head.mode = RigidBody2D.MODE_KINEMATIC
 		if Input.is_action_pressed("drag"):
-			var mouse_pos_loc = head.to_local(get_global_mouse_position())
-			var velocity = (mouse_pos_loc.normalized() * speed).clamped(mouse_pos_loc.length() * 4)
-			
-			head.applied_force = head.mass * velocity
+			var mouse_dist = get_global_mouse_position() - $Worm0.position
+			var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
+			if mouse_dist.length_squared() > pow(0.01, 2):
+				force += clamp($Worm0.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
+			head.applied_force = force * mouse_dist.normalized()
+		else:
+			head.applied_force = Vector2()
+#		print(head.applied_force)
 			
 	head = $Worm0 as KinematicBody2D
 	
@@ -148,6 +156,8 @@ func _set_segments_drag(value):
 	segments_drag = value
 	print(segments_drag)
 	for child in self.get_children():
+		if child == $Worm0:
+			continue
 		if child is WormBody2D:
 			child.drag_coef = value
 	
