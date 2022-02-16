@@ -7,11 +7,6 @@
 
 [node name="Worm2D" type="Node2D"]
 script = ExtResource( 2 )
-num_segments = 5
-segments_length = 10
-segments_rest_length = 10
-segments_stiffness = 1.0
-segments_drag = 0.0
 
 [node name="Worm0" type="KinematicBody2D" parent="."]
 

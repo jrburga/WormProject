@@ -6,8 +6,9 @@ const scnWormBody2D = preload("res://Worm2D/WormBody2D.tscn")
 
 
 # the speed of the worm
-export(int, 0, 10) var num_segments = 3
+export(int, 0, 20) var num_segments = 3 setget _set_num_segments, _get_num_segments
 export(float) var speed = 10
+export(float, 0, 10) var segments_mass = 10 setget _set_segments_mass, _get_segments_mass
 export(int) var segments_length = 20 setget _set_segments_length, _get_segments_length
 export(int) var segments_rest_length = 20 setget _set_segments_rest_length, _get_segments_rest_length
 export(float, 0, 64) var segments_stiffness = 20 setget _set_segments_stiffness, _get_segments_stiffness
@@ -27,6 +28,7 @@ func get_index_of_segment(node):
 	return segments.find(node)
 
 func _generate_worm():
+#	$Worm0.collision_mask = 0
 	segments = [$Worm0]
 	for index in num_segments - 1:
 #		print(index)
@@ -43,6 +45,8 @@ func _generate_worm():
 		new_worm_body.transform.origin.y = segments_length * (index + 1)
 		new_spring_joint.transform.origin.y = segments_length * index
 
+#		new_worm_body.collision_mask = 0
+		new_worm_body.mass = segments_mass
 		new_worm_body.drag_coef = segments_drag
 #		print(new_spring_joint.get_path())
 		new_spring_joint.node_a = segments[index].get_path()
@@ -56,16 +60,53 @@ func _generate_worm():
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
+func _set_num_segments(value):
+	num_segments = value
+#	print('hello')
+#	for child in self.get_children():
+#		if child is DampedSpringJoint2D:
+#			child.queue_free()
+#
+#	for segment in segments:
+#		if segment != $Worm0:
+#			segment.queue_free()
+#
+#	_generate_worm()
+
+func _get_num_segments():
+	return num_segments
+	
 func _physics_process(delta):
-	var head = $Worm0 as KinematicBody2D
 	if Engine.editor_hint:
 		return
 		
-	if Input.is_action_pressed("drag"):
-		var mouse_pos_loc = head.to_local(get_global_mouse_position())
-		var velocity = mouse_pos_loc.normalized() * speed
-		head.move_and_slide(velocity)
+	var head = $Worm0 as RigidBody2D
+	
+	if head:	
+		if Input.is_action_pressed("drag"):
+			var mouse_pos_loc = head.to_local(get_global_mouse_position())
+			var velocity = (mouse_pos_loc.normalized() * speed).clamped(mouse_pos_loc.length() * 4)
+			
+			head.applied_force = head.mass * velocity
+			
+	head = $Worm0 as KinematicBody2D
+	
+	if head:	
+		if Input.is_action_pressed("drag"):
+			var mouse_pos_loc = head.to_local(get_global_mouse_position())
+			var velocity = (mouse_pos_loc.normalized() * speed).clamped(mouse_pos_loc.length() * 4)
+			
+			head.move_and_slide(velocity)
 		
+		
+func _set_segments_mass(value):
+	segments_mass = value
+	for child in self.get_children():
+		if child is WormBody2D:
+			child.mass = value
+			
+func _get_segments_mass():
+	return segments_mass
 
 func _set_segments_length(value):
 	segments_length = value
@@ -105,6 +146,7 @@ func _get_segments_damping():
 	
 func _set_segments_drag(value):
 	segments_drag = value
+	print(segments_drag)
 	for child in self.get_children():
 		if child is WormBody2D:
 			child.drag_coef = value
