@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Worm2D/Worm2D.tscn" type="PackedScene" id=1]
+
+[node name="Main2D" type="Node2D"]
+
+[node name="Worm2D" parent="." instance=ExtResource( 1 )]
+position = Vector2( -54, -42 )
+num_segments = 10
+speed = 100.0
+segments_length = 20
+segments_rest_length = 20
+segments_stiffness = 20.0
+segments_drag = 0.5
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true

@@ -34,8 +34,15 @@ func _generate_mesh():
 	
 	var height = 10
 	var radius = 1
-	var segments = 6
+	var segments = 12
 	var index = 0
+	#bottom cap
+	
+	
+	
+	
+	# cylinder
+
 	for h in range(height):
 		for s in range(segments):
 			
