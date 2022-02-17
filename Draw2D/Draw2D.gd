@@ -18,10 +18,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _draw():
-	
-	
-	
+func _draw():	
 	var body = get_parent()
 	var worm = get_parent().get_parent() 
 
@@ -34,18 +31,29 @@ func _draw():
 		if (parent):
 			draw_circle(Vector2(-radius, 0), radius, color)
 			draw_rect(Rect2(Vector2(-radius, -radius), Vector2(radius, 2 * radius)), color)
-			var direction : Vector2 = - (parent.transform.origin - body.transform.origin)
-			self.rotation = direction.angle()
 		elif child:
 			draw_rect(Rect2(Vector2(-radius, -radius), Vector2(radius, 2 * radius)), color)
-			var direction : Vector2 = body.transform.origin - child.transform.origin
-			self.rotation = direction.angle()
 	else:
 		draw_circle(Vector2(-radius, 0), radius, color)
 		draw_rect(Rect2(Vector2(-radius, -radius), Vector2(radius, 2 * radius)), color)
 			
 func _physics_process(delta):
-	update()
+	var body = get_parent()
+	var worm = get_parent().get_parent() 
+
+	if worm.has_method("get_segment"):
+		radius = worm.segment_radius
+		var index = worm.get_index_of_segment(body)
+		var parent = worm.get_segment(index - 1)
+		var child = worm.get_segment(index + 1)
+		if (parent):
+			var direction : Vector2 = - (parent.transform.origin - body.transform.origin)
+			self.rotation = direction.angle()
+		elif child:
+
+			var direction : Vector2 = body.transform.origin - child.transform.origin
+			self.rotation = direction.angle()
+
 	
 func _set_radius(value):
 	radius = value
