@@ -8,12 +8,16 @@
 
 [node name="Worm2D" type="Node2D"]
 script = ExtResource( 2 )
-force_pull = 500.0
+segment_radius = 20.0
+force_pull = 100.0
 force_attract = 500.0
+max_force = 500.0
+segments_mass = 0.1
+segments_drag = 0.01
 
 [node name="Worm0" type="RigidBody2D" parent="."]
 collision_mask = 0
-mass = 10.0
+mass = 0.1
 gravity_scale = 0.0
 script = ExtResource( 1 )
 
@@ -23,3 +27,4 @@ shape = SubResource( 1 )
 [node name="Node2D" type="Node2D" parent="Worm0"]
 rotation = -1.5708
 script = ExtResource( 3 )
+radius = 20.0
