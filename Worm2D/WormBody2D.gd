@@ -5,7 +5,6 @@ extends RigidBody2D
 # var a = 2
 # var b = "text"
 
-var radius = 10 setget _set_radius, _get_radius
 var color = Color.white setget _set_color, _get_color
 export var drag_coef = 0.5
 
@@ -18,9 +17,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _draw():
-	draw_circle(Vector2(), radius, color)
-	
 func _integrate_forces(state):
 	var worm = get_parent()
 	var index = worm.get_index_of_segment(self)
@@ -35,13 +31,6 @@ func _integrate_forces(state):
 		
 	applied_force = linear_velocity * linear_velocity * drag_direction * drag_coef / 2.0
 
-func _set_radius(value):
-	radius = value
-	update()
-
-func _get_radius():
-	return radius
-	
 func _set_color(value):
 	color = value
 	update()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Worm2D/WormBody2D.gd" type="Script" id=1]
+[ext_resource path="res://Draw2D/Draw2D.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=2]
 
@@ -11,3 +12,6 @@ drag_coef = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
+
+[node name="DrawNode" type="Node2D" parent="."]
+script = ExtResource( 2 )

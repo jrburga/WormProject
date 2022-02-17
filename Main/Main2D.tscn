@@ -5,12 +5,13 @@
 [node name="Main2D" type="Node2D"]
 
 [node name="Worm2D" parent="." instance=ExtResource( 1 )]
-num_segments = 10
+num_segments = 20
+segment_radius = 20.721
 speed = 500.0
 force_pull = 100.0
 max_force = 500.0
 segments_mass = 0.1
-segments_rest_length = 10
+segments_length = 10
 segments_drag = 0.01
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -7,6 +7,7 @@ const scnWormBody2D = preload("res://Worm2D/WormBody2D.tscn")
 
 # the speed of the worm
 export(int, 0, 20) var num_segments = 3 setget _set_num_segments, _get_num_segments
+export(float, 0, 100) var segment_radius = 10
 export(float) var speed = 10
 export(float) var force_pull = 1
 export(float) var force_attract = 1
@@ -31,7 +32,7 @@ func get_index_of_segment(node):
 	return segments.find(node)
 
 func _generate_worm():
-#	$Worm0.collision_mask = 0
+	$Worm0.collision_mask = 0
 	segments = [$Worm0]
 	for index in num_segments - 1:
 #		print(index)
@@ -46,15 +47,17 @@ func _generate_worm():
 #		new_spring_join.name = "SpringJoint" + str(index + 1)
 		
 		new_worm_body.transform.origin.y = segments_length * (index + 1)
+		
 		new_spring_joint.transform.origin.y = segments_length * index
+		new_spring_joint.length = segments_length
 
-#		new_worm_body.collision_mask = 0
+		new_worm_body.collision_mask = 0
 		new_worm_body.mass = segments_mass
 		new_worm_body.drag_coef = segments_drag
 #		print(new_spring_joint.get_path())
 		new_spring_joint.node_a = segments[index].get_path()
 		new_spring_joint.node_b = segments[index + 1].get_path()
-		new_spring_joint.length = segments_length
+		
 		new_spring_joint.rest_length = segments_rest_length
 		new_spring_joint.stiffness = segments_stiffness
 		new_spring_joint.damping = segments_damping
@@ -78,6 +81,17 @@ func _set_num_segments(value):
 
 func _get_num_segments():
 	return num_segments
+
+var dragging = false
+func _input(event):
+	if event.is_action_pressed("drag"):
+		dragging = true
+	elif event.is_action_released("drag"):
+		dragging = false
+	elif event is InputEventScreenTouch and event.pressed:
+		dragging = true
+	elif event is InputEventScreenTouch and not event.pressed:
+		dragging = false
 	
 func _physics_process(delta):
 	if Engine.editor_hint:
@@ -87,7 +101,7 @@ func _physics_process(delta):
 	
 	if head:
 #		head.mode = RigidBody2D.MODE_KINEMATIC
-		if Input.is_action_pressed("drag"):
+		if dragging:
 			var mouse_dist = get_global_mouse_position() - $Worm0.position
 			var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
 			if mouse_dist.length_squared() > pow(0.01, 2):
@@ -100,7 +114,7 @@ func _physics_process(delta):
 	head = $Worm0 as KinematicBody2D
 	
 	if head:	
-		if Input.is_action_pressed("drag"):
+		if dragging:
 			var mouse_pos_loc = head.to_local(get_global_mouse_position())
 			var velocity = (mouse_pos_loc.normalized() * speed).clamped(mouse_pos_loc.length() * 4)
 			
@@ -154,7 +168,6 @@ func _get_segments_damping():
 	
 func _set_segments_drag(value):
 	segments_drag = value
-	print(segments_drag)
 	for child in self.get_children():
 		if child == $Worm0:
 			continue
