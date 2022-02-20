@@ -1,6 +1,7 @@
 tool
 extends Node2D
 
+const util = preload("res://Util.gd")
 #const Worm2D = preload("res://Worm2D/Worm2D.gd")
 # Declare member variables here. Examples:
 # var a = 2
@@ -8,6 +9,7 @@ extends Node2D
 
 export(float) var radius = 10
 export(Color) var color = Color.white setget _set_color, _get_color;
+export(bool) var do_draw = false setget _set_do_draw, _get_do_draw
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -18,10 +20,20 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _draw():	
-	var body = get_parent()
-	var worm = get_parent().get_parent() 
+func _set_do_draw(value):
+	do_draw = value
+	update()
+	
+func _get_do_draw():
+	return do_draw
+	
 
+func _draw():
+	if not do_draw:
+		return
+		
+	var body = get_parent()
+	var worm = get_parent().get_parent()
 	if worm.has_method("get_segment"):
 		radius = worm.segment_radius
 		draw_circle(Vector2(), radius, color)
@@ -39,7 +51,7 @@ func _draw():
 			
 func _physics_process(delta):
 	var body = get_parent()
-	var worm = get_parent().get_parent() 
+	var worm = get_parent().get_parent()
 
 	if worm.has_method("get_segment"):
 		radius = worm.segment_radius

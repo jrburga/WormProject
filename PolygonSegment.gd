@@ -1,7 +1,7 @@
 tool
 extends Polygon2D
 
-
+const util = preload("res://Util.gd")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -11,11 +11,18 @@ export(bool) var do_generate_bone_weights = false setget _set_generate_bone_weig
 export(bool) var test_something = false setget _set_test, _get_test
 export(int) var joint_index = 0
 
-var radius = 10
+var radius = 20 setget _set_radius, _get_radius
 var r_pixels = 256
 var radial_segs = 10
 var lateral_segs = 3
 
+func _set_radius(value):
+	radius = value
+	regenerate_polygon()
+	
+func _get_radius():
+	return radius
+	
 func _set_test(value):
 	if value:
 		test()
@@ -71,7 +78,9 @@ func generate_bone_weights():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	regenerate_polygon()
-	pass
+	regenerate_polygon()
+	var worm = util.find_first_parent_witd_method(self, 'get_segment')
+	print(worm)
 	
 func regenerate_polygon():
 	var uvs = PoolVector2Array()
@@ -84,11 +93,12 @@ func regenerate_polygon():
 	var theta_0 = PI / 2
 	var center_pixels_0 = Vector2(r_pixels, r_pixels)
 	
-	
+	var epsilon_p = 2
+	var r_pixels_epsilon = r_pixels - epsilon_p
 	for var_index in radial_segs + 1:
 		var theta = theta_0 + delta_theta * var_index
-		var x_p = cos(theta) * r_pixels
-		var y_p = sin(theta) * r_pixels
+		var x_p = cos(theta) * r_pixels_epsilon
+		var y_p = sin(theta) * r_pixels_epsilon
 		
 		var x = cos(theta) * radius
 		var y = sin(theta) * radius
@@ -97,7 +107,7 @@ func regenerate_polygon():
 #		vertices.append(Vector2(x_p, y_p) + center_pixels_0)
 
 	var delta_pct = 1.0 / lateral_segs
-	var delta_p = delta_pct * r_pixels
+	var delta_p = delta_pct * r_pixels_epsilon
 	var delta = delta_pct * radius
 	for lat_index in range(1, lateral_segs):
 		var x_p = delta_p * lat_index + center_pixels_0.x
@@ -114,8 +124,8 @@ func regenerate_polygon():
 	var center_pixels_1 = Vector2(t_width - r_pixels, r_pixels)
 	for var_index in radial_segs + 1:
 		var theta = theta_1 + delta_theta * var_index
-		var x_p = cos(theta) * r_pixels
-		var y_p = sin(theta) * r_pixels
+		var x_p = cos(theta) * r_pixels_epsilon
+		var y_p = sin(theta) * r_pixels_epsilon
 		
 		var x = cos(theta) * radius
 		var y = sin(theta) * radius
