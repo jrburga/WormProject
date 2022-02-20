@@ -11,10 +11,10 @@ export(bool) var do_generate_bone_weights = false setget _set_generate_bone_weig
 export(bool) var test_something = false setget _set_test, _get_test
 export(int) var joint_index = 0
 
-var radius = 20 setget _set_radius, _get_radius
+export(float) var radius = 20 setget _set_radius, _get_radius
 var r_pixels = 256
-var radial_segs = 10
-var lateral_segs = 3
+var radial_segs = 20
+var lateral_segs = 6
 
 func _set_radius(value):
 	radius = value
@@ -31,12 +31,14 @@ func _get_test():
 	return false
 	
 func test():
-	print(range_lerp(0.25, 0, 1, 100, 0))
+	print(bones)
 	
 func generate_bone_weights():
 	var bone_index = joint_index * 2
+	var bone_index_next_next = (joint_index + 2) * 2
 	var bone_index_next = (joint_index + 1) * 2
 	var bone_index_prev = (joint_index - 1) * 2
+	var bone_index_prev_prev = (joint_index - 2) * 2
 	var w_min = 0
 	var w_max = 0.5
 	
@@ -47,15 +49,23 @@ func generate_bone_weights():
 			weights[w_i] = 0
 		bones[b_index * 2 + 1] = weights
 	
+#	if bone_index >= 0 and bone_index < bones.size():
+#		var bone = bones[bone_index]
+#		var weights = bones[bone_index + 1]
+#
+#		var weights_0 = []
+#		for v_index in polygon.size():
+#			weights_0.append(1)
+#
+#		bones[bone_index + 1] = weights_0
+#
 	if bone_index >= 0 and bone_index < bones.size():
-		var bone = bones[bone_index]
-		var weights = bones[bone_index + 1]
-		
-		var weights_0 = []
+		var weights = []
 		for v_index in polygon.size():
-			weights_0.append(1)
-			
-		bones[bone_index + 1] = weights_0
+			var v_x = (polygon[v_index] as Vector2).x
+			var w = range_lerp(v_x, 0, radius*3, w_min, clamp(w_max * 2, 0, 1))
+			weights.append(w)
+		bones[bone_index + 1] = weights
 		
 	if bone_index_next >= 0 and bone_index_next < bones.size():
 		var weights = []
@@ -65,6 +75,14 @@ func generate_bone_weights():
 			weights.append(w)
 		bones[bone_index_next + 1] = weights
 		
+	if bone_index_next_next >= 0 and bone_index_next_next < bones.size():
+		var weights = []
+		for v_index in polygon.size():
+			var v_x = (polygon[v_index] as Vector2).x
+			var w = range_lerp(v_x, 0, radius*3, w_min, w_max * w_max)
+			weights.append(w)
+		bones[bone_index_next_next + 1] = weights
+		
 	if bone_index_prev >= 0 and bone_index_prev < bones.size():
 		var weights = []
 		for v_index in polygon.size():
@@ -72,6 +90,14 @@ func generate_bone_weights():
 			var w = range_lerp(v_x, 0, radius*3, w_max, w_min)
 			weights.append(w)
 		bones[bone_index_prev + 1] = weights
+
+	if bone_index_prev_prev >= 0 and bone_index_prev_prev < bones.size():
+		var weights = []
+		for v_index in polygon.size():
+			var v_x = (polygon[v_index] as Vector2).x
+			var w = range_lerp(v_x, 0, radius*3, w_max * w_max , w_min)
+			weights.append(w)
+		bones[bone_index_prev_prev + 1] = weights
 	
 	
 

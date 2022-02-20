@@ -33,7 +33,8 @@ func _set_generate_texture(value):
 		var img = viewport.get_texture().get_data()
 		
 		img.flip_y()
-		
+		img.convert(Image.FORMAT_RGBA8)
+		img.save_png('C:/Users/ryan6/Captures/export_img.png')
 		var tex = ImageTexture.new()
 		tex.create_from_image(img)
 		
