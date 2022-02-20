@@ -11,7 +11,7 @@ func _ready():
 	pass # Replace with function body.
 
 func _draw():
-	draw_line(transform.origin)
+#	draw_line(transform.origin)
 	default_length
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
