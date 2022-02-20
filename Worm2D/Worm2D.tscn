@@ -3,7 +3,7 @@
 [ext_resource path="res://Worm2D/WormBody2D.gd" type="Script" id=1]
 [ext_resource path="res://Worm2D/Worm2D.gd" type="Script" id=2]
 [ext_resource path="res://Draw2D/Draw2D.gd" type="Script" id=3]
-[ext_resource path="res://Textures/export_img.png" type="Texture" id=4]
+[ext_resource path="res://Textures/Head_img.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 
