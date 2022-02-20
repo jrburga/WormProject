@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Tests/ViewportCapture.gd" type="Script" id=1]
+[ext_resource path="res://Tests/DrawShapes.gd" type="Script" id=2]
+[ext_resource path="res://Textures/T_Segment_Body.tres" type="Texture" id=3]
+
+[node name="CaptureTest" type="Node2D"]
+script = ExtResource( 1 )
+viewport_path = NodePath("Viewport")
+texture_rect = NodePath("TextureRect")
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 768, 512 )
+transparent_bg = true
+render_target_clear_mode = 2
+
+[node name="Node2D" type="Node2D" parent="Viewport"]
+position = Vector2( 512, 256 )
+script = ExtResource( 2 )
+radius = 256.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = -4.0
+margin_top = -34.0
+margin_right = 764.0
+margin_bottom = 478.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 936.188, 355.5 )
+scale = Vector2( 0.34847, 0.287109 )
+texture = ExtResource( 3 )
