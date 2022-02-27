@@ -8,9 +8,12 @@ extends RigidBody2D
 var color = Color.white setget _set_color, _get_color
 export var drag_coef = 0.5
 
+export(NodePath) var click_area_node;
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var click_area = get_node(click_area_node) as Area2D
+	click_area.connect("input_event", self, "_on_ClickArea_input_event")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,3 +40,9 @@ func _set_color(value):
 
 func _get_color():
 	return color
+
+func _on_ClickArea_input_event(viewport: Node, event: InputEvent, shape_idx: int):
+	if event is InputEventMouseButton:
+		pass
+	elif event is InputEventScreenTouch:
+		pass

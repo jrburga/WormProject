@@ -83,42 +83,61 @@ func _get_num_segments():
 	return num_segments
 
 var dragging = false
+var dragging_segment : WormBody2D = null
+var grab_radius = 40.0
+
+func _get_closest_segment(in_global_position : Vector2, in_radius : float = 0):
+	var min_dist = -1
+	var out_segment = null
+	var r_squared = in_radius * in_radius
+	for segment in segments:
+		var new_dist_squared = in_global_position.distance_squared_to((segment as WormBody2D).global_position)
+		
+		if (in_radius > 0) and (new_dist_squared > r_squared):
+			continue
+				
+		if min_dist == -1 or new_dist_squared < min_dist:
+			min_dist = new_dist_squared
+			out_segment = segment
+			
+	return out_segment
+
 func _input(event):
+	var mouse_position = get_global_mouse_position() 
 	if event.is_action_pressed("drag"):
 		dragging = true
+		dragging_segment = _get_closest_segment(mouse_position, grab_radius)
 	elif event.is_action_released("drag"):
-		dragging = false
+		dragging = false 
+		if (dragging_segment):
+			dragging_segment.applied_force = Vector2()
+		dragging_segment = null
 	elif event is InputEventScreenTouch and event.pressed:
 		dragging = true
+		dragging_segment = _get_closest_segment(mouse_position, grab_radius)
 	elif event is InputEventScreenTouch and not event.pressed:
 		dragging = false
+		if (dragging_segment):
+			dragging_segment.applied_force = Vector2()
+		dragging_segment = null
 	
 func _physics_process(delta):
 	if Engine.editor_hint:
 		return
 		
-	var head = $Worm0 as RigidBody2D
-	
-	if head:
-#		head.mode = RigidBody2D.MODE_KINEMATIC
-		if dragging:
-			var mouse_dist = get_global_mouse_position() - $Worm0.position
-			var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
-			if mouse_dist.length_squared() > pow(0.01, 2):
-				force += clamp($Worm0.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
-			head.applied_force = force * mouse_dist.normalized()
-		else:
-			head.applied_force = Vector2()
-#		print(head.applied_force)
-			
-	head = $Worm0 as KinematicBody2D
-	
-	if head:	
-		if dragging:
-			var mouse_pos_loc = head.to_local(get_global_mouse_position())
-			var velocity = (mouse_pos_loc.normalized() * speed).clamped(mouse_pos_loc.length() * 4)
-			
-			head.move_and_slide(velocity)
+	if not (dragging_segment is RigidBody2D):
+		return
+		
+	if dragging_segment:
+		print(dragging)
+		var mouse_dist = get_global_mouse_position() - dragging_segment.position
+		var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
+		if mouse_dist.length_squared() > pow(0.01, 2):
+			force += clamp(dragging_segment.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
+		dragging_segment.applied_force = force * mouse_dist.normalized()
+	else:
+		for segment in segments:
+			segment.applied_force = Vector2()
 		
 		
 func _set_segments_mass(value):
