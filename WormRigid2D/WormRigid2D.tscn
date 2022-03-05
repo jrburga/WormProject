@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://WormRigid2D/WormBody2D.gd" type="Script" id=1]
+[ext_resource path="res://WormRigid2D/WormRigid2D.gd" type="Script" id=2]
+[ext_resource path="res://Draw2D/Draw2D.gd" type="Script" id=3]
+[ext_resource path="res://Textures/Head_img.png" type="Texture" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 20.0
+
+[node name="Worm2D" type="Node2D"]
+script = ExtResource( 2 )
+num_segments = 10
+segment_radius = 20.0
+force_pull = 100.0
+force_attract = 500.0
+max_force = 500.0
+segments_mass = 0.1
+segments_drag = 0.01
+
+[node name="Worm0" type="RigidBody2D" parent="."]
+collision_mask = 0
+mass = 0.1
+gravity_scale = 0.0
+script = ExtResource( 1 )
+click_area_node = NodePath("Node2D/Area2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Worm0"]
+shape = SubResource( 1 )
+
+[node name="Node2D" type="Node2D" parent="Worm0"]
+rotation = -1.5708
+script = ExtResource( 3 )
+radius = 20.0
+
+[node name="Sprite" type="Sprite" parent="Worm0/Node2D"]
+position = Vector2( 10, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 4 )
+
+[node name="Area2D" type="Area2D" parent="Worm0/Node2D"]
+rotation = 1.5708
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Worm0/Node2D/Area2D"]
+position = Vector2( 0, -10 )
+shape = SubResource( 2 )
