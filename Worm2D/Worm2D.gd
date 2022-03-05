@@ -130,7 +130,7 @@ func _get_closest_segment(in_global_position : Vector2, in_radius : float = 0):
 	return out_segment
 	
 func _position_from_event(event):
-	return event.global_position - get_canvas_transform().origin
+	return event.position - get_canvas_transform().origin
 
 var mouse_button_down = false
 func _input(event):
@@ -160,13 +160,14 @@ func _input(event):
 		var touch_position = _position_from_event(event)
 		var dragging_segment = _get_closest_segment(touch_position, grab_radius)
 		_set_tracker_object(event.index, touch_position, dragging_segment)
+
 	elif event is InputEventScreenTouch and not event.pressed:
 		var tracker = _find_tracker_object(event.index)
 		if tracker:
 			if tracker.segment:
 				tracker.segment.applied_force = Vector2()
 			_clear_tracker_object(event.index)
-		
+		print(event.index, 'touch released')
 	elif event is InputEventScreenDrag:
 		var touch_position = _position_from_event(event)
 		_update_tracker_position(event.index, touch_position)
@@ -184,7 +185,7 @@ func _physics_process(delta):
 			return
 			
 		if dragging_segment:
-			var mouse_dist = get_global_mouse_position() - dragging_segment.position
+			var mouse_dist = tracking_object.position - dragging_segment.position
 			var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
 			if mouse_dist.length_squared() > pow(0.01, 2):
 				force += clamp(dragging_segment.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
