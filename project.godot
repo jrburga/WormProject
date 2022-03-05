@@ -14,6 +14,10 @@ config/name="WormProject"
 run/main_scene="res://Main/Main2D.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+CameraMgr="*res://CameraMgr/CameraMgr.gd"
+
 [global]
 
 visible=false

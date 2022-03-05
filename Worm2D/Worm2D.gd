@@ -4,7 +4,6 @@ extends Node2D
 const WormBody2D = preload("res://Worm2D/WormBody2D.gd")
 const scnWormBody2D = preload("res://Worm2D/WormBody2D.tscn")
 
-
 # the speed of the worm
 export(int, 0, 20) var num_segments = 3 setget _set_num_segments, _get_num_segments
 export(float, 0, 100) var segment_radius = 10
@@ -62,13 +61,9 @@ func _generate_worm():
 		new_spring_joint.stiffness = segments_stiffness
 		new_spring_joint.damping = segments_damping
 		new_spring_joint.disable_collision = false
-		
-		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 
 func _set_num_segments(value):
 	num_segments = value
-#	print('hello')
 #	for child in self.get_children():
 #		if child is DampedSpringJoint2D:
 #			child.queue_free()
@@ -81,10 +76,42 @@ func _set_num_segments(value):
 
 func _get_num_segments():
 	return num_segments
+	
+func _make_tracker_object(index : int, in_position : Vector2 = Vector2(), in_segment = null):
+	return {
+		"index": index,
+		"position": in_position,
+		"segment": in_segment
+	}
 
-var dragging = false
-var dragging_segment : WormBody2D = null
+var tracker_objects = []
 var grab_radius = 40.0
+
+func _find_tracker_object(index : int):
+	if index < tracker_objects.size():
+		return tracker_objects[index]
+	return null
+	
+func _update_tracker_position(index : int, in_position : Vector2):
+	var tracking_object = _find_tracker_object(index)
+	if tracking_object:
+		tracking_object.position = in_position
+	
+func _set_tracker_object(index : int, in_position : Vector2, in_segment):
+	var tracking_object = _find_tracker_object(index)
+	if tracking_object:
+		tracking_object.index = index
+		tracking_object.position = in_position
+		tracking_object.segment = in_segment
+	else:
+		if tracker_objects.size() <= index:
+			tracker_objects.resize(index + 1)
+		tracker_objects[index] = _make_tracker_object(index, in_position, in_segment)
+		
+func _clear_tracker_object(index : int):
+	if index < tracker_objects.size():
+		tracker_objects[index] = null
+	
 
 func _get_closest_segment(in_global_position : Vector2, in_radius : float = 0):
 	var min_dist = -1
@@ -101,43 +128,70 @@ func _get_closest_segment(in_global_position : Vector2, in_radius : float = 0):
 			out_segment = segment
 			
 	return out_segment
+	
+func _position_from_event(event):
+	return event.global_position - get_canvas_transform().origin
 
+var mouse_button_down = false
 func _input(event):
-	var mouse_position = get_global_mouse_position() 
-	if event.is_action_pressed("drag"):
-		dragging = true
-		dragging_segment = _get_closest_segment(mouse_position, grab_radius)
-	elif event.is_action_released("drag"):
-		dragging = false 
-		if (dragging_segment):
-			dragging_segment.applied_force = Vector2()
-		dragging_segment = null
-	elif event is InputEventScreenTouch and event.pressed:
-		dragging = true
-		dragging_segment = _get_closest_segment(mouse_position, grab_radius)
+	
+	# mouse button events
+	if event is InputEventMouseButton and event.button_index == 1 and event.pressed:
+		mouse_button_down = true
+		var touch_position = _position_from_event(event)
+		var dragging_segment = _get_closest_segment(touch_position, grab_radius)
+		_set_tracker_object(0, touch_position, dragging_segment)
+		
+	elif event is InputEventMouseButton and event.button_index == 1 and not event.pressed:
+		mouse_button_down = false
+		var tracker = _find_tracker_object(0)
+		if tracker:
+			
+			if tracker.segment:
+				tracker.segment.applied_force = Vector2()
+			_clear_tracker_object(0)
+			
+	elif event is InputEventMouseMotion and mouse_button_down:
+		var touch_position = _position_from_event(event)
+		_update_tracker_position(0, touch_position)
+		
+	# touch screen events
+	if event is InputEventScreenTouch and event.pressed:
+		var touch_position = _position_from_event(event)
+		var dragging_segment = _get_closest_segment(touch_position, grab_radius)
+		_set_tracker_object(event.index, touch_position, dragging_segment)
 	elif event is InputEventScreenTouch and not event.pressed:
-		dragging = false
-		if (dragging_segment):
-			dragging_segment.applied_force = Vector2()
-		dragging_segment = null
+		var tracker = _find_tracker_object(event.index)
+		if tracker:
+			if tracker.segment:
+				tracker.segment.applied_force = Vector2()
+			_clear_tracker_object(event.index)
+		
+	elif event is InputEventScreenDrag:
+		var touch_position = _position_from_event(event)
+		_update_tracker_position(event.index, touch_position)
 	
 func _physics_process(delta):
 	if Engine.editor_hint:
 		return
 		
-	if not (dragging_segment is RigidBody2D):
-		return
+	for tracking_object in tracker_objects:
+		var dragging_segment = null
+		if tracking_object:
+			dragging_segment = tracking_object.segment
 		
-	if dragging_segment:
-		print(dragging)
-		var mouse_dist = get_global_mouse_position() - dragging_segment.position
-		var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
-		if mouse_dist.length_squared() > pow(0.01, 2):
-			force += clamp(dragging_segment.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
-		dragging_segment.applied_force = force * mouse_dist.normalized()
-	else:
-		for segment in segments:
-			segment.applied_force = Vector2()
+		if not (dragging_segment is RigidBody2D):
+			return
+			
+		if dragging_segment:
+			var mouse_dist = get_global_mouse_position() - dragging_segment.position
+			var force = clamp(force_pull * mouse_dist.length(), 0, max_force)
+			if mouse_dist.length_squared() > pow(0.01, 2):
+				force += clamp(dragging_segment.mass * force_attract / mouse_dist.length_squared(), 0, max_force)
+			dragging_segment.applied_force = force * mouse_dist.normalized()
+		else:
+			for segment in segments:
+				segment.applied_force = Vector2()
 		
 		
 func _set_segments_mass(value):
