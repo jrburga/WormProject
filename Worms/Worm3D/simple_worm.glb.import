@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/simple_worm.glb-6449f71ae0e56ff7654d24ce464294fb.scn"
+path="res://.import/simple_worm.glb-8edf268645db26c2ad3a5c8ed162226b.scn"
 
 [deps]
 
-source_file="res://Worm3D/simple_worm.glb"
-dest_files=[ "res://.import/simple_worm.glb-6449f71ae0e56ff7654d24ce464294fb.scn" ]
+source_file="res://Worms/Worm3D/simple_worm.glb"
+dest_files=[ "res://.import/simple_worm.glb-8edf268645db26c2ad3a5c8ed162226b.scn" ]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://WormRigid2D/WormBody2D.gd" type="Script" id=1]
+[ext_resource path="res://Worms/WormRigid2D/WormBody2D.gd" type="Script" id=1]
 [ext_resource path="res://Textures/T_Segment_200.tres" type="Texture" id=2]
 [ext_resource path="res://Draw2D/Draw2D.gd" type="Script" id=3]
 

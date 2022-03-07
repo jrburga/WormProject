@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "WormKB2D",
 "language": "GDScript",
-"path": "res://WormKB2D/WormBodyKB2D.gd"
+"path": "res://Worms/WormKB2D/WormBodyKB2D.gd"
 } ]
 _global_script_class_icons={
 "WormKB2D": ""

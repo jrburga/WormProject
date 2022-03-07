@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://WormRigid2D/WormRigid2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Worms/WormRigid2D/WormRigid2D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Main/Main2D.gd" type="Script" id=4]
 
 [node name="Main2D" type="Node2D"]
@@ -15,3 +15,8 @@ current = true
 
 [node name="Worm2D" parent="." instance=ExtResource( 1 )]
 force_pull = 500.0
+speed = 10.0
+segments_length = 20
+segments_rest_length = 20
+segments_stiffness = 20.0
+segments_damping = 1.0

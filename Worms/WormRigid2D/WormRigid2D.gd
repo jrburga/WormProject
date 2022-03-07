@@ -87,6 +87,12 @@ func _make_tracker_object(index : int, in_position : Vector2 = Vector2(), in_seg
 var tracker_objects = []
 var grab_radius = 40.0
 
+func is_dragging() -> bool:
+	for tracker in tracker_objects:
+		if tracker != null:
+			return true
+	return false
+
 func _find_tracker_object(index : int):
 	if index < tracker_objects.size():
 		return tracker_objects[index]
