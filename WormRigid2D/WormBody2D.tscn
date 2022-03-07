@@ -18,17 +18,18 @@ click_area_node = NodePath("DrawNode/Area2D")
 [node name="DrawNode" type="Node2D" parent="."]
 script = ExtResource( 3 )
 
-[node name="Sprite" type="Sprite" parent="DrawNode"]
-position = Vector2( -10, 0 )
-scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 2 )
-
 [node name="Area2D" type="Area2D" parent="DrawNode"]
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrawNode/Area2D"]
 position = Vector2( 0, -10 )
 shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="DrawNode"]
+modulate = Color( 1, 0.752941, 0.796078, 1 )
+position = Vector2( -10, 0 )
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )

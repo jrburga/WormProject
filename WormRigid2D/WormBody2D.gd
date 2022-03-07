@@ -31,6 +31,7 @@ func _integrate_forces(state):
 	if (body):
 		var connect_vector = transform.origin - body.transform.origin 
 		drag_direction = - (linear_velocity - linear_velocity.project(connect_vector)).normalized()
+#		drag_direction = - (linear_velocity).normalized()
 		
 	applied_force = linear_velocity * linear_velocity * drag_direction * drag_coef / 2.0
 

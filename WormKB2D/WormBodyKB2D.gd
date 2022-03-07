@@ -51,21 +51,21 @@ func _physics_process(delta):
 #			parent_position = mouse_position
 			var direction = (mouse_position - position).normalized()
 			move_and_slide(direction * speed)
-#			return
+			return
 #		elif grabbing_another segment:
 #			pass
 #			we actually want to go to the child
 #		else:
 #			return
 
-	if (not parent) or (not child):
-		return
+#	if (not parent) or (not child):
+#		return
 		
 	var to_parent = parent_position - position
 	var to_child = child_position - position
 	
-	if to_parent.length() <= seg_distance and to_child.length() <= seg_distance:
-		return
+#	if to_parent.length() <= seg_distance and to_child.length() <= seg_distance:
+#		return
 	
 	var cp = parent_position - child_position 
 	
