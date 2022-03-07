@@ -10,3 +10,4 @@ script = ExtResource( 4 )
 current = true
 
 [node name="WormKB2D" parent="." instance=ExtResource( 1 )]
+num_segments = 20
