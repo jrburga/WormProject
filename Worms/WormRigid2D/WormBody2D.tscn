@@ -4,7 +4,7 @@
 [ext_resource path="res://Textures/T_Segment_200.tres" type="Texture" id=2]
 [ext_resource path="res://Draw2D/Draw2D.gd" type="Script" id=3]
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 20.0
 
 [sub_resource type="CircleShape2D" id=2]
@@ -23,7 +23,7 @@ rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrawNode/Area2D"]
 position = Vector2( 0, -10 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="DrawNode"]
 modulate = Color( 1, 0.752941, 0.796078, 1 )

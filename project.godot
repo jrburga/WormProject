@@ -10,11 +10,17 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "KinematicBody2D",
-"class": "WormKB2D",
+"class": "WormBodyKB2Dt",
 "language": "GDScript",
 "path": "res://Worms/WormKB2D/WormBodyKB2D.gd"
+}, {
+"base": "Node2D",
+"class": "WormKB2D",
+"language": "GDScript",
+"path": "res://Worms/WormKB2D/WormKB2D.gd"
 } ]
 _global_script_class_icons={
+"WormBodyKB2Dt": "",
 "WormKB2D": ""
 }
 
@@ -41,7 +47,7 @@ drag={
 }
 toggle_fullscreen={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
  ]
 }
 

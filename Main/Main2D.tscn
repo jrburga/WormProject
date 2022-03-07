@@ -10,13 +10,10 @@ script = ExtResource( 4 )
 color = Color( 0.262745, 0.584314, 0.776471, 1 )
 polygon = PoolVector2Array( -10000, -10000, 10000, -10000, 10000, 10000, -10000, 10000 )
 
-[node name="Camera2D" type="Camera2D" parent="." groups=["Camera2D"]]
+[node name="Camera2D" type="Camera2D" parent="." groups=[
+"Camera2D",
+]]
 current = true
 
 [node name="Worm2D" parent="." instance=ExtResource( 1 )]
 force_pull = 500.0
-speed = 10.0
-segments_length = 20
-segments_rest_length = 20
-segments_stiffness = 20.0
-segments_damping = 1.0
