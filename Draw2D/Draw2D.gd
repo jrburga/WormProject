@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-const util = preload("res://Util.gd")
+const util = preload("res://Scripts/Util.gd")
 #const Worm2D = preload("res://Worm2D/Worm2D.gd")
 # Declare member variables here. Examples:
 # var a = 2

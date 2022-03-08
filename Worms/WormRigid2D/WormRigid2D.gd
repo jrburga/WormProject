@@ -151,7 +151,15 @@ func _get_closest_segment(in_global_position : Vector2, in_radius : float = 0):
 	
 func _position_from_event(event):
 	return event.position - get_canvas_transform().origin
+	
+func _draw():
+	for tracker in tracker_objects:
+		if tracker != null:
+			draw_circle(tracker.position, 20, Color.green)
 
+func _process(delta):
+	update()
+	
 var mouse_button_down = false
 func _input(event):
 	

@@ -2,16 +2,15 @@ extends Node2D
 
 class_name WormKB2D
 
+var TouchTracker = preload("res://Scripts/TouchTracker.gd")
 const scnWormBodyKB2D = preload("./WormBodyKB2D.tscn")
 const WormBodyKB2D = preload("./WormBodyKB2D.gd")
 
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius
 export(int) var num_segments = 10
-export(int) var speed = 300
+export(float) var speed = 300
 export(float) var seg_distance = 10
 export(float) var f_spring = 10
-export(float) var w_parent = 0.75
-export(float) var drag_coef = .01
 export(float) var grab_radius = 20
 
 
@@ -19,11 +18,9 @@ export(float) var grab_radius = 20
 # var a = 2
 # var b = "text"
 
-var mouse_button_down = false
-var mouse_position = Vector2()
+var debug_draw = false
+var touch_tracker : TouchTracker = null
 var segments = []
-var dragging_segments = []
-var dragging_segment = null
 # Called when the node enters the scene tree for the first time.
 
 func _set_seg_radius(value):
@@ -37,12 +34,24 @@ func _get_seg_radius():
 func get_head():
 	return segments[0] if segments.size() > 0 else null
 	
+func _process(delta):
+	if debug_draw:
+		update()
+	
+func _draw():
+	if debug_draw:
+		for tracker in touch_tracker.tracker_objects:
+			if tracker and tracker.object:
+				draw_circle(tracker.touch_position, 20, Color.red)
+	
 func _ready():
+	
+	touch_tracker = TouchTracker.new() as TouchTracker
+	
 	segments = [$Worm0]
 	$Worm0.index = 0
 	$Worm0.radius = seg_radius
 	for index in range(1, num_segments):
-#		print(index)
 		var new_worm_body = scnWormBodyKB2D.instance() as WormBodyKB2D
 		new_worm_body.set_name("Worm" + str(index))
 		new_worm_body.index = index
@@ -54,6 +63,11 @@ func _ready():
 		self.add_child(new_worm_body)
 		
 		new_worm_body.position = segments[index - 1].position - Vector2(0, seg_radius)
+		
+	for segment in segments:
+		segment._worm_ready()
+		
+	
 		
 func _get_closest_segment(location : Vector2, radius : float = 0):
 	var n_dist = Vector2()
@@ -72,22 +86,55 @@ func _get_closest_segment(location : Vector2, radius : float = 0):
 func _get_position_from_event(event):
 	return event.position - get_canvas_transform().origin
 	
+var ctrl_down = false
+var emulate_index = 0
+var mouse_button_down = false
 func _input(event):
-	if event is InputEventMouseButton:
-		mouse_button_down = event.pressed
-		mouse_position = _get_position_from_event(event)
-		if mouse_button_down:
-			dragging_segment = _get_closest_segment(mouse_position, grab_radius)
-			if dragging_segment == null:
-				dragging_segment = get_head()
-		else:
-			dragging_segment = null
+	if event is InputEventKey:
+		if event.scancode == KEY_CONTROL:
+			ctrl_down = event.pressed
 			
-	if event is InputEventMouseMotion:
-		mouse_position = _get_position_from_event(event)
+		if event.scancode == KEY_0:
+			emulate_index = 0
+		elif event.scancode == KEY_1:
+			emulate_index = 1
+		elif event.scancode == KEY_2:
+			emulate_index = 2
+			
+	elif event is InputEventMouseButton and event.button_index == 1:
+		if event.pressed:
+			mouse_button_down = true
+			var mouse_position = _get_position_from_event(event)
+			var dragging_segment = _get_closest_segment(mouse_position, grab_radius)
+			if dragging_segment == null:
+				touch_tracker.set_tracker_object(emulate_index, mouse_position, get_head())
+			else:
+				touch_tracker.set_tracker_object(emulate_index, mouse_position, dragging_segment)
+		else:
+			touch_tracker.clear_tracker_object_at(emulate_index)
+			
+	elif event is InputEventMouseMotion and mouse_button_down:
+		var mouse_position = _get_position_from_event(event)
+		touch_tracker.update_tracker_object(emulate_index, mouse_position)
+
+	# touch screen events
+	elif event is InputEventScreenTouch:
+		if event.pressed:
+			var touch_position = _get_position_from_event(event)
+			var dragging_segment = _get_closest_segment(touch_position, grab_radius)
+			if dragging_segment:
+				touch_tracker.set_tracker_object(event.index, touch_position, dragging_segment)
+			else:
+				touch_tracker.set_tracker_object(event.index, touch_position, get_head())
+		else:
+			touch_tracker.clear_tracker_object_at(event.index)
+		
+	elif event is InputEventScreenDrag:
+		var touch_position = _get_position_from_event(event)
+		touch_tracker.update_tracker_object(event.index, touch_position)
 
 func is_dragging(segment) -> bool:
-	return segment == dragging_segment if segment != null else false
+	return touch_tracker.find_tracker_object(segment) != null
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
