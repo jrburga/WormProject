@@ -19,3 +19,5 @@ damping = 1.0
 damping_drag = 10.0
 grab_radius = 20.0
 physics_mode = 0
+squash = 0.1
+stretch = 0.1

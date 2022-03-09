@@ -15,3 +15,5 @@ export(float) var damping = 1
 export(float) var damping_drag = 10
 export(float) var grab_radius = 20
 export(PHYS_MODE) var physics_mode = PHYS_MODE.Velocity
+export(float) var squash = 0.1
+export(float) var stretch = 0.1

@@ -93,9 +93,9 @@ func _velocity_curve(distance):
 	return (get_worm_settings().curve_velocity as Curve).interpolate(offset)
 	pass
 	
-var squish = 0.15
-var stretch = 1
 func _process(delta):
+	var squash = get_worm_settings().squash
+	var stretch = get_worm_settings().stretch
 	var rest_length = get_worm_settings().seg_distance
 	var rest_radius = get_worm().seg_radius
 	var node = child if child else parent
@@ -105,7 +105,7 @@ func _process(delta):
 		$DrawNode.length = L
 		
 		var R = rest_radius + (rest_length - L) * .25
-		R = min(max(R, rest_radius * (1 - squish)), rest_radius * (1 + squish))
+		R = min(max(R, rest_radius * (1 - squash)), rest_radius * (1 + squash))
 		$DrawNode.radius = R
 		
 func _physics_process_rotate(delta):
