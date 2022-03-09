@@ -3,7 +3,7 @@
 [ext_resource path="res://Worms/WormKB2D/WormBodyKB2D.gd" type="Script" id=1]
 [ext_resource path="res://Draw2D/DrawShapes.gd" type="Script" id=2]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=2]
 
 [node name="WormBodyKB2D" type="KinematicBody2D"]
 collision_mask = 0
@@ -14,4 +14,4 @@ script = ExtResource( 2 )
 color = Color( 1, 0.752941, 0.796078, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )

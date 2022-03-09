@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Worms/WormKB2D/WormKB2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Worms/WormKB2D/WormSettings_Default.tres" type="Resource" id=2]
 [ext_resource path="res://Main/Main2D.gd" type="Script" id=4]
 
 [node name="Main2D" type="Node2D"]
@@ -16,3 +17,5 @@ polygon = PoolVector2Array( -10000, -10000, 10000, -10000, 10000, 10000, -10000,
 current = true
 
 [node name="WormKB2D" parent="." instance=ExtResource( 1 )]
+worm_settings = ExtResource( 2 )
+normalize_dist = 150.0

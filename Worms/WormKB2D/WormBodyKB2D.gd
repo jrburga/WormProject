@@ -1,10 +1,9 @@
 extends KinematicBody2D
 
-class_name WormBodyKB2Dt
+class_name WormBodyKB2D
 
 var TouchTracker = preload("res://Scripts/TouchTracker.gd")
 
-export(NodePath) var ParentNode;
 var parent = null
 var child = null
 var index = -1
@@ -23,13 +22,13 @@ func get_worm():
 	return get_parent()
 
 func get_speed():
-	return get_worm().speed
+	return get_worm().worm_settings.speed
 	
 func get_seg_distance():
-	return get_worm().seg_distance
+	return get_worm().worm_settings.seg_distance
 	
 func get_f_spring():
-	return get_worm().f_spring
+	return get_worm().worm_settings.f_spring
 	
 func get_is_head():
 	return get_worm().segments[0] == self
@@ -77,6 +76,16 @@ func _position_from_event(event):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
+
+
+func _velocity_curve(distance):
+	var max_distance = 30
+	var offset = 0.0
+	if get_worm().normalize_dist > 0:
+		offset = distance / get_worm().worm_settings.normalize_dist
+	return (get_worm().curve_velocity as Curve).interpolate(offset)
+	pass
+	
 func _process(delta):
 	pass
 		
@@ -87,6 +96,9 @@ var v_spring = Vector2()
 
 var velocity = Vector2()
 func _physics_process(delta):
+	_physics_process_velocities(delta)
+	
+func _physics_process_velocities(delta):
 	if get_worm() == null:
 		return
 		
@@ -95,8 +107,8 @@ func _physics_process(delta):
 		var direction = L.normalized()
 		
 #			velocity = direction * get_speed()
-		v_move = (L.length_squared() * direction).clamped(get_speed())
-		
+		v_move = (_velocity_curve(L.length()) * direction * get_speed()).clamped(get_speed())
+#		print(v_move)
 	else:
 		v_move *= 0.95
 			
@@ -139,7 +151,7 @@ func _physics_process(delta):
 			var clamp_speed = delta_L.length() / delta if delta > 0 else 0
 			var v_to_child = delta_L.length_squared() * direction * get_f_spring()
 			v_spring += v_to_child.clamped(clamp_speed)
-	
+
 	velocity = v_spring + v_move
 	velocity = velocity.clamped(get_speed())
 	move_and_slide(velocity)

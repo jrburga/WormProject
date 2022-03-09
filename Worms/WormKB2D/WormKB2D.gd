@@ -6,12 +6,12 @@ var TouchTracker = preload("res://Scripts/TouchTracker.gd")
 const scnWormBodyKB2D = preload("./WormBodyKB2D.tscn")
 const WormBodyKB2D = preload("./WormBodyKB2D.gd")
 
+export(Resource) var worm_settings = null
+export(Curve) var curve_velocity = null
+export(float) var normalize_dist = 50
+
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius
 export(int) var num_segments = 10
-export(float) var speed = 300
-export(float) var seg_distance = 10
-export(float) var f_spring = 10
-export(float) var grab_radius = 20
 
 
 # Declare member variables here. Examples:
@@ -105,7 +105,7 @@ func _input(event):
 		if event.pressed:
 			mouse_button_down = true
 			var mouse_position = _get_position_from_event(event)
-			var dragging_segment = _get_closest_segment(mouse_position, grab_radius)
+			var dragging_segment = _get_closest_segment(mouse_position, worm_settings.grab_radius)
 			if dragging_segment == null:
 				touch_tracker.set_tracker_object(emulate_index, mouse_position, get_head())
 			else:
@@ -121,7 +121,7 @@ func _input(event):
 	elif event is InputEventScreenTouch:
 		if event.pressed:
 			var touch_position = _get_position_from_event(event)
-			var dragging_segment = _get_closest_segment(touch_position, grab_radius)
+			var dragging_segment = _get_closest_segment(touch_position, worm_settings.grab_radius)
 			if dragging_segment:
 				touch_tracker.set_tracker_object(event.index, touch_position, dragging_segment)
 			else:

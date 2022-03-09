@@ -15,7 +15,7 @@ _global_script_classes=[ {
 "path": "res://Scripts/TouchTracker.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "WormBodyKB2Dt",
+"class": "WormBodyKB2D",
 "language": "GDScript",
 "path": "res://Worms/WormKB2D/WormBodyKB2D.gd"
 }, {
@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "WormKB2D",
 "language": "GDScript",
 "path": "res://Worms/WormKB2D/WormKB2D.gd"
+}, {
+"base": "Resource",
+"class": "WormKB2DRes",
+"language": "GDScript",
+"path": "res://Worms/WormKB2D/WormKB2DRes.gd"
 } ]
 _global_script_class_icons={
 "TouchTracker": "",
-"WormBodyKB2Dt": "",
-"WormKB2D": ""
+"WormBodyKB2D": "",
+"WormKB2D": "",
+"WormKB2DRes": ""
 }
 
 [application]
