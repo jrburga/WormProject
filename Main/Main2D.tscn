@@ -18,3 +18,4 @@ current = true
 
 [node name="WormKB2D" parent="." instance=ExtResource( 1 )]
 worm_settings = ExtResource( 2 )
+num_segments = 7

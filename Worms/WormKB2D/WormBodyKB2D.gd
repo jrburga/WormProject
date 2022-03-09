@@ -93,30 +93,32 @@ func _velocity_curve(distance):
 	return (get_worm_settings().curve_velocity as Curve).interpolate(offset)
 	pass
 	
+var squish = 0.15
+var stretch = 1
 func _process(delta):
 	var rest_length = get_worm_settings().seg_distance
 	var rest_radius = get_worm().seg_radius
 	var node = child if child else parent
 	if node:
 		var L = (node.position - position).length()
-		L = min(max(L, rest_length * .5), rest_length * 2)
+		L = min(max(L, rest_length * (1 - stretch)), rest_length * (1 + stretch))
 		$DrawNode.length = L
 		
 		var R = rest_radius + (rest_length - L) * .25
-		R = min(max(R, rest_radius * .75), rest_radius * 1.25)
+		R = min(max(R, rest_radius * (1 - squish)), rest_radius * (1 + squish))
 		$DrawNode.radius = R
 		
 func _physics_process_rotate(delta):
 	if parent:
-		var L : Vector2 = position - parent.position
+		var L : Vector2 = (position - parent.position)
 		desired_angle = L.angle()
 		rotation = L.angle()
 	elif get_is_head():
 		if get_is_dragging():
-			var L : Vector2 = position - get_drag_position()
+			var L : Vector2 = (position - get_drag_position())
 			desired_angle = L.angle()			
 		elif child:
-			var L : Vector2 = child.position - position
+			var L : Vector2 = (child.position - position)
 			desired_angle = L.angle()
 
 		rotation = lerp_angle(rotation, desired_angle, 0.25)
