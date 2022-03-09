@@ -6,7 +6,8 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-export(float) var radius = 10
+export(float) var radius = 10 setget _set_radius, _get_radius
+export(float) var length = radius setget _set_length, _get_length
 export(Color) var color = Color.white setget _set_color, _get_color;
 export(bool) var redraw = false setget _set_redraw, _get_redraw
 
@@ -19,9 +20,10 @@ func _ready():
 #func _process(delta):
 #	pass
 
+
 func _draw():
-	draw_circle(Vector2(-radius, 0), radius, color)
-	draw_rect(Rect2(Vector2(-radius, -radius), Vector2(radius, 2 * radius)), color)
+	draw_circle(Vector2(-length, 0), radius, color)
+	draw_rect(Rect2(Vector2(-length, -radius), Vector2(length, 2 * radius)), color)
 	draw_circle(Vector2(0, 0), radius, color)
 			
 func _set_radius(value):
@@ -31,6 +33,12 @@ func _set_radius(value):
 func _get_radius():
 	return radius
 	
+func _set_length(value):
+	length = value
+	update()
+	
+func _get_length():
+	return length
 func _set_color(value):
 	color = value
 	update()

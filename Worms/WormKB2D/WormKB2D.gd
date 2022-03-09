@@ -2,14 +2,13 @@ extends Node2D
 
 class_name WormKB2D
 
-var TouchTracker = preload("res://Scripts/TouchTracker.gd")
-const scnWormBodyKB2D = preload("./WormBodyKB2D.tscn")
-const WormBodyKB2D = preload("./WormBodyKB2D.gd")
 
+#const scnWormBodyKB2D = preload("./WormBodyKB2D.tscn")
+
+var TouchTracker = load("res://Scripts/TouchTracker.gd")
+
+export(PackedScene) var scnWormBodyKB2D = null
 export(Resource) var worm_settings = null
-export(Curve) var curve_velocity = null
-export(float) var normalize_dist = 50
-
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius
 export(int) var num_segments = 10
 
@@ -52,7 +51,7 @@ func _ready():
 	$Worm0.index = 0
 	$Worm0.radius = seg_radius
 	for index in range(1, num_segments):
-		var new_worm_body = scnWormBodyKB2D.instance() as WormBodyKB2D
+		var new_worm_body = scnWormBodyKB2D.instance()
 		new_worm_body.set_name("Worm" + str(index))
 		new_worm_body.index = index
 		new_worm_body.parent = segments[index - 1]

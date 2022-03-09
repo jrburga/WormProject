@@ -2,6 +2,8 @@ extends KinematicBody2D
 
 class_name WormBodyKB2D
 
+const WormKB2DRes = preload('./WormKB2DRes.gd')
+const PHYS_MODE = preload('./WormKB2DRes.gd').PHYS_MODE
 var TouchTracker = preload("res://Scripts/TouchTracker.gd")
 
 var parent = null
@@ -19,25 +21,30 @@ func _get_radius():
 	
 # worm should always just be the parent
 func get_worm():
-	return get_parent()
+	return get_parent() as WormKB2D
+	
+func get_worm_settings() -> WormKB2DRes:
+	return get_worm().worm_settings
 
 func get_speed():
-	return get_worm().worm_settings.speed
+	return get_worm_settings().speed
 	
 func get_seg_distance():
-	return get_worm().worm_settings.seg_distance
+	return get_worm_settings().seg_distance
 	
 func get_f_spring():
-	return get_worm().worm_settings.f_spring
+	return get_worm_settings().f_spring
 	
 func get_is_head():
+	if get_worm().segments.size() == 0:
+		return false
 	return get_worm().segments[0] == self
 	
-func get_mouse_button_down():
-	return get_worm().mouse_button_down
-	
-func get_mouse_position():
-	return get_worm().mouse_position
+func get_is_tail():
+	if get_worm().segments.size() == 0:
+		return false
+	var idx_last = get_worm().segments.size() - 1
+	return get_worm().segments[idx_last] == self
 	
 func get_drag_position():
 	var touch_tracker = get_worm().touch_tracker as TouchTracker
@@ -81,23 +88,90 @@ func _position_from_event(event):
 func _velocity_curve(distance):
 	var max_distance = 30
 	var offset = 0.0
-	if get_worm().normalize_dist > 0:
-		offset = distance / get_worm().worm_settings.normalize_dist
-	return (get_worm().curve_velocity as Curve).interpolate(offset)
+	if get_worm_settings().normalize_dist > 0:
+		offset = distance / get_worm_settings().normalize_dist
+	return (get_worm_settings().curve_velocity as Curve).interpolate(offset)
 	pass
 	
 func _process(delta):
-	pass
+	var rest_length = get_worm_settings().seg_distance
+	var rest_radius = get_worm().seg_radius
+	var node = child if child else parent
+	if node:
+		var L = (node.position - position).length()
+		L = min(max(L, rest_length * .5), rest_length * 2)
+		$DrawNode.length = L
 		
+		var R = rest_radius + (rest_length - L) * .25
+		R = min(max(R, rest_radius * .75), rest_radius * 1.25)
+		$DrawNode.radius = R
+		
+func _physics_process_rotate(delta):
+	if parent:
+		var L : Vector2 = position - parent.position
+		desired_angle = L.angle()
+		rotation = L.angle()
+	elif get_is_head():
+		if get_is_dragging():
+			var L : Vector2 = position - get_drag_position()
+			desired_angle = L.angle()			
+		elif child:
+			var L : Vector2 = child.position - position
+			desired_angle = L.angle()
 
-var desired_angle = 0
-var v_move = Vector2()
-var v_spring = Vector2()
+		rotation = lerp_angle(rotation, desired_angle, 0.25)
 
 var velocity = Vector2()
 func _physics_process(delta):
-	_physics_process_velocities(delta)
+	if get_worm_settings().physics_mode == PHYS_MODE.Velocity:
+		_physics_process_velocities(delta)
+	elif get_worm_settings().physics_mode == PHYS_MODE.Force:
+		_physics_proccess_accels(delta)
+	_physics_process_rotate(delta)
 	
+var v_move = Vector2()
+var v_spring = Vector2()
+func _physics_proccess_accels(delta):
+	
+	var nodes = [parent, child]
+	var v_max = get_worm_settings().max_velocity
+
+	if get_is_dragging():
+		var p2d = get_drag_position() - position
+		var k = get_worm_settings().f_drag
+		var d = 0
+		if get_is_head():
+			d = get_worm_settings().drag_min_dist
+		var f = k * (p2d.length() - d)
+		var b = get_worm_settings().damping_drag
+		var acc = f * p2d.normalized() - v_move * b
+		v_move += acc * delta
+		v_spring = Vector2()
+		v_move = v_move.clamped(v_max)
+		move_and_slide(v_move)
+	else:
+		var dv = Vector2()
+		for node in nodes:
+			if node == null:
+				continue
+			var p2n = node.position - position
+			var k = get_worm_settings().f_spring
+			var d = get_worm_settings().seg_distance
+			var f = k * (p2n.length() - d)
+			var b = get_worm_settings().damping
+			var acc = f * p2n.normalized() - (v_spring) * b 
+			v_spring += acc * delta
+		v_spring = v_spring.clamped(v_max)
+
+		v_move *= .95
+		velocity = v_spring + v_move
+	#	var v_drag = -velocity.normalized() * (0.0002 * velocity.length_squared() / 2.0)
+	#	velocity += v_drag
+		velocity = velocity.clamped(v_max) 
+		move_and_slide(velocity)	
+	
+var desired_angle = 0
+
 func _physics_process_velocities(delta):
 	if get_worm() == null:
 		return
@@ -115,20 +189,6 @@ func _physics_process_velocities(delta):
 #		move_and_slide(velocity)
 #		return
 
-	if parent:
-		var L : Vector2 = position - parent.position
-		desired_angle = L.angle()
-		rotation = L.angle()
-	elif get_is_head():
-		if get_is_dragging():
-			var L : Vector2 = position - get_drag_position()
-			desired_angle = L.angle()			
-		elif child:
-			var L : Vector2 = child.position - position
-			desired_angle = L.angle()
-
-		rotation = lerp_angle(rotation, desired_angle, 0.25)
-	
 	v_spring = Vector2()
 	if parent:
 		
