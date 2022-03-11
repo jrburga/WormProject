@@ -20,24 +20,35 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _set_generate_texture(value):
-	if value == true:
-		print('generating texture')
-		var viewport = get_node(viewport_path) as Viewport
-		var rect = get_node(texture_rect) as TextureRect
-		if not viewport:
-			return
-			
-		viewport.set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+func capture_viewport():
+	print('generating texture')
+	var viewport = null
+	var rect = null
+	if not viewport_path.is_empty():
+		viewport = get_node(viewport_path) as Viewport
+	if not texture_rect.is_empty():
+		rect = get_node(texture_rect) as TextureRect
 		
-		var img = viewport.get_texture().get_data()
+	if not viewport:
+		viewport = get_viewport()
 		
-		img.flip_y()
-		img.convert(Image.FORMAT_RGBA8)
-		img.save_png('C:/Users/ryan6/Captures/export_img.png')
+	viewport.set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+	
+	var img = viewport.get_texture().get_data()
+	
+	img.flip_y()
+	img.convert(Image.FORMAT_RGBA8)
+	img.save_png('user://export_img.png')
+	
+	if rect:
 		var tex = ImageTexture.new()
 		tex.create_from_image(img)
 		
 		rect.set_texture(tex)
+	
+func _set_generate_texture(value):
+	if value == true:
+		capture_viewport()
+		
 func _get_generate_texture():
 	return false
