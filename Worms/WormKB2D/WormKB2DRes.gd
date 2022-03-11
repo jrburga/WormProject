@@ -8,6 +8,7 @@ export(float) var normalize_dist = 50
 export(float) var speed = 300
 export(float) var max_velocity = 100
 export(float) var seg_distance = 10
+export(float) var max_distance = 20
 export(float) var drag_min_dist = 10
 export(float) var f_spring = 10
 export(float) var f_drag = 20

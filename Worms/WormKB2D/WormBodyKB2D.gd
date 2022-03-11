@@ -53,10 +53,17 @@ func get_drag_position():
 		return tracker.touch_position
 	return Vector2()
 	
-func get_is_dragging():
+func get_is_dragging(node):
 	var touch_tracker = get_worm().touch_tracker as TouchTracker
-	var tracker = touch_tracker.find_tracker_object(self)
+	var tracker = touch_tracker.find_tracker_object(node)
 	return tracker != null
+	
+func get_is_dragging_any():
+	var touch_tracker = get_worm().touch_tracker as TouchTracker
+	for tracker in touch_tracker.tracker_objects:
+		if tracker and tracker.object != null:
+			return true
+	return false
 	
 func get_index():
 	return index
@@ -77,6 +84,21 @@ func _worm_ready():
 		if child:
 			var L : Vector2 = child.position - position
 			rotation = L.angle()
+			
+	get_worm().connect("segment_grabbed", self, "_on_segment_grabbed")
+	get_worm().connect("segment_released", self, "_on_segment_released")
+	
+var released_position = Vector2()
+var was_dragging = false
+func _on_segment_grabbed(segment):
+	was_dragging = false
+	
+func _on_segment_released(segment):
+	if segment == self:
+		released_position = position
+		was_dragging = !get_is_dragging_any()
+	else:
+		was_dragging = false
 
 func _position_from_event(event):
 	return event.position - get_canvas_transform().origin
@@ -110,7 +132,8 @@ func _process(delta):
 		$DrawNode.hide()
 		$DrawNode.radius = 0
 		$DrawNode.length = 0
-		
+
+var desired_angle = 0
 func _physics_process_rotate(delta):
 	
 	if child:
@@ -122,7 +145,7 @@ func _physics_process_rotate(delta):
 		desired_angle = L.angle()
 		rotation = L.angle()
 	elif get_is_head():
-		if get_is_dragging():
+		if get_is_dragging(self):
 			var L : Vector2 = (position - get_drag_position())
 			desired_angle = L.angle()			
 		elif child:
@@ -133,12 +156,57 @@ func _physics_process_rotate(delta):
 
 var velocity = Vector2()
 func _physics_process(delta):
+	_physics_process_rotate(delta)
 	if get_worm_settings().physics_mode == PHYS_MODE.Velocity:
 		_physics_process_velocities(delta)
 	elif get_worm_settings().physics_mode == PHYS_MODE.Force:
 		_physics_proccess_accels(delta)
-	_physics_process_rotate(delta)
 	
+	
+func _calc_move_acc(var move_position : Vector2, var v_curr : Vector2):
+		var p2d = move_position - position
+		var k = get_worm_settings().f_drag
+		var d = 0
+		var f = k * (p2d.length() - d)
+		var b = get_worm_settings().damping_drag
+		var acc = f * p2d.normalized() - v_curr * b
+		return acc
+		
+func _calc_spring_acc(v_curr : Vector2):
+	var acc = Vector2()
+	for node in [parent, child]:
+		if node == null:
+			continue
+		var p2n = node.position - position
+		var k = get_worm_settings().f_spring
+		var d = get_worm_settings().seg_distance
+		var f = k * (p2n.length() - d)
+		var b = get_worm_settings().damping
+		acc += f * p2n.normalized() - v_curr * b 
+	return acc
+	
+func _calc_align_acc(v_curr : Vector2):
+	var acc = Vector2()
+	
+	var s2p = parent.position - position if parent else Vector2()
+	var s2c = child.position - position if child else Vector2()
+	
+	var p_looking = 1
+	var c_looking = 0
+	if parent and child:
+		var v_normal = v_curr.normalized()
+		p_looking = v_normal.dot(s2p.normalized())
+		c_looking = v_normal.dot(s2c.normalized())
+	
+	var v_perp = Vector2()
+	if parent and p_looking > c_looking:
+		v_perp = v_curr - v_curr.project(s2p)
+	elif child:
+		v_perp = v_curr - v_curr.project(s2c)
+	
+	acc = -v_perp * 20
+	return acc
+		
 var v_move = Vector2()
 var v_spring = Vector2()
 func _physics_proccess_accels(delta):
@@ -146,45 +214,43 @@ func _physics_proccess_accels(delta):
 	var nodes = [parent, child]
 	var v_max = get_worm_settings().max_velocity
 
-	if get_is_dragging():
-		var p2d = get_drag_position() - position
-		var k = get_worm_settings().f_drag
-		var d = 0
-		var f = k * (p2d.length() - d)
-		var b = get_worm_settings().damping_drag
-		var acc = f * p2d.normalized() - v_move * b
-		v_move += acc * delta
-		v_spring = Vector2()
+	if get_is_dragging(self):
+		released_position = position
+		var acc_move = _calc_move_acc(get_drag_position(), velocity)
+		v_move = acc_move * delta
 		v_move = v_move.clamped(v_max)
-		move_and_slide(v_move)
+#		move_and_slide(v_move)
+	elif was_dragging and !get_is_dragging_any():
+		var acc_move = _calc_move_acc(released_position, velocity)
+		v_move = acc_move * delta
+		v_move = v_move.clamped(v_max)
 	else:
-		var dv = Vector2()
-		for node in nodes:
-			if node == null:
-				continue
-			var p2n = node.position - position
-			var k = get_worm_settings().f_spring
-			var d = get_worm_settings().seg_distance
-			var f = k * (p2n.length() - d)
-			var b = get_worm_settings().damping
-			var acc = f * p2n.normalized() - (v_spring) * b 
-			v_spring += acc * delta
-		v_spring = v_spring.clamped(v_max)
+		v_move *= .9
 		
-		v_move *= .98
-		velocity = v_spring + v_move
-	#	var v_drag = -velocity.normalized() * (0.0002 * velocity.length_squared() / 2.0)
-	#	velocity += v_drag
-		velocity = velocity.clamped(v_max) 
-		move_and_slide(velocity)	
+	# drag force when not dragging anything
+	if !get_is_dragging_any():
+		velocity *= .9
 	
-var desired_angle = 0
+	velocity += v_move 
+	
+	var acc_spring = _calc_spring_acc(velocity)
+	velocity += acc_spring * delta
+#	v_spring = v_spring.clamped(v_max)
+	
+	var acc_align = _calc_align_acc(velocity)
+	velocity += acc_align * delta
+#	velocity = v_spring + v_move
+#	var v_drag = -velocity.normalized() * (0.0002 * velocity.length_squared() / 2.0)
+#	velocity += v_drag
+	velocity = velocity.clamped(v_max) 
+	move_and_slide(velocity)	
+	
 
 func _physics_process_velocities(delta):
 	if get_worm() == null:
 		return
 		
-	if get_is_dragging():
+	if get_is_dragging(self):
 		var L = (get_drag_position() - position)
 		var direction = L.normalized()
 		

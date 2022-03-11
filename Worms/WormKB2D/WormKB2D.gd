@@ -12,6 +12,8 @@ export(Resource) var worm_settings = null
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius
 export(int) var num_segments = 10
 
+signal segment_grabbed(segment)
+signal segment_released(segment)
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -85,6 +87,17 @@ func _get_closest_segment(location : Vector2, radius : float = 0):
 func _get_position_from_event(event):
 	return event.position - get_canvas_transform().origin
 	
+func _grab_segment(touch_index, init_position, segment):
+	touch_tracker.set_tracker_object(touch_index, init_position, segment)
+	emit_signal("segment_grabbed", segment)
+	
+func _release_touch(touch_index):
+	var tracker = touch_tracker.find_tracker_object_at(emulate_index)
+	var release = tracker.object if tracker else null
+	touch_tracker.clear_tracker_object_at(emulate_index)
+	if release:
+		emit_signal("segment_released", release)
+		
 var ctrl_down = false
 var emulate_index = 0
 var mouse_button_down = false
@@ -106,11 +119,11 @@ func _input(event):
 			var mouse_position = _get_position_from_event(event)
 			var dragging_segment = _get_closest_segment(mouse_position, worm_settings.grab_radius)
 			if dragging_segment == null:
-				touch_tracker.set_tracker_object(emulate_index, mouse_position, get_head())
+				_grab_segment(emulate_index, mouse_position, get_head())
 			else:
-				touch_tracker.set_tracker_object(emulate_index, mouse_position, dragging_segment)
+				_grab_segment(emulate_index, mouse_position, dragging_segment)
 		else:
-			touch_tracker.clear_tracker_object_at(emulate_index)
+			_release_touch(emulate_index)
 			
 	elif event is InputEventMouseMotion and mouse_button_down:
 		var mouse_position = _get_position_from_event(event)
@@ -122,11 +135,11 @@ func _input(event):
 			var touch_position = _get_position_from_event(event)
 			var dragging_segment = _get_closest_segment(touch_position, worm_settings.grab_radius)
 			if dragging_segment:
-				touch_tracker.set_tracker_object(event.index, touch_position, dragging_segment)
+				_grab_segment(event.index, touch_position, dragging_segment)
 			else:
-				touch_tracker.set_tracker_object(event.index, touch_position, get_head())
+				_grab_segment(event.index, touch_position, get_head())
 		else:
-			touch_tracker.clear_tracker_object_at(event.index)
+			_release_touch(event.index)
 		
 	elif event is InputEventScreenDrag:
 		var touch_position = _get_position_from_event(event)
