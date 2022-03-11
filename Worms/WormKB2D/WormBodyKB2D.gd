@@ -94,22 +94,30 @@ func _velocity_curve(distance):
 	pass
 	
 func _process(delta):
-	var squash = get_worm_settings().squash
-	var stretch = get_worm_settings().stretch
-	var rest_length = get_worm_settings().seg_distance
-	var rest_radius = get_worm().seg_radius
-	var node = child if child else parent
-	if node:
-		var L = (node.position - position).length()
+	if child:
+		var squash = get_worm_settings().squash
+		var stretch = get_worm_settings().stretch
+		var rest_length = get_worm_settings().seg_distance
+		var rest_radius = get_worm().seg_radius
+		var L = (child.position - position).length()
 		L = min(max(L, rest_length * (1 - stretch)), rest_length * (1 + stretch))
 		$DrawNode.length = L
 		
 		var R = rest_radius + (rest_length - L) * .25
 		R = min(max(R, rest_radius * (1 - squash)), rest_radius * (1 + squash))
 		$DrawNode.radius = R
+	else:
+		$DrawNode.hide()
+		$DrawNode.radius = 0
+		$DrawNode.length = 0
 		
 func _physics_process_rotate(delta):
-	if parent:
+	
+	if child:
+		var L : Vector2 = (position - child.position)
+		desired_angle = L.angle()
+		rotation = L.angle()
+	elif parent:
 		var L : Vector2 = (position - parent.position)
 		desired_angle = L.angle()
 		rotation = L.angle()
@@ -142,8 +150,6 @@ func _physics_proccess_accels(delta):
 		var p2d = get_drag_position() - position
 		var k = get_worm_settings().f_drag
 		var d = 0
-		if get_is_head():
-			d = get_worm_settings().drag_min_dist
 		var f = k * (p2d.length() - d)
 		var b = get_worm_settings().damping_drag
 		var acc = f * p2d.normalized() - v_move * b
@@ -164,8 +170,8 @@ func _physics_proccess_accels(delta):
 			var acc = f * p2n.normalized() - (v_spring) * b 
 			v_spring += acc * delta
 		v_spring = v_spring.clamped(v_max)
-
-		v_move *= .95
+		
+		v_move *= .98
 		velocity = v_spring + v_move
 	#	var v_drag = -velocity.normalized() * (0.0002 * velocity.length_squared() / 2.0)
 	#	velocity += v_drag

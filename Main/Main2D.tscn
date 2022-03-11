@@ -11,11 +11,9 @@ script = ExtResource( 4 )
 color = Color( 0.262745, 0.584314, 0.776471, 1 )
 polygon = PoolVector2Array( -10000, -10000, 10000, -10000, 10000, 10000, -10000, 10000 )
 
-[node name="Camera2D" type="Camera2D" parent="." groups=[
-"Camera2D",
-]]
+[node name="Camera2D" type="Camera2D" parent="." groups=["Camera2D"]]
 current = true
 
 [node name="WormKB2D" parent="." instance=ExtResource( 1 )]
 worm_settings = ExtResource( 2 )
-num_segments = 7
+seg_radius = 25.0

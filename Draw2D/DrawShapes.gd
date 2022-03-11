@@ -22,9 +22,10 @@ func _ready():
 
 
 func _draw():
-	draw_circle(Vector2(-length, 0), radius, color)
-	draw_rect(Rect2(Vector2(-length, -radius), Vector2(length, 2 * radius)), color)
-	draw_circle(Vector2(0, 0), radius, color)
+	if radius != 0:
+		draw_circle(Vector2(-length, 0), radius, color)
+		draw_rect(Rect2(Vector2(-length, -radius), Vector2(length, 2 * radius)), color)
+		draw_circle(Vector2(0, 0), radius, color)
 			
 func _set_radius(value):
 	radius = value
