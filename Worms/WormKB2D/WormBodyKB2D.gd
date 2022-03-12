@@ -99,10 +99,6 @@ func _on_segment_released(segment):
 func _position_from_event(event):
 	return event.position - get_canvas_transform().origin
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-
-
-
 func _velocity_curve(distance):
 	var max_distance = 30
 	var offset = 0.0
