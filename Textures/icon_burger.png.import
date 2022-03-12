@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon_burger.png-f2e047918d0f472dce08a4e59a128a97.stex"
+path="res://.import/Icon_Burger.png-ffb71d761924429e9f7e13e0cac95c05.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/icon_burger.png"
-dest_files=[ "res://.import/icon_burger.png-f2e047918d0f472dce08a4e59a128a97.stex" ]
+source_file="res://Textures/Icon_Burger.png"
+dest_files=[ "res://.import/Icon_Burger.png-ffb71d761924429e9f7e13e0cac95c05.stex" ]
 
 [params]
 
