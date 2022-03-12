@@ -73,11 +73,7 @@ func get_dragging_segment():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var child_count = get_parent().get_child_count()
-	for child_index in child_count:
-		var child = get_parent().get_child(child_index)
-		if child == self:
-			parent = get_parent().get_child(child_index - 1)
+	pass
 			
 func _worm_ready():
 	if get_is_head():
