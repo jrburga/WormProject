@@ -35,6 +35,10 @@ func _get_seg_radius():
 func get_head():
 	return segments[0] if segments.size() > 0 else null
 	
+func get_segment(index : int):
+	return segments[index] if index >=0 and index < segments.size() else null
+
+	
 func _process(delta):
 	if debug_draw:
 		update()
