@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "WormKB2D",
 "language": "GDScript",
 "path": "res://Worms/WormKB2D/WormKB2D.gd"
+}, {
+"base": "Polygon2D",
+"class": "WormPolygon2D",
+"language": "GDScript",
+"path": "res://Worms/WormKB2D/WormPolygon2D.gd"
 } ]
 _global_script_class_icons={
 "PhysicMode": "",
 "TouchTracker": "",
 "WormBodyKB2D": "",
-"WormKB2D": ""
+"WormKB2D": "",
+"WormPolygon2D": ""
 }
 
 [application]

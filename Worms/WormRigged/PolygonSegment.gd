@@ -1,7 +1,7 @@
 tool
 extends Polygon2D
 
-const util = preload("res://Util.gd")
+const util = preload("res://Scripts/Util.gd")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -105,7 +105,7 @@ func generate_bone_weights():
 func _ready():
 #	regenerate_polygon()
 	regenerate_polygon()
-	var worm = util.find_first_parent_witd_method(self, 'get_segment')
+	var worm = util.find_first_parent_with_method(self, 'get_segment')
 	print(worm)
 	
 func regenerate_polygon():

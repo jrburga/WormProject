@@ -3,6 +3,17 @@ import subprocess
 import argparse
 import shutil
 import zipfile
+import http.server
+import socketserver
+
+PORT = 8000
+
+def handler_from(directory):
+    def _init(self, *args, **kwargs):
+        return http.server.SimpleHTTPRequestHandler.__init__(self, *args, directory=self.directory, **kwargs)
+    return type(f'HandlerFrom<{directory}>',
+                (http.server.SimpleHTTPRequestHandler,),
+                {'__init__': _init, 'directory': directory})
 
 def get_commit_id():
 	process = subprocess.Popen(['git', 'rev-parse', '--short=7', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -46,9 +57,10 @@ def export_html5(id):
 		shutil.make_archive(worm_dir, 'zip', export_path)
 		final_path = os.path.join(exports_dir, zip_file)
 		os.replace(zip_file, final_path)
+
 		# delete the folder to keep things clean :)
-		if os.path.exists(export_path):
-			shutil.rmtree(export_path)
+		# if os.path.exists(export_path):
+		# 	shutil.rmtree(export_path)
 
 		return export_path, zip_file
 	return None
@@ -65,6 +77,7 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description='export worm project helper')
 	parser.add_argument('target', type=str)
 	parser.add_argument('-p', '--push', action='store_const', const=True)
+	parser.add_argument('-s', '--serve', action='store_const', const=True)
 
 	args = parser.parse_args()
 	if args.target.lower() == 'html5':
@@ -73,3 +86,7 @@ if __name__ == "__main__":
 		path, file = export_html5(commit_id)
 		if args.push:
 			butler_push(file, 'html5', commit_id)
+		if args.serve:
+			with socketserver.TCPServer(("", PORT), handler_from(path)) as httpd:
+			    print("serving %s at port: %s"% (path, PORT))
+			    httpd.serve_forever()
