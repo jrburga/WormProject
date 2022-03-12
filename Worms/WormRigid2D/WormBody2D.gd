@@ -45,7 +45,6 @@ func _integrate_forces(state):
 
 func _set_color(value):
 	color = value
-	update()
 
 func _get_color():
 	return color

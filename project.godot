@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Control",
+"class": "ColorItem",
+"language": "GDScript",
+"path": "res://UI/ColorItem.gd"
+}, {
+"base": "HBoxContainer",
+"class": "ColorMenu",
+"language": "GDScript",
+"path": "res://UI/ColorMenu.gd"
+}, {
 "base": "Node",
 "class": "PhysicMode",
 "language": "GDScript",
@@ -35,6 +45,8 @@ _global_script_classes=[ {
 "path": "res://Worms/WormKB2D/WormPolygon2D.gd"
 } ]
 _global_script_class_icons={
+"ColorItem": "",
+"ColorMenu": "",
 "PhysicMode": "",
 "TouchTracker": "",
 "WormBodyKB2D": "",
@@ -51,6 +63,7 @@ config/icon="res://icon.png"
 [autoload]
 
 CameraMgr="*res://CameraMgr/CameraMgr.gd"
+PlayerConfig="*res://Autoload/PlayerConfig.gd"
 
 [global]
 

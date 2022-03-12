@@ -10,7 +10,14 @@ var parent = null
 var child = null
 var index = -1
 var radius = 10 setget _set_radius, _get_radius
+var color : Color = Color.white setget _set_color, _get_color
 
+func _set_color(value):
+	color = value
+	$DrawNode.color = color
+	
+func _get_color():
+	return color
 
 func _set_radius(value):
 	radius = value

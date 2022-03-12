@@ -12,6 +12,8 @@ export(Resource) var worm_settings = null
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius
 export(int) var num_segments = 10
 
+export(Color) var color : Color = Color.white setget _set_color, _get_color
+
 signal segment_grabbed(segment)
 signal segment_released(segment)
 
@@ -23,6 +25,17 @@ var debug_draw = false
 var touch_tracker : TouchTracker = null
 var segments = []
 # Called when the node enters the scene tree for the first time.
+
+func _on_PlayerConfig_worm_color_changed(new_color):
+	_set_color(new_color)
+
+func _set_color(value):
+	color = value
+	for segment in segments:
+		segment.color = color
+	
+func _get_color():
+	return color
 
 func _set_seg_radius(value):
 	seg_radius = value
@@ -50,6 +63,8 @@ func _draw():
 				draw_circle(tracker.touch_position, 20, Color.red)
 	
 func _ready():
+	var player_config = get_node("/root/PlayerConfig")
+	player_config.connect("worm_color_changed", self, "_on_PlayerConfig_worm_color_changed")
 	
 	touch_tracker = TouchTracker.new() as TouchTracker
 	
@@ -111,7 +126,7 @@ func _release_touch(touch_index):
 var ctrl_down = false
 var emulate_index = 0
 var mouse_button_down = false
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.scancode == KEY_CONTROL:
 			ctrl_down = event.pressed

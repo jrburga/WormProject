@@ -55,6 +55,8 @@ func _get_length():
 	
 func _set_color(value):
 	color = value
+	if worm_polygon:
+		worm_polygon.color = color
 	if enabled:
 		update()
 	
