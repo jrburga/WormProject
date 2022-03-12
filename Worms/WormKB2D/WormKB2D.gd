@@ -69,7 +69,13 @@ func _ready():
 		segment._worm_ready()
 		
 	
-		
+func get_num_dragging_segments():
+	var num = 0
+	for tracker in touch_tracker.tracker_objects:
+		if tracker and tracker.object != null:
+			num += 1
+	return num
+	
 func _get_closest_segment(location : Vector2, radius : float = 0):
 	var n_dist = Vector2()
 	var n_segment = null
@@ -92,9 +98,9 @@ func _grab_segment(touch_index, init_position, segment):
 	emit_signal("segment_grabbed", segment)
 	
 func _release_touch(touch_index):
-	var tracker = touch_tracker.find_tracker_object_at(emulate_index)
+	var tracker = touch_tracker.find_tracker_object_at(touch_index)
 	var release = tracker.object if tracker else null
-	touch_tracker.clear_tracker_object_at(emulate_index)
+	touch_tracker.clear_tracker_object_at(touch_index)
 	if release:
 		emit_signal("segment_released", release)
 		

@@ -237,7 +237,10 @@ func _physics_proccess_accels(delta):
 	velocity += acc_spring * delta
 #	v_spring = v_spring.clamped(v_max)
 	
-	var acc_align = _calc_align_acc(velocity)
+	var acc_align = Vector2()
+	if get_worm().get_num_dragging_segments() <= 1:
+		acc_align = _calc_align_acc(velocity)
+	
 	velocity += acc_align * delta
 #	velocity = v_spring + v_move
 #	var v_drag = -velocity.normalized() * (0.0002 * velocity.length_squared() / 2.0)
