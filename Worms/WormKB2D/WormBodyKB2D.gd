@@ -207,7 +207,6 @@ var v_move = Vector2()
 var v_spring = Vector2()
 func _physics_proccess_accels(delta):
 	
-	var nodes = [parent, child]
 	var v_max = get_worm_settings().max_velocity
 
 	if get_is_dragging(self):

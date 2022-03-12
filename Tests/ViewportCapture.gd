@@ -12,8 +12,7 @@ export(bool) var generate_texture = false setget _set_generate_texture, _get_gen
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	generate_texture
-	print(viewport_path)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

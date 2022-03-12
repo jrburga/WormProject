@@ -8,7 +8,7 @@ extends Node
 const node_path : String = "/root/CameraMgr"
 
 func get_current_camera():
-	get_tree().get_nodes_in_group("Camera2D")
+	var cameras = get_tree().get_nodes_in_group("Camera2D")
 	for child in get_tree().current_scene.get_children():
 		if child is Camera2D and child.current:
 			return child
