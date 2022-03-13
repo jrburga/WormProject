@@ -50,8 +50,13 @@ def export_html5(id):
 		os.rename(export_file, rename_file)
 		print("making archive")
 
-		with open(os.path.join(export_path, "README"), 'w') as readme:
+		with open(os.path.join(export_path, "VERSION"), 'w') as readme:
 			readme
+			# put something here probably
+
+		with open(os.path.join(export_path, "LICENSE"), 'w') as readme:
+			readme
+			# put something here probably
 
 
 		zip_file = worm_dir + ".zip"
