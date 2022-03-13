@@ -5,6 +5,7 @@ import shutil
 import zipfile
 import http.server
 import socketserver
+import webbrowser
 
 PORT = 8000
 
