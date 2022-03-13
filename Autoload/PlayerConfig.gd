@@ -5,9 +5,18 @@ extends Node
 # var a = 2
 # var b = "text"
 
+var hat_id : String setget _set_hat_id, _get_hat_id
 var worm_color : Color setget _set_worm_color, _get_worm_color
 
 signal worm_color_changed(new_color)
+signal hat_id_changed(new_hat_id)
+
+func _set_hat_id(value):
+	hat_id = value
+	emit_signal("hat_id_changed", hat_id)
+	
+func _get_hat_id():
+	return hat_id
 
 func _set_worm_color(value):
 	worm_color = value

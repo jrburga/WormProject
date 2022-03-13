@@ -17,5 +17,6 @@ func _ready():
 
 
 func _on_OptionsButton_pressed():
-	$OptionsPopup 
-	$OptionsPopup.popup(Rect2(0, 0, 400, 150))
+	var pos = $OptionsPopup.rect_position
+	var size = $OptionsPopup.rect_size 
+	$OptionsPopup.popup(Rect2(pos.x, pos.y, size.x, size.y))

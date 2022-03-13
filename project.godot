@@ -19,10 +19,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/ColorMenu.gd"
 }, {
-"base": "Node",
-"class": "PhysicMode",
+"base": "Node2D",
+"class": "DrawWorm2D",
 "language": "GDScript",
-"path": "res://Worm/WormKB2D/PhysicsMode.gd"
+"path": "res://Worm/WormKB2D/Scripts/DrawWorm2D.gd"
+}, {
+"base": "Control",
+"class": "HatItem",
+"language": "GDScript",
+"path": "res://UI/HatItem.gd"
+}, {
+"base": "HBoxContainer",
+"class": "HatMenu",
+"language": "GDScript",
+"path": "res://UI/HatMenu.gd"
+}, {
+"base": "Resource",
+"class": "HatResource",
+"language": "GDScript",
+"path": "res://Worm/Hats/HatResource.gd"
 }, {
 "base": "Object",
 "class": "TouchTracker",
@@ -42,16 +57,25 @@ _global_script_classes=[ {
 "base": "Polygon2D",
 "class": "WormPolygon2D",
 "language": "GDScript",
-"path": "res://Worm/WormKB2D/WormPolygon2D.gd"
+"path": "res://Worm/WormKB2D/Scripts/WormPolygon2D.gd"
+}, {
+"base": "Resource",
+"class": "WormSettings",
+"language": "GDScript",
+"path": "res://Worm/WormSettings/WormSettings.gd"
 } ]
 _global_script_class_icons={
 "ColorItem": "",
 "ColorMenu": "",
-"PhysicMode": "",
+"DrawWorm2D": "",
+"HatItem": "",
+"HatMenu": "",
+"HatResource": "",
 "TouchTracker": "",
 "WormBodyKB2D": "",
 "WormKB2D": "",
-"WormPolygon2D": ""
+"WormPolygon2D": "",
+"WormSettings": ""
 }
 
 [application]
@@ -64,6 +88,7 @@ config/icon="res://icon.png"
 
 CameraMgr="*res://Autoload/CameraMgr.gd"
 PlayerConfig="*res://Autoload/PlayerConfig.gd"
+HatDB="*res://Autoload/HatDB.gd"
 
 [display]
 

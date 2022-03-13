@@ -1,9 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Worm/WormKB2D/WormBodyKB2D.gd" type="Script" id=1]
-[ext_resource path="res://Draw2D/DrawShapes.gd" type="Script" id=2]
-[ext_resource path="res://Worm/WormKB2D/WormPolygon2D.gd" type="Script" id=3]
-
+[ext_resource path="res://Worm/WormKB2D/Scripts/DrawWorm2D.gd" type="Script" id=2]
+[ext_resource path="res://Worm/WormKB2D/Scripts/WormPolygon2D.gd" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 

@@ -2,9 +2,8 @@ extends KinematicBody2D
 
 class_name WormBodyKB2D
 
-const WormKB2DRes = preload('./WormKB2DRes.gd')
-const PHYS_MODE = preload('./WormKB2DRes.gd').PHYS_MODE
-var TouchTracker = preload("res://Scripts/TouchTracker.gd")
+
+const PHYS_MODE = WormSettings.PHYS_MODE
 
 var parent = null
 var child = null
@@ -30,7 +29,7 @@ func _get_radius():
 func get_worm():
 	return get_parent() as WormKB2D
 	
-func get_worm_settings() -> WormKB2DRes:
+func get_worm_settings() -> WormSettings:
 	return get_worm().worm_settings
 
 func get_speed():

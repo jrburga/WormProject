@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Worm/WormKB2D/Scripts/DrawWorm2D.gd" type="Script" id=1]
+[ext_resource path="res://Textures/tall-hat.png" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+radius = 25.0
+length = 25.0
+
+[node name="tall-hat" type="Sprite" parent="."]
+position = Vector2( 4, -33 )
+rotation = 0.136107
+scale = Vector2( 0.0957812, 0.0957812 )
+texture = ExtResource( 2 )

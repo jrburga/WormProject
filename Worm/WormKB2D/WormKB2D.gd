@@ -84,6 +84,7 @@ func _ready():
 		
 		new_worm_body.position = segments[index - 1].position - Vector2(0, seg_radius)
 		
+	($Worm0/HatNode2D as Node2D).z_index = 1
 	for segment in segments:
 		segment._worm_ready()
 		
