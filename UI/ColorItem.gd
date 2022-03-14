@@ -14,4 +14,6 @@ func _get_color():
 func _ready():
 	return color
 	
-	
+func _on_item_set(item):
+	if item is Color:
+		color = item

@@ -9,7 +9,12 @@ margin_right = -200.0
 margin_bottom = -200.0
 rect_scale = Vector2( 0.5, 0.5 )
 rect_clip_content = true
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0

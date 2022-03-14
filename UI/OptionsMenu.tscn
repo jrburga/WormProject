@@ -40,7 +40,6 @@ anchor_bottom = 0.0
 margin_right = 84.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 color = Color( 1, 0.752941, 0.796078, 1 )
 
 [node name="Control2" parent="ColorMenu" instance=ExtResource( 1 )]
@@ -50,7 +49,6 @@ margin_left = 88.0
 margin_right = 173.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 color = Color( 0.752941, 1, 0.780392, 1 )
 
 [node name="Control3" parent="ColorMenu" instance=ExtResource( 1 )]
@@ -60,7 +58,6 @@ margin_left = 177.0
 margin_right = 262.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 color = Color( 0.976471, 1, 0.752941, 1 )
 
 [node name="Label2" type="Label" parent="."]
@@ -90,7 +87,6 @@ anchor_bottom = 0.0
 margin_right = 84.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 script = ExtResource( 4 )
 hat_id = "top_hat"
 
@@ -101,7 +97,6 @@ margin_left = 88.0
 margin_right = 173.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 script = ExtResource( 4 )
 hat_id = "wizard_hat"
 
@@ -112,5 +107,4 @@ margin_left = 177.0
 margin_right = 262.0
 margin_bottom = 89.0
 rect_scale = Vector2( 1, 1 )
-size_flags_horizontal = 3
 script = ExtResource( 4 )
