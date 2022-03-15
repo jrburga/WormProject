@@ -82,7 +82,7 @@ func _ready():
 		
 		self.add_child(new_worm_body)
 		
-		new_worm_body.position = segments[index - 1].position - Vector2(0, seg_radius)
+		new_worm_body.position = segments[index - 1].position - Vector2(seg_radius, 0)
 		
 	($Worm0/HatNode2D as Node2D).z_index = 1
 	for segment in segments:
