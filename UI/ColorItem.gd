@@ -16,4 +16,4 @@ func _ready():
 	
 func _on_item_set(item):
 	if item is Color:
-		color = item
+		_set_color(item)

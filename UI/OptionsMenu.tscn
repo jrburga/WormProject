@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/ColorButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/ColorMenu.gd" type="Script" id=2]
 [ext_resource path="res://UI/OptionsMenu.gd" type="Script" id=3]
-[ext_resource path="res://UI/HatItem.gd" type="Script" id=4]
-[ext_resource path="res://UI/HatMenu.gd" type="Script" id=5]
+[ext_resource path="res://UI/HatItemUI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/Scripts/ListControl.gd" type="Script" id=5]
 
 [node name="OptionsMenu" type="Control"]
 anchor_right = 1.0
@@ -29,36 +28,12 @@ margin_left = 16.0
 margin_top = 37.0
 margin_right = 278.0
 margin_bottom = 126.0
-script = ExtResource( 2 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Control" parent="ColorMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 84.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-color = Color( 1, 0.752941, 0.796078, 1 )
-
-[node name="Control2" parent="ColorMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 88.0
-margin_right = 173.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-color = Color( 0.752941, 1, 0.780392, 1 )
-
-[node name="Control3" parent="ColorMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 177.0
-margin_right = 262.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-color = Color( 0.976471, 1, 0.752941, 1 )
+ItemUI = ExtResource( 1 )
+num_preview_items = 3
 
 [node name="Label2" type="Label" parent="."]
 margin_left = 16.0
@@ -80,31 +55,5 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Control" parent="HatMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 84.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-script = ExtResource( 4 )
-hat_id = "top_hat"
-
-[node name="Control2" parent="HatMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 88.0
-margin_right = 173.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-script = ExtResource( 4 )
-hat_id = "wizard_hat"
-
-[node name="Control3" parent="HatMenu" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 177.0
-margin_right = 262.0
-margin_bottom = 89.0
-rect_scale = Vector2( 1, 1 )
-script = ExtResource( 4 )
+ItemUI = ExtResource( 4 )
+num_preview_items = 3
