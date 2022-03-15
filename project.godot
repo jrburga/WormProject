@@ -99,8 +99,8 @@ SkinsDB="*res://Autoload/SkinsDB.gd"
 
 [display]
 
-window/size/width=390
-window/size/height=844
+window/size/width=844
+window/size/height=399
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 
