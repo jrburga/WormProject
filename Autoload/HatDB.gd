@@ -9,7 +9,6 @@ export(Array, Resource) var hat_resources = []
 
 func _ready():
 	load_hats()
-	print(hat_resources)
 
 func load_hats():
 	var path = "res://Worm/Hats/Resources"

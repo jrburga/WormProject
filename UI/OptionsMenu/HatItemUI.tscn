@@ -1,18 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://UI/OptionsMenu/HatItem.gd" type="Script" id=1]
-[ext_resource path="res://UI/Themes/MainTheme.tres" type="Theme" id=2]
 
 [node name="ColorButton" type="TextureButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -200.0
-margin_bottom = -200.0
+margin_right = -752.0
+margin_bottom = -307.0
+rect_min_size = Vector2( 92, 92 )
 rect_scale = Vector2( 0.5, 0.5 )
 rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -29,6 +28,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+size_flags_horizontal = 4
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Hat name"
 align = 1

@@ -9,6 +9,7 @@
 [node name="OptionsMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -17,9 +18,8 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 margin_left = 16.0
 margin_top = 10.0
-margin_right = 54.0
-margin_bottom = 23.0
-theme = ExtResource( 2 )
+margin_right = 210.0
+margin_bottom = 64.0
 text = "Colors"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -38,11 +38,11 @@ ItemUI = ExtResource( 1 )
 num_preview_items = 3
 
 [node name="Label2" type="Label" parent="."]
-margin_left = 16.0
-margin_top = 124.0
-margin_right = 109.0
-margin_bottom = 187.0
-theme = ExtResource( 2 )
+margin_left = 17.0
+margin_top = 122.0
+margin_right = 264.0
+margin_bottom = 185.0
+size_flags_vertical = 1
 text = "Hats
 "
 __meta__ = {

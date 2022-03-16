@@ -106,7 +106,6 @@ func _ready():
 #	regenerate_polygon()
 	regenerate_polygon()
 	var worm = util.find_first_parent_with_method(self, 'get_segment')
-	print(worm)
 	
 func regenerate_polygon():
 	var uvs = PoolVector2Array()

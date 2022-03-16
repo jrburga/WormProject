@@ -97,6 +97,10 @@ window/stretch/aspect="expand"
 visible=false
 input=false
 
+[gui]
+
+theme/custom="res://UI/Themes/MainTheme.tres"
+
 [input]
 
 drag={
