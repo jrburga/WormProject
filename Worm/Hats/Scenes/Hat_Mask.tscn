@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Worm/WormKB2D/Scripts/DrawWorm2D.gd" type="Script" id=1]
+[ext_resource path="res://Textures/WormMaskHat.png" type="Texture" id=2]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+radius = 25.0
+length = 25.0
+enabled = true
+
+[node name="WormMaskHat" type="Sprite" parent="."]
+position = Vector2( 5.97554, 8.48845 )
+rotation = 0.260528
+scale = Vector2( 0.104967, 0.1165 )
+texture = ExtResource( 2 )
