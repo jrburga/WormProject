@@ -26,7 +26,8 @@ func load_hats():
 				hat_resources.append(hat_resource)
 
 	dir.list_dir_end()
-
+	
+	hat_resources.sort_custom(self, "_hat_sort")
 
 func get_hat_resource(hat_id) -> Resource:
 	for hat_res in hat_resources:
@@ -34,3 +35,11 @@ func get_hat_resource(hat_id) -> Resource:
 			if hat_res.id == hat_id:
 				return hat_res
 	return null
+
+func _hat_sort(res_a : HatResource, res_b : HatResource):
+	if res_a.id == '':
+		return true
+	elif res_b.id == '':
+		return false
+	else:
+		return res_a.display_name < res_b.display_name
