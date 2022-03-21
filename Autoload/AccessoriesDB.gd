@@ -28,10 +28,18 @@ func load_glasses():
 	Util.load_resources_in_directory(path, glasses_resources)
 	glasses_resources.sort_custom(self, "_resource_sort")
 
+func get_resource(id : String, type : int):
+	match type:
+		Accessory.Type.Glasses:
+			return _find_resource_by_id(id, glasses_resources)
+		Accessory.Type.Hat:
+			return _find_resource_by_id(id, hat_resources)
+		Accessory.Type.Mask:
+			return _find_resource_by_id(id, mask_resources)
+
 func get_hat_resource(hat_id) -> HeadAccessoryRes:
 	return _find_resource_by_id(hat_id, hat_resources)
 	
-		
 func get_mask_resource(mask_id) -> HeadAccessoryRes:
 	return _find_resource_by_id(mask_id, mask_resources)
 	

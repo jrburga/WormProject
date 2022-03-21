@@ -15,6 +15,35 @@ signal hat_id_changed(new_hat_id)
 signal mask_id_changed(new_mask_id)
 signal glasses_id_changed(new_glasses_id)
 
+func get_id_changed_signal(type : int) -> String:
+	match type:
+		Accessory.Type.Glasses: 
+			return "glasses_id_changed"
+		Accessory.Type.Hat:
+			return "hat_id_changed"
+		Accessory.Type.Mask:
+			return "mask_id_changed"
+	return ""
+
+func get_accessory_id(type : int) -> String:
+	match type:
+		Accessory.Type.Glasses:
+			return _get_glasses_id()
+		Accessory.Type.Hat:
+			return _get_hat_id()
+		Accessory.Type.Mask:
+			return _get_mask_id()
+	return ""
+			
+func set_accessory_id(id : String, type : int):
+	match type:
+		Accessory.Type.Glasses:
+			return _set_glasses_id(id)
+		Accessory.Type.Hat:
+			return _set_hat_id(id)
+		Accessory.Type.Mask:
+			return _set_mask_id(id)
+
 func _set_glasses_id(value):
 	glasses_id = value
 	emit_signal("glasses_id_changed", glasses_id)

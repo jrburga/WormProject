@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Object",
+"class": "Accessory",
+"language": "GDScript",
+"path": "res://Worm/Scripts/Accessory.gd"
+}, {
 "base": "Node",
 "class": "AccessoryNode2D",
 "language": "GDScript",
@@ -75,6 +80,7 @@ _global_script_classes=[ {
 "path": "res://Worm/WormSettings/WormSettings.gd"
 } ]
 _global_script_class_icons={
+"Accessory": "",
 "AccessoryNode2D": "",
 "Autoload": "",
 "ColorItem": "",
