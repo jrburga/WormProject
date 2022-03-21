@@ -1,7 +1,8 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://Worm/Hats/Scenes/Hat_TopHat.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Worm/Scripts/HeadAccessoryRes.gd" type="Script" id=2]
+[ext_resource path="res://Textures/tall-hat.png" type="Texture" id=3]
 
 [resource]
 script = ExtResource( 2 )
@@ -9,3 +10,4 @@ id = "top_hat"
 display_name = "Top Hat"
 HatScene = ExtResource( 1 )
 Scene = ExtResource( 1 )
+icon = ExtResource( 3 )

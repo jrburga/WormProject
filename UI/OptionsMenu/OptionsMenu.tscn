@@ -11,9 +11,6 @@ anchor_right = 1.0
 margin_bottom = 175.0
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 ColorMenu = NodePath("TabContainer/Colors/ColorMenu")
 HatMenu = NodePath("TabContainer/Hats/HatMenu")
 MaskMenu = NodePath("TabContainer/Masks/MaskMenu")
@@ -28,7 +25,6 @@ __meta__ = {
 }
 
 [node name="Colors" type="Tabs" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -51,6 +47,7 @@ ItemUI = ExtResource( 1 )
 num_preview_items = 3
 
 [node name="Hats" type="Tabs" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0

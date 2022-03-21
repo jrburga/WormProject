@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://UI/OptionsMenu/HatItem.gd" type="Script" id=1]
+[ext_resource path="res://Textures/tall-hat.png" type="Texture" id=2]
 
 [node name="ColorButton" type="TextureButton"]
 margin_right = 92.0
@@ -11,9 +12,6 @@ rect_clip_content = true
 size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -34,3 +32,20 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="CenterContainer"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 78.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 64, 64 )
+rect_pivot_offset = Vector2( 32, 32 )
+mouse_filter = 2
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 1

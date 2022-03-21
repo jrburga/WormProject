@@ -13,4 +13,13 @@ func _get_hat_id():
 func _on_item_set(item):
 	if item is HeadAccessoryRes:
 		hat_id = item.id
-		$Label.text = item.display_name
+		if item.icon:
+			$CenterContainer/Icon.texture = item.icon
+			$CenterContainer/Icon.visible = true
+			$Label.visible = false
+		else:
+			
+			$Label.text = item.display_name
+			$Label.visible = true
+			$CenterContainer/Icon.visible = false
+		
