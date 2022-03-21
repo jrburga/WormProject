@@ -5,11 +5,14 @@ extends Node
 # var a = 2
 # var b = "text"
 
-export(Array, Resource) var hat_resources = []
-export(Array, Resource) var mask_resources = []
+var hat_resources = []
+var mask_resources = []
 
 func _ready():
 	load_hats()
+	load_masks()
+	print('hats', hat_resources)
+	print('masks', mask_resources)
 
 func load_hats():
 	var path = "res://Worm/Hats/Resources"

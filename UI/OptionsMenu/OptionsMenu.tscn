@@ -8,28 +8,38 @@
 
 [node name="OptionsMenu" type="Control"]
 anchor_right = 1.0
-anchor_bottom = 1.0
+margin_bottom = 175.0
 theme = ExtResource( 2 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_left = 16.0
-margin_top = 10.0
-margin_right = 210.0
-margin_bottom = 64.0
-text = "Colors"
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+margin_top = 12.0
+margin_bottom = 187.0
+tab_align = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorMenu" type="HBoxContainer" parent="."]
-margin_left = 16.0
-margin_top = 37.0
-margin_right = 278.0
-margin_bottom = 126.0
+[node name="Colors" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 48.0
+margin_right = -4.0
+margin_bottom = -4.0
+tab_align = 0
+
+[node name="ColorMenu" type="HBoxContainer" parent="TabContainer/Colors"]
+anchor_right = 1.0
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 92.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -37,23 +47,41 @@ __meta__ = {
 ItemUI = ExtResource( 1 )
 num_preview_items = 3
 
-[node name="Label2" type="Label" parent="."]
-margin_left = 17.0
-margin_top = 122.0
-margin_right = 264.0
-margin_bottom = 185.0
-size_flags_vertical = 1
-text = "Hats
-"
+[node name="Hats" type="Tabs" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 48.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="HatMenu" type="HBoxContainer" parent="TabContainer/Hats"]
+anchor_right = 1.0
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 104.0
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+ItemUI = ExtResource( 4 )
+num_preview_items = 3
 
-[node name="HatMenu" type="HBoxContainer" parent="."]
-margin_left = 16.0
-margin_top = 150.0
-margin_right = 278.0
-margin_bottom = 239.0
+[node name="Masks" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 48.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="MaskMenu" type="HBoxContainer" parent="TabContainer/Masks"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 584.0
+margin_bottom = 104.0
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
