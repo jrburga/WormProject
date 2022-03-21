@@ -26,7 +26,7 @@ func _get_radius():
 	return $DrawNode.radius
 	
 # worm should always just be the parent
-func get_worm():
+func get_worm() -> WormKB2D:
 	return get_parent() as WormKB2D
 	
 func get_worm_settings() -> WormSettings:

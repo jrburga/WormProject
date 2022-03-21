@@ -1,12 +1,12 @@
 extends Node
 class_name Autoload
 
-static func get_hat_db(context : Node) -> HatDB:
+static func get_accessories_db(context : Node) -> AccessoriesDB:
 	if Engine.editor_hint:
 		return null
 		
 	if context:
-		return context.get_node("/root/HatDB") as HatDB
+		return context.get_node("/root/AccessoriesDB") as AccessoriesDB
 	return null
 
 static func get_skins_db(context : Node) -> SkinsDB:

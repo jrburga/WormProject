@@ -18,10 +18,11 @@ func _ready():
 	_set_mask_by_id(player_config.mask_id)
 	
 func _set_mask_by_id(mask_id):
-	var hat_db = Autoload.get_hat_db(self)
-	var mask_res = hat_db.get_mask_resource(mask_id)
+	var accessories_db = Autoload.get_accessories_db(self)
+	var mask_res = accessories_db.get_mask_resource(mask_id)
 	
 	if current_mask != null:
+		remove_child(current_mask)
 		current_mask.queue_free()
 		current_mask = null
 		
@@ -36,10 +37,11 @@ func _set_mask_by_id(mask_id):
 		print("Invalid mask id!", mask_id)
 	
 func _set_hat_by_id(hat_id):
-	var hat_db = Autoload.get_hat_db(self)
-	var hat_res = hat_db.get_hat_resource(hat_id)
+	var accessories_db = Autoload.get_accessories_db(self)
+	var hat_res = accessories_db.get_hat_resource(hat_id)
 	
 	if current_hat != null:
+		remove_child(current_hat)
 		current_hat.queue_free()
 		current_hat = null
 	

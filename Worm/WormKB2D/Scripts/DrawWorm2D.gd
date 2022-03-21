@@ -18,6 +18,8 @@ export(bool) var enabled = false setget _set_enabled, _get_enabled
 var worm_polygon : WormPolygon2D = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if not NodeWormPolygon:
+		return
 	worm_polygon = get_node(NodeWormPolygon) as WormPolygon2D
 	if worm_polygon:
 		worm_polygon.length = length
