@@ -14,17 +14,17 @@ func _ready():
 	load_glasses()
 	
 func load_hats():
-	var path = "res://Worm/Hats/Resources"
+	var path = "res://Accessories/Hats/Resources"
 	Util.load_resources_in_directory(path, hat_resources)
 	hat_resources.sort_custom(self, "_resource_sort")
 	
 func load_masks():
-	var path = "res://Worm/Masks/Resources"
+	var path = "res://Accessories/Masks/Resources"
 	Util.load_resources_in_directory(path, mask_resources)
 	mask_resources.sort_custom(self, "_resource_sort")
 	
 func load_glasses():
-	var path = "res://Worm/Glasses/Resources"
+	var path = "res://Accessories/Glasses/Resources"
 	Util.load_resources_in_directory(path, glasses_resources)
 	glasses_resources.sort_custom(self, "_resource_sort")
 

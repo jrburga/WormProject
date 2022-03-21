@@ -1,10 +1,5 @@
 extends Node
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var hat_id : String setget _set_hat_id, _get_hat_id
 var mask_id : String setget _set_mask_id, _get_mask_id
 var glasses_id : String setget _set_glasses_id, _get_glasses_id
