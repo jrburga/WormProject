@@ -63,7 +63,7 @@ func _draw():
 				draw_circle(tracker.touch_position, 20, Color.red)
 	
 func _ready():
-	var player_config = get_node("/root/PlayerConfig")
+	var player_config = AutoloadUtl.get_player_config(self)
 	player_config.connect("worm_color_changed", self, "_on_PlayerConfig_worm_color_changed")
 	
 	touch_tracker = TouchTracker.new() as TouchTracker

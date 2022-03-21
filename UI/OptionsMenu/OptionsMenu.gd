@@ -12,11 +12,8 @@ func _ready():
 	var color_menu = $TabContainer/Colors/ColorMenu
 	var hat_menu = $TabContainer/Hats/HatMenu
 	var mask_menu = $TabContainer/Masks/MaskMenu
-	var skins_db = null
-	var hat_db = null
-	if not Engine.editor_hint:
-		skins_db = get_node("/root/SkinsDB") as SkinsDB
-		hat_db = get_node("/root/HatDB") as HatDB
+	var skins_db = AutoloadUtl.get_skins_db(self)
+	var hat_db = AutoloadUtl.get_hat_db(self)
 	
 	
 	if skins_db and color_menu is ListControl:
@@ -31,13 +28,13 @@ func _ready():
 	mask_menu.connect("item_selected", self, "_on_MaskMenu_item_selected")
 	
 func _on_ColorMenu_item_selected(color : Color):
-	var player_config = get_node("/root/PlayerConfig")
+	var player_config = AutoloadUtl.get_player_config(self)
 	player_config.worm_color = color
 	
 func _on_HatMenu_item_selected(hat_resource : HatResource):
-	var player_config = get_node("/root/PlayerConfig")
+	var player_config = AutoloadUtl.get_player_config(self)
 	player_config.hat_id = hat_resource.id
 	
 func _on_MaskMenu_item_selected(mask_resource : HatResource):
-	var player_config = get_node("/root/PlayerConfig")
+	var player_config = AutoloadUtl.get_player_config(self)
 	player_config.mask_id = mask_resource.id
