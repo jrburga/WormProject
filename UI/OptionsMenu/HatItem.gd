@@ -11,6 +11,6 @@ func _get_hat_id():
 	return hat_id
 	
 func _on_item_set(item):
-	if item is HatResource:
+	if item is HeadAccessoryRes:
 		hat_id = item.id
 		$Label.text = item.display_name

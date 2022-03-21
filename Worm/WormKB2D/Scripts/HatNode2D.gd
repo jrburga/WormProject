@@ -24,8 +24,8 @@ func _set_mask_by_id(mask_id):
 		current_mask.queue_free()
 		current_mask = null
 		
-	if mask_res is HatResource:
-		var mask_scene = mask_res.HatScene
+	if mask_res is HeadAccessoryRes:
+		var mask_scene = mask_res.Scene
 		if mask_scene:
 			var mask = mask_scene.instance()
 			add_child(mask)
@@ -42,8 +42,8 @@ func _set_hat_by_id(hat_id):
 		current_hat.queue_free()
 		current_hat = null
 	
-	if hat_res is HatResource:
-		var hat_scene = hat_res.HatScene
+	if hat_res is HeadAccessoryRes:
+		var hat_scene = hat_res.Scene
 		if hat_scene:
 			var hat = hat_scene.instance()
 			add_child(hat)

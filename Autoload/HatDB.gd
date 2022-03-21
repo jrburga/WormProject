@@ -23,14 +23,14 @@ func load_masks():
 	Util.load_resources_in_directory(path, mask_resources)
 	mask_resources.sort_custom(self, "_resource_sort")	
 
-func get_hat_resource(hat_id) -> HatResource:
+func get_hat_resource(hat_id) -> HeadAccessoryRes:
 	return _find_resource_by_id(hat_id, hat_resources)
 	
 		
-func get_mask_resource(mask_id) -> HatResource:
+func get_mask_resource(mask_id) -> HeadAccessoryRes:
 	return _find_resource_by_id(mask_id, mask_resources)
 
-func _resource_sort(res_a : HatResource, res_b : HatResource):
+func _resource_sort(res_a : HeadAccessoryRes, res_b : HeadAccessoryRes):
 	if res_a.id == '':
 		return true
 	elif res_b.id == '':
@@ -38,7 +38,7 @@ func _resource_sort(res_a : HatResource, res_b : HatResource):
 	else:
 		return res_a.display_name < res_b.display_name
 
-func _find_resource_by_id(id, resources) -> HatResource:
+func _find_resource_by_id(id, resources) -> HeadAccessoryRes:
 	for res in resources:
 		if res is HatResource:
 			if res.id == id:
