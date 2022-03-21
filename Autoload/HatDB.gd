@@ -40,7 +40,7 @@ func _resource_sort(res_a : HeadAccessoryRes, res_b : HeadAccessoryRes):
 
 func _find_resource_by_id(id, resources) -> HeadAccessoryRes:
 	for res in resources:
-		if res is HatResource:
+		if res is HeadAccessoryRes:
 			if res.id == id:
 				return res
 	return null
