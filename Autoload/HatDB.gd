@@ -6,6 +6,7 @@ extends Node
 # var b = "text"
 
 export(Array, Resource) var hat_resources = []
+export(Array, Resource) var mask_resources = []
 
 func _ready():
 	load_hats()
@@ -28,12 +29,38 @@ func load_hats():
 	dir.list_dir_end()
 	
 	hat_resources.sort_custom(self, "_hat_sort")
+	
+func load_masks():
+	var path = "res://Worm/Masks/Resources"
+	var dir = Directory.new()
+	dir.open(path)
+	dir.list_dir_begin()
 
-func get_hat_resource(hat_id) -> Resource:
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif not file.begins_with("."):
+			var mask_resource = load(path + "/" + file)
+			if mask_resource:
+				mask_resources.append(mask_resource)
+
+	dir.list_dir_end()
+	
+	mask_resources.sort_custom(self, "_hat_sort")	
+
+func get_hat_resource(hat_id) -> HatResource:
 	for hat_res in hat_resources:
 		if hat_res is HatResource:
 			if hat_res.id == hat_id:
 				return hat_res
+	return null
+	
+func get_mask_resource(mask_id) -> HatResource:
+	for mask_res in mask_resources:
+		if mask_res is HatResource:
+			if mask_res.id == mask_id:
+				return mask_res
 	return null
 
 func _hat_sort(res_a : HatResource, res_b : HatResource):

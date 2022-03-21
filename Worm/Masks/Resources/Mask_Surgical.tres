@@ -1,10 +1,10 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://Worm/Hats/Scenes/Hat_Wizard.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Worm/Masks/Scenes/Mask_Surgical.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Worm/Hats/HatResource.gd" type="Script" id=2]
 
 [resource]
 script = ExtResource( 2 )
-id = "wizard_hat"
-display_name = "Wizard Hat"
+id = "surgical_mask"
+display_name = "Face Mask"
 HatScene = ExtResource( 1 )
