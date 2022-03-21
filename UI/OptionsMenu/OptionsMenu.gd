@@ -16,8 +16,8 @@ func _ready():
 	var color_menu = get_node(ColorMenu)
 	var hat_menu = get_node(HatMenu)
 	var mask_menu = get_node(MaskMenu)
-	var skins_db = AutoloadUtl.get_skins_db(self)
-	var hat_db = AutoloadUtl.get_hat_db(self)
+	var skins_db = Autoload.get_skins_db(self)
+	var hat_db = Autoload.get_hat_db(self)
 	
 	
 	if skins_db and color_menu is ListControl:
@@ -32,13 +32,13 @@ func _ready():
 	mask_menu.connect("item_selected", self, "_on_MaskMenu_item_selected")
 	
 func _on_ColorMenu_item_selected(color : Color):
-	var player_config = AutoloadUtl.get_player_config(self)
+	var player_config = Autoload.get_player_config(self)
 	player_config.worm_color = color
 	
 func _on_HatMenu_item_selected(hat_resource : HatResource):
-	var player_config = AutoloadUtl.get_player_config(self)
+	var player_config = Autoload.get_player_config(self)
 	player_config.hat_id = hat_resource.id
 	
 func _on_MaskMenu_item_selected(mask_resource : HatResource):
-	var player_config = AutoloadUtl.get_player_config(self)
+	var player_config = Autoload.get_player_config(self)
 	player_config.mask_id = mask_resource.id

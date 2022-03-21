@@ -1,5 +1,5 @@
 extends Node
-class_name AutoloadUtl
+class_name Autoload
 
 static func get_hat_db(context : Node) -> HatDB:
 	if Engine.editor_hint:
