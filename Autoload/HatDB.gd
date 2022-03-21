@@ -10,9 +10,7 @@ var mask_resources = []
 func _ready():
 	load_hats()
 	load_masks()
-	print('hats', hat_resources)
-	print('masks', mask_resources)
-
+	
 func load_hats():
 	var path = "res://Worm/Hats/Resources"
 	Util.load_resources_in_directory(path, hat_resources)

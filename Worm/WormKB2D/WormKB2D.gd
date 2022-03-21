@@ -1,5 +1,4 @@
 extends Node2D
-
 class_name WormKB2D
 
 
@@ -84,7 +83,7 @@ func _ready():
 		
 		new_worm_body.position = segments[index - 1].position - Vector2(seg_radius, 0)
 		
-	($Worm0/HatNode2D as Node2D).z_index = 1
+	($Worm0/AccessoryNode2D as Node2D).z_index = 1
 	for segment in segments:
 		segment._worm_ready()
 		

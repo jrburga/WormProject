@@ -1,5 +1,6 @@
 tool
 extends Node
+class_name AccessoryNode2D
 
 # Declare member variables here. Examples:
 # var a = 2
