@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://Accessories/Glasses/Scenes/Glasses_Monocle.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Accessories/HeadAccessoryRes.gd" type="Script" id=2]
+[ext_resource path="res://Accessories/AccessoryResource.gd" type="Script" id=2]
 [ext_resource path="res://Textures/monocle.png" type="Texture" id=3]
 
 

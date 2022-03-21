@@ -30,7 +30,7 @@ func _set_accessory_by_id(id):
 		current_accessory.queue_free()
 		current_accessory = null
 		
-	if accessory_res is HeadAccessoryRes:
+	if accessory_res is AccessoryResource:
 		if accessory_res.Scene:
 			var scene = accessory_res.Scene.instance()
 			add_child(scene)

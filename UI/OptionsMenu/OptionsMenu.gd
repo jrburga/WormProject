@@ -39,14 +39,14 @@ func _on_ColorMenu_item_selected(color : Color):
 	var player_config = Autoload.get_player_config(self)
 	player_config.worm_color = color
 	
-func _on_HatMenu_item_selected(hat_resource : HeadAccessoryRes):
+func _on_HatMenu_item_selected(hat_resource : AccessoryResource):
 	var player_config = Autoload.get_player_config(self)
 	player_config.hat_id = hat_resource.id
 	
-func _on_MaskMenu_item_selected(mask_resource : HeadAccessoryRes):
+func _on_MaskMenu_item_selected(mask_resource : AccessoryResource):
 	var player_config = Autoload.get_player_config(self)
 	player_config.mask_id = mask_resource.id
 
-func _on_GlassesMenu_item_selected(glasses_resource : HeadAccessoryRes):
+func _on_GlassesMenu_item_selected(glasses_resource : AccessoryResource):
 	var player_config = Autoload.get_player_config(self)
 	player_config.glasses_id = glasses_resource.id

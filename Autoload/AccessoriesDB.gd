@@ -37,16 +37,16 @@ func get_resource(id : String, type : int):
 		Accessory.Type.Mask:
 			return _find_resource_by_id(id, mask_resources)
 
-func get_hat_resource(hat_id) -> HeadAccessoryRes:
+func get_hat_resource(hat_id) -> AccessoryResource:
 	return _find_resource_by_id(hat_id, hat_resources)
 	
-func get_mask_resource(mask_id) -> HeadAccessoryRes:
+func get_mask_resource(mask_id) -> AccessoryResource:
 	return _find_resource_by_id(mask_id, mask_resources)
 	
-func get_glasses_resource(glasses_id) -> HeadAccessoryRes:
+func get_glasses_resource(glasses_id) -> AccessoryResource:
 	return _find_resource_by_id(glasses_id, glasses_resources)
 
-func _resource_sort(res_a : HeadAccessoryRes, res_b : HeadAccessoryRes):
+func _resource_sort(res_a : AccessoryResource, res_b : AccessoryResource):
 	if res_a.id == '':
 		return true
 	elif res_b.id == '':
@@ -54,9 +54,9 @@ func _resource_sort(res_a : HeadAccessoryRes, res_b : HeadAccessoryRes):
 	else:
 		return res_a.display_name < res_b.display_name
 
-func _find_resource_by_id(id, resources) -> HeadAccessoryRes:
+func _find_resource_by_id(id, resources) -> AccessoryResource:
 	for res in resources:
-		if res is HeadAccessoryRes:
+		if res is AccessoryResource:
 			if res.id == id:
 				return res
 	return null

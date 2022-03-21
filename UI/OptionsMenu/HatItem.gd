@@ -11,7 +11,7 @@ func _get_hat_id():
 	return hat_id
 	
 func _on_item_set(item):
-	if item is HeadAccessoryRes:
+	if item is AccessoryResource:
 		hat_id = item.id
 		if item.icon:
 			$CenterContainer/Icon.texture = item.icon
