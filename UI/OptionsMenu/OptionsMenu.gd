@@ -6,12 +6,16 @@ extends Control
 # var a = 2
 # var b = "text"
 
+export(NodePath) var ColorMenu = null
+export(NodePath) var HatMenu = null
+export(NodePath) var MaskMenu = null
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var color_menu = $TabContainer/Colors/ColorMenu
-	var hat_menu = $TabContainer/Hats/HatMenu
-	var mask_menu = $TabContainer/Masks/MaskMenu
+	var color_menu = get_node(ColorMenu)
+	var hat_menu = get_node(HatMenu)
+	var mask_menu = get_node(MaskMenu)
 	var skins_db = AutoloadUtl.get_skins_db(self)
 	var hat_db = AutoloadUtl.get_hat_db(self)
 	
