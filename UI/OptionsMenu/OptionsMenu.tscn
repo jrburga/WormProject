@@ -14,6 +14,7 @@ script = ExtResource( 3 )
 ColorMenu = NodePath("TabContainer/Colors/ColorMenu")
 HatMenu = NodePath("TabContainer/Hats/HatMenu")
 MaskMenu = NodePath("TabContainer/Masks/MaskMenu")
+GlassesMenu = NodePath("TabContainer/Glasses/GlassesMenu")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
@@ -78,6 +79,27 @@ margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="MaskMenu" type="HBoxContainer" parent="TabContainer/Masks"]
+margin_left = 12.0
+margin_top = 12.0
+margin_right = 584.0
+margin_bottom = 104.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+ItemUI = ExtResource( 4 )
+num_preview_items = 3
+
+[node name="Glasses" type="Tabs" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 48.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="GlassesMenu" type="HBoxContainer" parent="TabContainer/Glasses"]
 margin_left = 12.0
 margin_top = 12.0
 margin_right = 584.0

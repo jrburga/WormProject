@@ -8,6 +8,5 @@
 script = ExtResource( 2 )
 id = "surgical_mask"
 display_name = "Face Mask"
-HatScene = ExtResource( 1 )
 Scene = ExtResource( 1 )
 icon = ExtResource( 3 )

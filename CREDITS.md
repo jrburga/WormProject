@@ -12,3 +12,5 @@
 - witch-hat.png by Victoruler
     - https://www.flaticon.com/premium-icon/witch-hat_2179197
 
+- monocle.png by Those Icons
+    - https://www.flaticon.com/free-icon/monocle_812688

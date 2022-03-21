@@ -8,6 +8,5 @@
 script = ExtResource( 2 )
 id = "hat_on_hat"
 display_name = "Two Hats"
-HatScene = ExtResource( 3 )
 Scene = ExtResource( 3 )
 icon = ExtResource( 1 )

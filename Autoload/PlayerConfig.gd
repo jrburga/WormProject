@@ -7,11 +7,20 @@ extends Node
 
 var hat_id : String setget _set_hat_id, _get_hat_id
 var mask_id : String setget _set_mask_id, _get_mask_id
+var glasses_id : String setget _set_glasses_id, _get_glasses_id
 var worm_color : Color setget _set_worm_color, _get_worm_color
 
 signal worm_color_changed(new_color)
 signal hat_id_changed(new_hat_id)
 signal mask_id_changed(new_mask_id)
+signal glasses_id_changed(new_glasses_id)
+
+func _set_glasses_id(value):
+	glasses_id = value
+	emit_signal("glasses_id_changed", glasses_id)
+	
+func _get_glasses_id():
+	return glasses_id
 
 func _set_mask_id(value):
 	mask_id = value
