@@ -3,6 +3,8 @@ extends Node
 export(NodePath) var TextureRectNode : NodePath
 
 var local_url = "http://localhost:8000/"
+var itch_url = "https://v6p9d9t4.ssl.hwcdn.net/html/5410260-537711/"
+
 
 func _ready():
 	var http_request = HTTPRequest.new()
@@ -10,7 +12,7 @@ func _ready():
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_completed")
 	
-	var error = http_request.request(local_url + "image/clown-fish.png")
+	var error = http_request.request(itch_url + "image/clown-fish.png")
 	
 	if error != OK:
 		push_error("An error occurred in the HTTP request")
