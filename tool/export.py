@@ -61,8 +61,8 @@ def export_html5(id):
 			readme
 			# put something here probably
 
-		print(image_dir, export_image)
-		shutil.copytree(image_dir, export_image)
+		# print(image_dir, export_image)
+		# shutil.copytree(image_dir, export_image)
 
 
 		zip_file = worm_dir + ".zip"
