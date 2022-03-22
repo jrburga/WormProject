@@ -2,9 +2,6 @@ extends Node
 
 export(NodePath) var TextureRectNode : NodePath
 
-var local_url = "http://localhost:8000/"
-var itch_url = "https://v6p9d9t4.ssl.hwcdn.net/html/5410260-537711/"
-
 var base_url : String = ""
 
 func _ready():
