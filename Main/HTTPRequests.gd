@@ -7,17 +7,21 @@ var itch_url = "https://v6p9d9t4.ssl.hwcdn.net/html/5410260-537711/"
 
 
 func _ready():
+	var href = JavaScript.eval("window.location.href")
+	print(href)
 	var http_request = HTTPRequest.new()
 	
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_completed")
 	
-	var error = http_request.request(itch_url + "image/clown-fish.png")
+	var error = http_request.request(href + "image/clown-fish.png")
 	
 	if error != OK:
 		push_error("An error occurred in the HTTP request")
 
 func _http_request_completed(result, response_code, headers, body):
+	if result != 0:
+		return
 	var texture_rect = get_node(TextureRectNode)
 	
 	var image = Image.new()
