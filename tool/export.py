@@ -32,8 +32,11 @@ def export_html5(id):
 
 	project_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
 
+	html_dir = os.path.join(project_path, 'html')
+	image_dir = os.path.join(html_dir, 'image')
 	exports_dir = os.path.join(project_path, 'Exports')
 	export_path = os.path.join(exports_dir, worm_dir)
+	export_image = os.path.join(export_path, 'image')
 	export_file = os.path.join(export_path, 'worm.html')
 
 	# delete the existing export
@@ -57,6 +60,9 @@ def export_html5(id):
 		with open(os.path.join(export_path, "LICENSE"), 'w') as readme:
 			readme
 			# put something here probably
+
+		print(image_dir, export_image)
+		shutil.copytree(image_dir, export_image)
 
 
 		zip_file = worm_dir + ".zip"
