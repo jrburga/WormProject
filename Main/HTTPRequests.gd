@@ -9,7 +9,8 @@ var itch_url = "https://v6p9d9t4.ssl.hwcdn.net/html/5410260-537711/"
 func _ready():
 	var href = JavaScript.eval("window.location.href") as String
 	if href.ends_with("index.html"):
-		href = href.rstrip("index.html")
+		var index = href.find("index.html")
+		href.erase(index, 10)
 		
 	var http_request = HTTPRequest.new()
 	
