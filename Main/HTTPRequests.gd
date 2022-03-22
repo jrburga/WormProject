@@ -23,8 +23,10 @@ func _ready():
 		push_error("An error occurred in the HTTP request")
 
 func _http_request_completed(result, response_code, headers, body):
-	if result != 0:
-		return
+	print(result)
+	print(response_code)
+	print(headers)
+	print(body)
 	var texture_rect = get_node(TextureRectNode)
 	
 	var image = Image.new()
