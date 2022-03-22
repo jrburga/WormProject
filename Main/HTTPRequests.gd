@@ -5,20 +5,26 @@ export(NodePath) var TextureRectNode : NodePath
 var local_url = "http://localhost:8000/"
 var itch_url = "https://v6p9d9t4.ssl.hwcdn.net/html/5410260-537711/"
 
+var base_url : String = ""
 
 func _ready():
-	var href = JavaScript.eval("window.location.href") as String
-	if href.ends_with("index.html"):
-		var index = href.find("index.html")
-		href.erase(index, 10)
-		
+	# determine the URL from javascript
+	# returns null if JavaScript is not available
+	# (when we're not exported for HTML5)
+	var js_eval = JavaScript.eval("location.href.replace(/[^/]*$/, '')")
+	if js_eval:
+		base_url = js_eval as String
+		print(base_url)
+
+# example for fetching an image
+func fetch_clown_fish():
 	var http_request = HTTPRequest.new()
-	
+
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_completed")
-	
-	var error = http_request.request(href + "image/clown-fish.png")
-	
+
+	var error = http_request.request(base_url + "image/clown-fish.png")
+
 	if error != OK:
 		push_error("An error occurred in the HTTP request")
 
