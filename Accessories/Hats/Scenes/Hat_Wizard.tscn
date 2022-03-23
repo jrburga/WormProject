@@ -13,5 +13,5 @@ enabled = true
 [node name="witch-hat" type="Sprite" parent="."]
 position = Vector2( 6, -29 )
 rotation = 0.246015
-scale = Vector2( -0.09, 0.09 )
+scale = Vector2( -0.36, 0.36 )
 texture = ExtResource( 2 )

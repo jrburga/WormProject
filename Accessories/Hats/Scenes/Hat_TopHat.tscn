@@ -11,5 +11,5 @@ length = 25.0
 [node name="tall-hat" type="Sprite" parent="."]
 position = Vector2( 4, -33 )
 rotation = 0.136107
-scale = Vector2( 0.0957812, 0.0957812 )
+scale = Vector2( 0.384, 0.384 )
 texture = ExtResource( 2 )
