@@ -20,7 +20,8 @@ func fetch_clown_fish():
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_completed")
 
-	var error = http_request.request(base_url + "image/clown-fish.png")
+	# notice that this assumes therre's an "images" directory
+	var error = http_request.request(base_url + "images/clown-fish.png")
 
 	if error != OK:
 		push_error("An error occurred in the HTTP request")
