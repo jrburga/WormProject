@@ -12,5 +12,5 @@ enabled = true
 [node name="WormMaskHat" type="Sprite" parent="."]
 position = Vector2( 5.97554, 8.48845 )
 rotation = 0.260528
-scale = Vector2( 0.104967, 0.1165 )
+scale = Vector2( 0.42, 0.464 )
 texture = ExtResource( 2 )

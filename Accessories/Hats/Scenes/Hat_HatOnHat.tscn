@@ -13,5 +13,5 @@ enabled = true
 [node name="DoubleHat" type="Sprite" parent="."]
 position = Vector2( 14, -30 )
 rotation = 0.546929
-scale = Vector2( 0.138385, 0.140711 )
+scale = Vector2( 0.552, 0.564 )
 texture = ExtResource( 2 )
