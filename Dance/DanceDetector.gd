@@ -80,6 +80,9 @@ class WormState:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pass
+	
+func test_save():
 	var segment_state = SegmentState.new()
 	var worm_state = WormState.new()
 	worm_state.segment_states.push_back(segment_state)
