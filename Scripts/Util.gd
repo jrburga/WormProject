@@ -5,7 +5,6 @@ class_name Util
 # var a = 2
 # var b = "text"
 
-
 static func find_first_parent(node : Node, type):
 	var parent = node.get_parent()
 	while parent:

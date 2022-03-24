@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UI/OptionsMenu/ColorItem.gd"
 }, {
+"base": "Node",
+"class": "DanceDetector",
+"language": "GDScript",
+"path": "res://Dance/DanceDetector.gd"
+}, {
 "base": "Node2D",
 "class": "DrawWorm2D",
 "language": "GDScript",
@@ -85,6 +90,7 @@ _global_script_class_icons={
 "AccessoryResource": "",
 "Autoload": "",
 "ColorItem": "",
+"DanceDetector": "",
 "DrawWorm2D": "",
 "HatItem": "",
 "ListControl": "",
