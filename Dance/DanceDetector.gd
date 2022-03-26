@@ -2,11 +2,15 @@ tool
 extends Node
 class_name DanceDetector
 
+export(Animation) var animation : Animation
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 #	test_save()
 	pass
+	
+
 	
 func test_save():
 	print('testing move serialization')
