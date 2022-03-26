@@ -1,6 +1,14 @@
 extends Node
 class_name Autoload
 
+static func get_dances_db(context : Node) -> DancesDB:
+	if Engine.editor_hint:
+		return null
+
+	if context:
+		return context.get_node("/root/DancesDB") as DancesDB
+	return null
+
 static func get_accessories_db(context : Node) -> AccessoriesDB:
 	if Engine.editor_hint:
 		return null

@@ -132,6 +132,7 @@ CameraMgr="*res://Autoload/CameraMgr.gd"
 PlayerConfig="*res://Autoload/PlayerConfig.gd"
 AccessoriesDB="*res://Autoload/AccessoriesDB.gd"
 SkinsDB="*res://Autoload/SkinsDB.gd"
+DancesDB="*res://Autoload/DancesDB.gd"
 
 [debug]
 
