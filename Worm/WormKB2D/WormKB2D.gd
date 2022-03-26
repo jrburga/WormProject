@@ -33,7 +33,7 @@ func _set_color(value):
 	for segment in segments:
 		segment.color = color
 	
-func _get_color():
+func _get_color() -> Color:
 	return color
 
 func _set_seg_radius(value):
@@ -41,7 +41,7 @@ func _set_seg_radius(value):
 	for segment in segments:
 		segment.radius = seg_radius
 		
-func _get_seg_radius():
+func _get_seg_radius() -> float:
 	return seg_radius
 
 func get_head():
@@ -67,14 +67,16 @@ func _draw():
 			draw_circle(segment.position + end_point, 5, Color.red)
 	
 func _ready():
-	var player_config = Autoload.get_player_config(self)
-	player_config.connect("worm_color_changed", self, "_on_PlayerConfig_worm_color_changed")
+	if not Engine.editor_hint:
+		var player_config = Autoload.get_player_config(self)
+		player_config.connect("worm_color_changed", self, "_on_PlayerConfig_worm_color_changed")
 	
-	touch_tracker = TouchTracker.new() as TouchTracker
+		touch_tracker = TouchTracker.new() as TouchTracker
 	
-	segments = [$Worm0]
-	$Worm0.index = 0
-	$Worm0.radius = seg_radius
+	var head = $Worm0
+	segments = [head]
+	head.index = 0
+	head.radius = seg_radius
 	for index in range(1, num_segments):
 		var new_worm_body = scnWormBodyKB2D.instance()
 		new_worm_body.set_name("Worm" + str(index))
@@ -92,7 +94,7 @@ func _ready():
 		segment._worm_ready()
 		
 	
-func get_num_dragging_segments():
+func get_num_dragging_segments() -> int:
 	var num = 0
 	for tracker in touch_tracker.tracker_objects:
 		if tracker and tracker.object != null:
@@ -113,7 +115,7 @@ func _get_closest_segment(location : Vector2, radius : float = 0):
 			
 	return n_segment
 		
-func _get_position_from_event(event):
+func _get_position_from_event(event) -> Vector2:
 	return event.position - get_canvas_transform().origin
 	
 func _grab_segment(touch_index, init_position, segment):
