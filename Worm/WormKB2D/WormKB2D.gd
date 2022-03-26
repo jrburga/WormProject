@@ -52,14 +52,19 @@ func get_segment(index : int):
 
 	
 func _process(delta):
-	if debug_draw:
-		update()
+	update()
+		
 	
 func _draw():
 	if debug_draw:
 		for tracker in touch_tracker.tracker_objects:
 			if tracker and tracker.object:
 				draw_circle(tracker.touch_position, 20, Color.red)
+				
+		for segment in segments:
+			var end_point = segment.velocity.normalized() * 100
+			draw_line(segment.position, segment.position + end_point, Color.red)
+			draw_circle(segment.position + end_point, 5, Color.red)
 	
 func _ready():
 	var player_config = Autoload.get_player_config(self)

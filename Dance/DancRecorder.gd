@@ -1,8 +1,15 @@
 tool
 extends Node
 
-export(NodePath) var ButtonNode : NodePath setget _set_button_node
-onready var button_record : Button = get_node(ButtonNode) as Button
+export(NodePath) var RecordButtonNode : NodePath setget _set_record_button_node
+onready var button_record : Button = get_node(RecordButtonNode) as Button
+
+export(NodePath) var PlaybackButtonNode : NodePath setget _set_playback_button_node
+onready var button_playback : Button = get_node(PlaybackButtonNode)
+
+export(NodePath) var PlaybackLineEditNode : NodePath setget _set_playback_line_edit
+onready var line_edit_playback : LineEdit = get_node(PlaybackLineEditNode)
+
 export(NodePath) var WormNode : NodePath setget _set_worm_node
 onready var worm : WormKB2D = get_node(WormNode) as WormKB2D
 
@@ -29,13 +36,22 @@ func _physics_process(delta):
 	var idx = 0
 #	if frame_time >= sec_per_frame:
 		# record key frame
-	for seg_idx in num_segs:
-		var segment = worm.get_segment(seg_idx) as KinematicBody2D
 		
-		animation.track_insert_key(idx, time, segment.position)
+	var head = worm.get_head()
+	var offset_transform = Transform2D()
+	for seg_idx in num_segs:
+		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
+		
+		var position_rel = head.to_local(segment.position)
+		animation.track_insert_key(idx, time, position_rel)
 		idx += 1
 		
-		animation.track_insert_key(idx, time, segment.rotation_degrees)
+		var rotation_rel = segment.rotation_degrees - head.rotation_degrees
+		animation.track_insert_key(idx, time, rotation_rel)
+		idx += 1
+		
+		var velocity_rel = segment.velocity.rotated(-head.rotation)
+		animation.track_insert_key(idx, time, velocity_rel)
 		idx += 1
 		
 #	frame_time = 0
@@ -48,6 +64,7 @@ func save_animation(anim_name : String):
 		animation.resource_name = anim_name
 		ResourceSaver.save("res://Dance/Animation/" + anim_name + ".tres", animation)
 		Autoload.get_dances_db(self).add_animation(animation)
+		line_edit_playback.text = animation.resource_name
 		
 		
 func clear_animation():
@@ -82,6 +99,10 @@ func start_recording():
 		animation.track_set_path(idx, worm_track_path(seg_idx, "rotation_degrees"))
 		idx += 1
 		
+		animation.add_track(Animation.TYPE_VALUE)
+		animation.track_set_path(idx, worm_track_path(seg_idx, "velocity"))
+		idx += 1
+		
 	recording = true
 	time = 0
 	frame_time = 0
@@ -90,7 +111,7 @@ func stop_recording():
 	if not is_recording():
 		push_warning("can't stop recording, not recording!")
 		return
-
+		
 	animation.length = time
 	recording = false
 	time = 0
@@ -102,12 +123,14 @@ func is_recording():
 
 func _get_configuration_warning():
 	var errors = []
-	var as_worm = get_node(WormNode) as WormKB2D
-	if not as_worm:
-		errors.append("WormNode is not a WormKB2D! " + str(as_worm))
-	var as_button = get_node(ButtonNode) as Button
-	if not as_button:
-		errors.append("ButtonNode is not a Button! " + str(as_button))
+	if not WormNode.is_empty() and not get_node(WormNode) is WormKB2D:
+		errors.append("WormNode is not a WormKB2D! " + str(WormNode))
+	if not RecordButtonNode.is_empty() and not get_node(RecordButtonNode) is Button:
+		errors.append("RecordButtonNode is not a Button! " + str(RecordButtonNode))
+	if not PlaybackButtonNode.is_empty() and not get_node(PlaybackButtonNode) is Button:
+		errors.append("PlaybackButtonNode is not a Button! " + str(PlaybackButtonNode))
+	if not PlaybackLineEditNode.is_empty() and not get_node(PlaybackLineEditNode) is LineEdit:
+		errors.append("PlaybackLineEdit is not a LineEdit!" + str(PlaybackLineEditNode))
 		
 	var return_string = ""
 	for error in errors:
@@ -115,8 +138,18 @@ func _get_configuration_warning():
 		return_string += "\n"
 	return return_string
 	
-func _set_button_node(value):
-	ButtonNode = value
+func _set_record_button_node(value):
+	RecordButtonNode = value
+	if is_inside_tree():
+		get_tree().emit_signal("node_configuration_warning_changed", self)
+		
+func _set_playback_button_node(value):
+	PlaybackButtonNode = value
+	if is_inside_tree():
+		get_tree().emit_signal("node_configuration_warning_changed", self)
+		
+func _set_playback_line_edit(value):
+	PlaybackLineEditNode = value
 	if is_inside_tree():
 		get_tree().emit_signal("node_configuration_warning_changed", self)
 
@@ -131,3 +164,19 @@ func _on_Btn_Record_pressed():
 		save_animation("Anim_Worm_" + str(animation.get_instance_id()))
 	else:
 		start_recording()
+
+
+func _on_Btn_Playback_pressed():
+	if is_recording():
+		push_warning("Can't do playback while recording!")
+		
+	else:
+		var anim_name = line_edit_playback.text
+		var playback_animation = Autoload.get_dances_db(self).find_animation(anim_name)
+		
+		if playback_animation:
+			if not worm.animation_player.has_animation(playback_animation.resource_name):
+				worm.animation_player.add_animation(playback_animation.resource_name, playback_animation)
+			worm.animation_player.play(playback_animation.resource_name)
+	
+	

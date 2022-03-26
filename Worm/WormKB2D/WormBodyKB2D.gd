@@ -152,7 +152,7 @@ func _physics_process_rotate(delta):
 
 		rotation = lerp_angle(rotation, desired_angle, 0.25)
 
-var velocity = Vector2()
+export(Vector2) var velocity = Vector2()
 func _physics_process(delta):
 	if get_worm().animation_player:
 		if get_worm().animation_player.is_playing():

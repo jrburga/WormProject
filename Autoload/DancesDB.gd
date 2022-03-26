@@ -16,3 +16,10 @@ func load_animations():
 	
 func add_animation(animation : Animation):
 	animations.append(animation)
+
+func find_animation(animation_name : String) -> Animation:
+	for animation in animations:
+		if animation is Animation:
+			if animation.resource_name == animation_name:
+				return animation
+	return null
