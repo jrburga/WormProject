@@ -154,6 +154,10 @@ func _physics_process_rotate(delta):
 
 var velocity = Vector2()
 func _physics_process(delta):
+	if get_worm().animation_player:
+		if get_worm().animation_player.is_playing():
+			return
+			
 	_physics_process_rotate(delta)
 	if get_worm_settings().physics_mode == PHYS_MODE.Velocity:
 		_physics_process_velocities(delta)

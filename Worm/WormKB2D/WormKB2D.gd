@@ -5,7 +5,7 @@ class_name WormKB2D
 #const scnWormBodyKB2D = preload("./WormBodyKB2D.tscn")
 
 var TouchTracker = load("res://Scripts/TouchTracker.gd")
-
+onready var animation_player : AnimationPlayer = get_node("AnimationPlayer")
 export(PackedScene) var scnWormBodyKB2D = null
 export(Resource) var worm_settings = null
 export(float) var seg_radius = 20 setget _set_seg_radius, _get_seg_radius

@@ -7,7 +7,7 @@ export(NodePath) var WormNode : NodePath setget _set_worm_node
 onready var worm : WormKB2D = get_node(WormNode) as WormKB2D
 
 # seconds per key frame
-export(float) var sec_per_frame : float = 0.5
+export(float) var sec_per_frame : float = 0.01
 
 var recording : bool = false
 var animation : Animation = null
@@ -18,7 +18,7 @@ func _ready():
 	
 var time : float = 0.0
 var frame_time : float = 0.0
-func _process(delta):
+func _physics_process(delta):
 	if button_record:
 		button_record.text = "stop recording" if is_recording() else "start recording"
 	
@@ -27,18 +27,18 @@ func _process(delta):
 		
 	
 	var idx = 0
-	if frame_time >= sec_per_frame:
+#	if frame_time >= sec_per_frame:
 		# record key frame
-		for seg_idx in num_segs:
-			var segment = worm.get_segment(seg_idx) as KinematicBody2D
-			
-			animation.track_insert_key(idx, time, segment.position)
-			idx += 1
-			
-			animation.track_insert_key(idx, time, segment.rotation_degrees)
-			idx += 1
-			
-		frame_time = 0
+	for seg_idx in num_segs:
+		var segment = worm.get_segment(seg_idx) as KinematicBody2D
+		
+		animation.track_insert_key(idx, time, segment.position)
+		idx += 1
+		
+		animation.track_insert_key(idx, time, segment.rotation_degrees)
+		idx += 1
+		
+#	frame_time = 0
 		
 	time += delta
 	frame_time += delta
