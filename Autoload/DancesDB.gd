@@ -23,3 +23,10 @@ func find_animation(animation_name : String) -> Animation:
 			if animation.resource_name == animation_name:
 				return animation
 	return null
+	
+func save_animation(anim_name : String, animation : Animation):
+	if animation != null:
+		animation.resource_name = anim_name
+		animation.loop = true
+		ResourceSaver.save("res://Dance/Animation/" + anim_name + ".tres", animation)
+		add_animation(animation)

@@ -14,7 +14,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
-func _input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
 		
@@ -22,8 +22,3 @@ func _input(event):
 		var capture_node = $ViewportCapture
 		if capture_node.has_method("capture_viewport"):
 			capture_node.capture_viewport()
-			
-	if event.is_action_pressed("toggle_animation_debug"):
-		var animation_popup = $CanvasLayer/UI/AnimationPopup as Control
-		if animation_popup:
-			animation_popup.visible = !animation_popup.visible
