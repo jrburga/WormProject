@@ -4,7 +4,7 @@ extends Node
 onready var button_record : Button = $CanvasLayer/AnimationPopup/Btn_Record
 onready var button_playback : Button = $CanvasLayer/AnimationPopup/Btn_Playback
 onready var line_edit_playback : LineEdit = $CanvasLayer/AnimationPopup/Edit_Playback
-onready var slider_playback : Slider = $CanvasLayer/AnimationPopup/Control/Slider_Playback
+onready var slider_playback : Slider = $CanvasLayer/AnimationPopup/AnimationControls/Slider_Playback
 
 export(NodePath) var WormNode : NodePath setget _set_worm_node
 onready var worm : WormKB2D = get_node(WormNode) as WormKB2D
@@ -26,45 +26,59 @@ func _unhandled_input(event):
 func _ready():
 	pass
 	
-var time : float = 0.0
-var frame_time : float = 0.0
-func _physics_process(delta):
-	if button_record:
-		button_record.text = "stop recording" if is_recording() else "start recording"
+func _process(delta):
+	if worm and worm.animation_player:
+		if button_record:
+			button_record.text = "stop recording" if is_recording() else "start recording"
+			
+		if button_playback:
+			button_playback.text = "stop playback" if worm.animation_player.is_playing() else "start playback"
 		
-	if button_playback:
-		button_playback.text = "stop playback" if worm.animation_player.is_playing() else "start playback"
+		$CanvasLayer/AnimationPopup/AnimationControls.visible = worm.animation_player.is_playing()
+		
 	
+var time : float = 0.0
+func _physics_process(delta):
 	if not is_recording():
 		return
-		
-	
+	record_keys(time)
+	time += delta
+
+func record_keys(key_time : float):
 	var idx = 0
-#	if frame_time >= sec_per_frame:
-		# record key frame
-		
 	var head = worm.get_head()
 	var offset_transform = Transform2D()
 	for seg_idx in num_segs:
 		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
 		
 		var position_rel = head.to_local(segment.position)
-		animation.track_insert_key(idx, time, position_rel)
+		animation.track_insert_key(idx, key_time, position_rel)
 		idx += 1
 		
 		var rotation_rel = segment.rotation_degrees - head.rotation_degrees
-		animation.track_insert_key(idx, time, rotation_rel)
+		animation.track_insert_key(idx, key_time, rotation_rel)
 		idx += 1
 		
 		var velocity_rel = segment.velocity.rotated(-head.rotation)
-		animation.track_insert_key(idx, time, velocity_rel)
+		animation.track_insert_key(idx, key_time, velocity_rel)
+		idx += 1
+
+func make_animation():
+	var new_animation = Animation.new()
+	var idx = 0
+	for seg_idx in num_segs:
+		new_animation.add_track(Animation.TYPE_VALUE)
+		new_animation.track_set_path(idx, worm_track_path(seg_idx, "position"))
 		idx += 1
 		
-#	frame_time = 0
+		new_animation.add_track(Animation.TYPE_VALUE)
+		new_animation.track_set_path(idx, worm_track_path(seg_idx, "rotation_degrees"))
+		idx += 1
 		
-	time += delta
-	frame_time += delta
-
+		new_animation.add_track(Animation.TYPE_VALUE)
+		new_animation.track_set_path(idx, worm_track_path(seg_idx, "velocity"))
+		idx += 1
+	return new_animation
 
 func clear_animation():
 	animation = null
@@ -87,24 +101,9 @@ func start_recording():
 		push_warning("can't start recording, num worm segments is 0")
 		return
 		
-	animation = Animation.new()
-	var idx = 0
-	for seg_idx in num_segs:
-		animation.add_track(Animation.TYPE_VALUE)
-		animation.track_set_path(idx, worm_track_path(seg_idx, "position"))
-		idx += 1
-		
-		animation.add_track(Animation.TYPE_VALUE)
-		animation.track_set_path(idx, worm_track_path(seg_idx, "rotation_degrees"))
-		idx += 1
-		
-		animation.add_track(Animation.TYPE_VALUE)
-		animation.track_set_path(idx, worm_track_path(seg_idx, "velocity"))
-		idx += 1
-		
+	animation = make_animation()
 	recording = true
 	time = 0
-	frame_time = 0
 		
 func stop_recording():
 	if not is_recording():
@@ -114,7 +113,6 @@ func stop_recording():
 	animation.length = time
 	recording = false
 	time = 0
-	frame_time = 0
 	
 func is_recording():
 	return recording and animation != null
@@ -142,7 +140,7 @@ func _on_Btn_Record_pressed():
 	elif is_recording():
 		stop_recording()
 		var anim_name = "Anim_Worm_" + str(animation.get_instance_id())
-		Autoload.get_dances_db(self).save_animation(anim_name, animation)
+		Autoload.get_dances_db(self).save_raw_animation(anim_name, animation)
 		line_edit_playback.text = animation.resource_name
 	else:
 		start_recording()

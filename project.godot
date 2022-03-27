@@ -79,6 +79,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/Util.gd"
 }, {
+"base": "Node2D",
+"class": "WormAnimated",
+"language": "GDScript",
+"path": "res://Worm/WormAnimated/WormAnimated.gd"
+}, {
+"base": "Node2D",
+"class": "WormBodyAnim",
+"language": "GDScript",
+"path": "res://Worm/WormAnimated/WormBodyAnim.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "WormBodyKB2D",
 "language": "GDScript",
@@ -114,6 +124,8 @@ _global_script_class_icons={
 "ListControl": "",
 "TouchTracker": "",
 "Util": "",
+"WormAnimated": "",
+"WormBodyAnim": "",
 "WormBodyKB2D": "",
 "WormKB2D": "",
 "WormPolygon2D": "",

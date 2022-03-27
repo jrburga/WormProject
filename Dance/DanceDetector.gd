@@ -2,7 +2,8 @@ tool
 extends Node
 class_name DanceDetector
 
-export(Animation) var animation : Animation
+export(NodePath) var WormNode setget _set_worm_node
+onready var worm = get_node(WormNode) as WormKB2D
 
 
 # Called when the node enters the scene tree for the first time.
@@ -10,20 +11,17 @@ func _ready():
 #	test_save()
 	pass
 	
+func _set_worm_node(value):
+	WormNode = value
+	if is_inside_tree():
+		get_tree().emit_signal("node_configuration_warning_changed", self)
 
-	
-func test_save():
-	print('testing move serialization')
-	var dance_move = DanceMove.new()
-	dance_move.times.append(0)
-	var segment_state = Dance.SegmentState.new()
-	var worm_state = Dance.WormState.new()
-#
-	worm_state.segment_states.append(segment_state)
-	worm_state.grabbed_segments.append(0)
-	dance_move.worm_states.append(worm_state)
-	
-	dance_move.save_move("Move_Test")
-	print(dance_move)
-	
-
+func _get_configuration_warning():
+	var errors = []
+	if WormNode.is_empty() or not get_node(WormNode) is WormKB2D:
+		errors.append("WormNode is not a WormKB2D! Path:'" + str(WormNode) + "'")
+	var return_string = ""
+	for error in errors:
+		return_string += error
+		return_string += "\n"
+	return return_string
