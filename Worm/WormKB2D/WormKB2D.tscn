@@ -14,7 +14,7 @@ scnWormBodyKB2D = ExtResource( 1 )
 script = ExtResource( 4 )
 
 [node name="Worm0" parent="." instance=ExtResource( 1 )]
-velocity = Vector2( -0.204788, -0.562178 )
+velocity = Vector2( 456.264, 152.299 )
 
 [node name="DrawNode" parent="Worm0" index="0"]
 visible = false
