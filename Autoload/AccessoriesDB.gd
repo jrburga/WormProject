@@ -11,15 +11,9 @@ var glasses_resources = []
 func _ready():
 	var start = OS.get_ticks_msec()
 	load_hats()
-	print("hats loaded: ", OS.get_ticks_msec() - start, "ms")
-	
-	start = OS.get_ticks_msec()
 	load_masks()
-	print("masks loaded: ", OS.get_ticks_msec() - start, "ms")
-	
-	start = OS.get_ticks_msec()
 	load_glasses()
-	print("glasses loaded: ", OS.get_ticks_msec() - start, "ms")
+
 	
 func load_hats():
 	var path = "res://Accessories/Hats/Resources"

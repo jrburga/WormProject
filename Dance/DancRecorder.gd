@@ -26,7 +26,11 @@ func _unhandled_input(event):
 func _ready():
 	pass
 	
+var time : float = 0.0
 func _process(delta):
+	if Engine.editor_hint:
+		return
+		
 	if worm and worm.animation_player:
 		if button_record:
 			button_record.text = "stop recording" if is_recording() else "start recording"
@@ -36,9 +40,6 @@ func _process(delta):
 		
 		$CanvasLayer/AnimationPopup/AnimationControls.visible = worm.animation_player.is_playing()
 		
-	
-var time : float = 0.0
-func _physics_process(delta):
 	if not is_recording():
 		return
 	record_keys(time)

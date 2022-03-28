@@ -6,7 +6,7 @@ var animations = []
 var raw_animations = []
 
 var path_anims = "res://Dance/Animation/"
-var path_raw_anims = "res://Dance/RawAnimation/"
+var path_raw_anims = "res://Editor/RawAnimation/"
 var path_moves = "res://Dance/Moves"
 var path_dances = "res://Dance/Dances"
 
