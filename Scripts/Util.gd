@@ -1,9 +1,11 @@
 extends Object
 class_name Util
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+
+const EDITOR = "editor"
+const DEBUG = "debug"
+const RELEASE = "release"
+const STANDALONE = "standalone"
 
 static func find_first_parent(node : Node, type):
 	var parent = node.get_parent()
@@ -22,6 +24,12 @@ static func find_first_parent_with_method(node : Node, method_name : String):
 static func load_resources_in_directory(directory_name : String, in_out_array : Array):
 	var path = directory_name
 	var dir = Directory.new()
+	
+	if not dir.dir_exists(path):
+		if OS.has_feature(EDITOR):
+			push_warning("Failed to load resources in directory! Does not exist: " + path)
+		return
+		
 	dir.open(path)
 	dir.list_dir_begin()
 
