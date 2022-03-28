@@ -13,7 +13,7 @@ onready var worm : WormKB2D = get_node(WormNode) as WormKB2D
 export(float) var sec_per_frame : float = 0.01
 
 var recording : bool = false
-var animation : Animation = null
+var animation : WormAnimation = null
 var num_segs : int = 0
 
 func _unhandled_input(event):
@@ -46,39 +46,11 @@ func _process(delta):
 	time += delta
 
 func record_keys(key_time : float):
-	var idx = 0
-	var head = worm.get_head()
-	var offset_transform = Transform2D()
-	for seg_idx in num_segs:
-		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
-		
-		var position_rel = head.to_local(segment.position)
-		animation.track_insert_key(idx, key_time, position_rel)
-		idx += 1
-		
-		var rotation_rel = segment.rotation_degrees - head.rotation_degrees
-		animation.track_insert_key(idx, key_time, rotation_rel)
-		idx += 1
-		
-		var velocity_rel = segment.velocity.rotated(-head.rotation)
-		animation.track_insert_key(idx, key_time, velocity_rel)
-		idx += 1
+	animation.worm_tracks_insert_keys(worm, key_time)
 
 func make_animation():
-	var new_animation = Animation.new()
-	var idx = 0
-	for seg_idx in num_segs:
-		new_animation.add_track(Animation.TYPE_VALUE)
-		new_animation.track_set_path(idx, worm_track_path(seg_idx, "position"))
-		idx += 1
-		
-		new_animation.add_track(Animation.TYPE_VALUE)
-		new_animation.track_set_path(idx, worm_track_path(seg_idx, "rotation_degrees"))
-		idx += 1
-		
-		new_animation.add_track(Animation.TYPE_VALUE)
-		new_animation.track_set_path(idx, worm_track_path(seg_idx, "velocity"))
-		idx += 1
+	var new_animation = WormAnimation.new()
+	new_animation.worm_add_tracks(worm)
 	return new_animation
 
 func clear_animation():
@@ -169,11 +141,11 @@ func _on_Slider_Playback_value_changed(value):
 func _on_Btn_TrimLeft_pressed():
 	if worm.animation_player.is_playing():
 		var anim_name : String = worm.animation_player.current_animation
-		var current_animation : Animation = worm.animation_player.get_animation(anim_name)
+		var current_animation : WormAnimation = worm.animation_player.get_animation(anim_name)
 		var trim_time = slider_playback.value * current_animation.length
 		worm.animation_player.stop()
 
-		animation_trim_left(current_animation, trim_time)
+		current_animation.tracks_trim_left(trim_time)
 
 		Autoload.get_dances_db(self).save_animation(anim_name, current_animation)
 		worm.animation_player.play(anim_name, -1, 0, false)
@@ -181,11 +153,11 @@ func _on_Btn_TrimLeft_pressed():
 func _on_Btn_TrimRight_pressed():
 	if worm.animation_player.is_playing():
 		var anim_name : String = worm.animation_player.current_animation
-		var current_animation : Animation = worm.animation_player.get_animation(anim_name)
+		var current_animation : WormAnimation = worm.animation_player.get_animation(anim_name)
 		var trim_time = slider_playback.value * current_animation.length
 		worm.animation_player.stop()
 
-		animation_trim_right(current_animation, trim_time)
+		current_animation.tracks_trim_right(trim_time)
 
 		Autoload.get_dances_db(self).save_animation(anim_name, current_animation)
 		worm.animation_player.play(anim_name, -1, 0, false)
@@ -193,62 +165,11 @@ func _on_Btn_TrimRight_pressed():
 func _on_Button_pressed():
 	if worm.animation_player.is_playing():
 		var anim_name : String = worm.animation_player.current_animation
-		var current_animation : Animation = worm.animation_player.get_animation(anim_name)
+		var current_animation : WormAnimation = worm.animation_player.get_animation(anim_name)
 		var trim_time = slider_playback.value * current_animation.length
 		worm.animation_player.stop()
 		
-		animation_single_frame(current_animation, trim_time)
+		current_animation.tracks_take_single_frame(trim_time)
 		
 		Autoload.get_dances_db(self).save_animation(anim_name, current_animation)
 		worm.animation_player.play(anim_name, -1, 0, false)
-		
-func animation_single_frame(in_animation : Animation, frame_time : float):
-	animation_trim_left(in_animation, frame_time)
-	animation_trim_right(in_animation, 0)
-	
-	
-func animation_trim_left(in_animation : Animation, trim_time : float):
-	var key_count = in_animation.track_get_key_count(0)
-	var trim_index = 0
-	for key_idx in key_count:
-		var key_time = in_animation.track_get_key_time(0, key_idx)
-		if key_time >= trim_time:
-			trim_index = key_idx
-			break
-			
-	print("trim left: %d - %d - %d" % [trim_index, 0, key_count])
-	if trim_index > 0:
-		var trim_key_time = in_animation.track_get_key_time(0, trim_index)
-		var track_count = in_animation.get_track_count()
-		for key_idx in trim_index:
-			for track_idx in track_count:
-				in_animation.track_remove_key(track_idx, 0)
-				
-		var new_key_count = in_animation.track_get_key_count(0)
-		for key_idx in new_key_count:
-			for track_idx in track_count:
-				var key_time = in_animation.track_get_key_time(track_idx, key_idx)
-				var new_time = key_time - trim_key_time
-				in_animation.track_set_key_time(track_idx, key_idx, new_time)
-				
-		in_animation.length = in_animation.track_get_key_time(0, new_key_count - 1)
-		
-func animation_trim_right(in_animation : Animation, trim_time : float):
-	var key_count = in_animation.track_get_key_count(0)
-	var trim_index = key_count - 1
-	for key_idx in range(key_count-1, -1, -1):
-		var key_time = in_animation.track_get_key_time(0, key_idx)
-		if key_time <= trim_time:
-			trim_index = key_idx
-			break
-			
-	print("trim right: %d - %d - %d" % [trim_index, 0, key_count])
-	if trim_index < key_count - 1:
-		var trim_key_time = in_animation.track_get_key_time(0, trim_index)
-		var track_count = in_animation.get_track_count()
-		for key_idx in range(key_count-1, trim_index, -1):
-			for track_idx in track_count:
-				in_animation.track_remove_key(track_idx, key_idx)
-				
-		var new_key_count = in_animation.track_get_key_count(0)
-		in_animation.length = in_animation.track_get_key_time(0, new_key_count - 1)

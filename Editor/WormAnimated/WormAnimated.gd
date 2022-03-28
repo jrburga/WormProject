@@ -13,7 +13,7 @@ func _ready():
 	segments = [$Worm0]
 	for index in range(1, num_segments):
 		var body = Node2D.new()
-		body.set_script(load("res://Worm/WormAnimated/WormBodyAnim.gd"))
+		body.set_script(load("res://Editor/WormAnimated/WormBodyAnim.gd"))
 		if body is WormBodyAnim:
 			body.radius = radius
 			body.color = color

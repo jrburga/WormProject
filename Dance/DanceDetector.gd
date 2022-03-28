@@ -11,6 +11,29 @@ func _ready():
 #	test_save()
 	pass
 	
+func calculate_score():
+	var move : DanceMove = null
+	var worm_anim : WormAnimation = move.animation as WormAnimation
+	if not worm_anim:
+		push_warning("dance move does not have valid Worm Animatino!")
+		return
+		
+	
+	var head = worm.get_head()
+	var idx = 0
+	var time = 0.0
+	
+	var anim_values = worm_anim.worm_value_tracks_interpolate(worm, time) as Dictionary
+	var position_anim = anim_values['position']
+	var rotation_anim = anim_values['rotation']
+	var velocity_anim = anim_values['velocity']
+	
+	for seg_idx in worm.num_segments:	
+		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
+		var position_rel = head.to_local(segment.position)
+		var rotation_rel = segment.rotation_degrees - head.rotation_degrees
+		var velocity_rel = segment.velocity.rotated(-head.rotation)
+
 func _set_worm_node(value):
 	WormNode = value
 	if is_inside_tree():

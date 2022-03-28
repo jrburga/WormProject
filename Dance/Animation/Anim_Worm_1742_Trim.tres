@@ -1,8 +1,11 @@
-[gd_resource type="Animation" format=2]
+[gd_resource type="Animation" load_steps=2 format=2]
+
+[ext_resource path="res://Dance/WormAnimation.gd" type="Script" id=1]
 
 [resource]
-resource_name = "Anim_Circle_CCW"
-length = 5.0
+resource_name = "Anim_Worm_1742_Trim"
+length = 0.001
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Worm0:position")
 tracks/0/interp = 1
@@ -37,7 +40,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 586.545, -243.351 ) ]
+"values": [ Vector2( 655.947, -209.13 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Worm1:position")
@@ -49,7 +52,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -35.8342, 3.41679 ) ]
+"values": [ Vector2( -38.8232, 2.80409 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Worm1:rotation_degrees")
@@ -61,7 +64,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 18.068 ]
+"values": [ 15.621 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Worm1:velocity")
@@ -73,7 +76,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 587.688, -38.3444 ) ]
+"values": [ Vector2( 672.613, -40.8842 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Worm2:position")
@@ -85,7 +88,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -69.4495, -4.31317 ) ]
+"values": [ Vector2( -75.7348, -4.34562 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Worm2:rotation_degrees")
@@ -97,7 +100,7 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 36.5915 ]
+"values": [ 33.6117 ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("Worm2:velocity")
@@ -109,7 +112,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 535.157, 138.705 ) ]
+"values": [ Vector2( 621.886, 135.179 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("Worm3:position")
@@ -121,7 +124,7 @@ tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -97.618, -21.5746 ) ]
+"values": [ Vector2( -107.149, -21.2107 ) ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("Worm3:rotation_degrees")
@@ -133,7 +136,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 55.6766 ]
+"values": [ 54.2004 ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Worm3:velocity")
@@ -145,7 +148,7 @@ tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 432.844, 281.852 ) ]
+"values": [ Vector2( 501.669, 296.213 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("Worm4:position")
@@ -157,7 +160,7 @@ tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -117.76, -46.1029 ) ]
+"values": [ Vector2( -129.371, -46.0063 ) ]
 }
 tracks/13/type = "value"
 tracks/13/path = NodePath("Worm4:rotation_degrees")
@@ -169,7 +172,7 @@ tracks/13/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 75.6699 ]
+"values": [ 76.8843 ]
 }
 tracks/14/type = "value"
 tracks/14/path = NodePath("Worm4:velocity")
@@ -181,7 +184,7 @@ tracks/14/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 299.876, 385.509 ) ]
+"values": [ Vector2( 316.724, 400.751 ) ]
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("Worm5:position")
@@ -193,7 +196,7 @@ tracks/15/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -128.105, -75.2126 ) ]
+"values": [ Vector2( -139.535, -74.7587 ) ]
 }
 tracks/16/type = "value"
 tracks/16/path = NodePath("Worm5:rotation_degrees")
@@ -205,7 +208,7 @@ tracks/16/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 97.7553 ]
+"values": [ 99.4477 ]
 }
 tracks/17/type = "value"
 tracks/17/path = NodePath("Worm5:velocity")
@@ -217,7 +220,7 @@ tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 140.384, 444.19 ) ]
+"values": [ Vector2( 112.487, 416.45 ) ]
 }
 tracks/18/type = "value"
 tracks/18/path = NodePath("Worm6:position")
@@ -229,7 +232,7 @@ tracks/18/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -127.108, -105.079 ) ]
+"values": [ Vector2( -137.746, -102.646 ) ]
 }
 tracks/19/type = "value"
 tracks/19/path = NodePath("Worm6:rotation_degrees")
@@ -241,7 +244,7 @@ tracks/19/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 121.857 ]
+"values": [ 119.165 ]
 }
 tracks/20/type = "value"
 tracks/20/path = NodePath("Worm6:velocity")
@@ -253,7 +256,7 @@ tracks/20/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -41.1429, 424.449 ) ]
+"values": [ Vector2( -50.2212, 366.19 ) ]
 }
 tracks/21/type = "value"
 tracks/21/path = NodePath("Worm7:position")
@@ -265,7 +268,7 @@ tracks/21/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -115.346, -129.889 ) ]
+"values": [ Vector2( -126.835, -126.532 ) ]
 }
 tracks/22/type = "value"
 tracks/22/path = NodePath("Worm7:rotation_degrees")
@@ -277,7 +280,7 @@ tracks/22/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 144.478 ]
+"values": [ 135.111 ]
 }
 tracks/23/type = "value"
 tracks/23/path = NodePath("Worm7:velocity")
@@ -289,7 +292,7 @@ tracks/23/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -195.292, 319.579 ) ]
+"values": [ Vector2( -158.248, 299.614 ) ]
 }
 tracks/24/type = "value"
 tracks/24/path = NodePath("Worm8:position")
@@ -301,7 +304,7 @@ tracks/24/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -97.8118, -145.654 ) ]
+"values": [ Vector2( -110.158, -145.398 ) ]
 }
 tracks/25/type = "value"
 tracks/25/path = NodePath("Worm8:rotation_degrees")
@@ -313,7 +316,7 @@ tracks/25/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 161.478 ]
+"values": [ 147.866 ]
 }
 tracks/26/type = "value"
 tracks/26/path = NodePath("Worm8:velocity")
@@ -325,7 +328,7 @@ tracks/26/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -294.096, 195.243 ) ]
+"values": [ Vector2( -236.598, 242.472 ) ]
 }
 tracks/27/type = "value"
 tracks/27/path = NodePath("Worm9:position")
@@ -337,7 +340,7 @@ tracks/27/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -80.3881, -153.534 ) ]
+"values": [ Vector2( -90.6354, -159.243 ) ]
 }
 tracks/28/type = "value"
 tracks/28/path = NodePath("Worm9:rotation_degrees")
@@ -349,7 +352,7 @@ tracks/28/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 172.233 ]
+"values": [ 157.898 ]
 }
 tracks/29/type = "value"
 tracks/29/path = NodePath("Worm9:velocity")
@@ -361,7 +364,7 @@ tracks/29/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -361.377, 95.2218 ) ]
+"values": [ Vector2( -313.94, 196.076 ) ]
 }
 tracks/30/type = "value"
 tracks/30/path = NodePath("Worm10:position")
@@ -373,7 +376,7 @@ tracks/30/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -65.4094, -156.938 ) ]
+"values": [ Vector2( -71.0637, -168.561 ) ]
 }
 tracks/31/type = "value"
 tracks/31/path = NodePath("Worm10:rotation_degrees")
@@ -385,7 +388,7 @@ tracks/31/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 179.938 ]
+"values": [ 164.85 ]
 }
 tracks/32/type = "value"
 tracks/32/path = NodePath("Worm10:velocity")
@@ -397,7 +400,7 @@ tracks/32/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -400.203, 18.8506 ) ]
+"values": [ Vector2( -408.757, 152.368 ) ]
 }
 tracks/33/type = "value"
 tracks/33/path = NodePath("Worm11:position")
@@ -409,7 +412,7 @@ tracks/33/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -51.6744, -157.876 ) ]
+"values": [ Vector2( -53.895, -174.463 ) ]
 }
 tracks/34/type = "value"
 tracks/34/path = NodePath("Worm11:rotation_degrees")
@@ -421,7 +424,7 @@ tracks/34/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 184.327 ]
+"values": [ 166.575 ]
 }
 tracks/35/type = "value"
 tracks/35/path = NodePath("Worm11:velocity")
@@ -433,7 +436,7 @@ tracks/35/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -402.712, -36.5711 ) ]
+"values": [ Vector2( -510.425, 104.677 ) ]
 }
 tracks/36/type = "value"
 tracks/36/path = NodePath("Worm12:position")
@@ -445,7 +448,7 @@ tracks/36/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -37.2978, -157.424 ) ]
+"values": [ Vector2( -39.5103, -179.054 ) ]
 }
 tracks/37/type = "value"
 tracks/37/path = NodePath("Worm12:rotation_degrees")
@@ -457,7 +460,7 @@ tracks/37/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 4.60497 ]
+"values": [ -12.7763 ]
 }
 tracks/38/type = "value"
 tracks/38/path = NodePath("Worm12:velocity")
@@ -469,5 +472,6 @@ tracks/38/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -387.629, -73.5434 ) ]
+"values": [ Vector2( -574.285, 50.4798 ) ]
 }
+script = ExtResource( 1 )

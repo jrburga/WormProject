@@ -1,7 +1,7 @@
 extends Object
 class_name Util
 
-
+# https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html
 const EDITOR = "editor"
 const DEBUG = "debug"
 const RELEASE = "release"
