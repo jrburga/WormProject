@@ -46,20 +46,54 @@ func worm_value_tracks_interpolate(worm : WormKB2D, time_sec : float):
 	var head = worm.get_head()
 	var idx = 0
 	var time = 0.0
+	out_dict['position'] = []
+	out_dict['rotation'] = []
+	out_dict['velocity'] = []
 	for seg_idx in worm.num_segments:	
 		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
 		
 		var position_rel = value_track_interpolate(idx, time)
-		out_dict['position'] = position_rel
+		out_dict['position'].append(position_rel)
 		idx += 1
 		
 		var rotation_rel = value_track_interpolate(idx, time)
-		out_dict['rotation'] = rotation_rel
+		out_dict['rotation'].append(rotation_rel)
 		idx += 1
 
 		var velocity_rel = value_track_interpolate(idx, time)
-		out_dict['velocity'] = velocity_rel
+		out_dict['velocity'].append(velocity_rel)
 		idx += 1
+		
+	return out_dict
+		
+func worm_value_tracks_interpolate_local_to_worm(worm : WormKB2D, time_sec : float):
+	var out_dict = {}
+	
+	var head = worm.get_head()
+	var idx = 0
+	var time = 0.0
+	out_dict['position'] = []
+	out_dict['rotation'] = []
+	out_dict['velocity'] = []
+	for seg_idx in worm.num_segments:	
+		var segment = worm.get_segment(seg_idx) as WormBodyKB2D
+		
+		var position_rel = value_track_interpolate(idx, time)
+		var position_global = head.transform.xform(position_rel)
+		out_dict['position'].append(position_global)
+		idx += 1
+		
+		var rotation_rel = value_track_interpolate(idx, time)
+		var rotation_global = rotation_rel + head.rotation
+		out_dict['rotation'].append(rotation_global)
+		idx += 1
+
+		var velocity_rel = value_track_interpolate(idx, time)
+		var velocity_global = velocity_rel.rotated(head.rotation)
+		out_dict['velocity'].append(velocity_global)
+		idx += 1
+		
+	return out_dict
 
 		
 func tracks_take_single_frame(frame_time : float):
