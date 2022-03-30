@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Editor/WormAnimated/WormBodyAnim.gd" type="Script" id=1]
 [ext_resource path="res://Editor/WormAnimated/WormAnimated.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Dance/WormAnimation.gd" type="Script" id=5]
 [ext_resource path="res://Dance/Animation/Anim_CircleCCW.tres" type="Animation" id=6]
 [ext_resource path="res://Dance/Animation/Anim_Worm_1742_Trim.tres" type="Animation" id=7]
+[ext_resource path="res://Editor/RawAnimation/Anim_Worm_10642.tres" type="Animation" id=8]
 
 [node name="WormAnimated" type="Node2D"]
 script = ExtResource( 2 )
@@ -14,10 +15,11 @@ script = ExtResource( 2 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Anim_CircleCCW = ExtResource( 6 )
 anims/Anim_CircleCW = ExtResource( 3 )
+anims/Anim_Worm_10642 = ExtResource( 8 )
 anims/Anim_Worm_1742 = ExtResource( 4 )
 anims/Anim_Worm_1742_Trim = ExtResource( 7 )
 script = ExtResource( 5 )
 
 [node name="Worm0" type="Node2D" parent="."]
 script = ExtResource( 1 )
-velocity = Vector2( 681.003, -243.301 )
+velocity = Vector2( 164.299, 153.018 )
