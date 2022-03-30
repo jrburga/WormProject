@@ -8,3 +8,4 @@ script = ExtResource( 1 )
 id = "move_circle_cw"
 display_name = "Circle Move (CW)"
 animation = ExtResource( 2 )
+grabbed_segments = 1

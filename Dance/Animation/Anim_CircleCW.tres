@@ -4,7 +4,7 @@
 
 [resource]
 resource_name = "Anim_CircleCW"
-length = 5.0
+length = 2.0
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Worm0:position")
