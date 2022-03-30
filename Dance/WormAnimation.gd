@@ -84,7 +84,7 @@ func worm_value_tracks_interpolate_local_to_worm(worm : WormKB2D, time_sec : flo
 		idx += 1
 		
 		var rotation_rel = value_track_interpolate(idx, time)
-		var rotation_global = rotation_rel + head.rotation
+		var rotation_global = rotation_rel + head.rotation_degrees
 		out_dict['rotation'].append(rotation_global)
 		idx += 1
 

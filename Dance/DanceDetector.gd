@@ -62,7 +62,7 @@ func _draw():
 			
 			var pos = position_draw[idx]
 			var rot = rotation_draw[idx]
-			var end_point = pos + Vector2(100, 0).rotated(rot)
+			var end_point = pos + Vector2(100, 0).rotated(deg2rad(rot))
 			draw_line(pos, end_point, Color.blue)
 			
 		for idx in worm.num_segments:
