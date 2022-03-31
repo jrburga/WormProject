@@ -1,6 +1,5 @@
 extends Node2D
 
-
 export(bool) var draw_debug = true
 export(bool) var draw_position = true
 export(bool) var draw_velocity = true
