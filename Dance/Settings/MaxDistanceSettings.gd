@@ -1,6 +1,7 @@
 extends Resource
 class_name MaxDistanceSettings
 
+export(float) var time_between_moves = 2.0
 export(float) var score_threshold_detect = 80.0
 export(float) var score_threshold_drop = 20.0
 export(float) var max_distance = 100

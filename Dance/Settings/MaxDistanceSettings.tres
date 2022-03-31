@@ -4,6 +4,7 @@
 
 [resource]
 script = ExtResource( 1 )
+time_between_moves = 2.0
 score_threshold_detect = 80.0
 score_threshold_drop = 20.0
 max_distance = 50.0

@@ -4,10 +4,11 @@ class_name DanceDetector
 
 enum Type { MSE, MaxDistance }
 
+enum State { Idle, Dancing }
+
 export(Resource) var settings
 export(Type) var detector_type = Type.MSE
 export(NodePath) var WormNode setget _set_worm_node
-export(Resource) var TestMove setget _set_test_move
 
 # broadcast once time in move > 0
 signal move_detected(move)
@@ -31,6 +32,7 @@ class MoveTracker:
 class DanceTracker:
 	var num_moves_completed : int = 0
 	
+
 var current_move_sequence = []
 
 var possible_moves = {
@@ -43,30 +45,45 @@ var possible_dances = {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect("move_executed", self, "_on_move_executed")
+	connect("move_detected", self, "_on_move_detected")
+	connect("move_dropped", self, "_on_move_dropped")
 	connect("dance_executed", self, "_on_dance_executed")
 	connect("dance_continued", self, "_on_dance_continued")
 	connect("dance_detected", self, "_on_dance_detected")
 	if not Engine.editor_hint:
 		$DebugDraw.worm = get_node(WormNode)
+		
+func get_current_state():
+	if possible_dances.size() > 0:
+		return State.Dancing
+	else:
+		return State.Idle
 	
 func _on_move_executed(move : DanceMove):
-	print("move executed: ", move.display_name)
 	current_move_sequence.append(move)
+	$DanceTimer.paused = false
+	$DanceTimer.start(settings.time_between_moves)
 	update_possible_dances()
 	
+func _on_move_detected(move : DanceMove):
+	$DanceTimer.paused = true
+	
+func _on_move_dropped(move : DanceMove):
+	$DanceTimer.paused = false
+		
+func _on_DanceTimer_timeout():
+	current_move_sequence.clear()
+	update_possible_dances()
 	
 func _on_dance_executed(dance : DanceSequence):
-	print("dance executed: %s" % dance.display_name)
 	$DebugDraw.display_detected_dance(dance)
 	possible_dances.erase(dance)
 	
 func _on_dance_continued(dance : DanceSequence):
-	print("dance continued: %s - %d" % 
-	[dance.display_name, possible_dances[dance]])
+	pass
 	
 func _on_dance_detected(dance : DanceSequence):
-	print("dance detected: %s - %d" % 
-	[dance.display_name, possible_dances[dance]])
+	pass
 	
 func get_moves() -> Array:
 	if !Engine.editor_hint:
@@ -134,8 +151,18 @@ func update_possible_moves(delta : float):
 			
 func update_possible_dances():
 	var num_moves = current_move_sequence.size()
-	print("num_moves", num_moves)
 	var dance_executed = false
+	if num_moves == 0:
+		var dropped_dances = []
+		for possible_dance in possible_dances:
+			dropped_dances.append(possible_dances)
+			
+		possible_dances.clear()
+		for dropped_dance in dropped_dances:
+			emit_signal("dance_dropped", dropped_dance)
+			
+		return
+		
 	for dance in get_dances():
 		var prev_num_moves_completed = possible_dances.get(dance, 0)
 		for index in num_moves:
@@ -332,19 +359,15 @@ func _set_worm_node(value):
 	if is_inside_tree():
 		get_tree().emit_signal("node_configuration_warning_changed", self)
 
-func _set_test_move(value):
-	TestMove = value
-	if is_inside_tree():
-		get_tree().emit_signal("node_configuration_warning_changed", self)
-
 func _get_configuration_warning():
 	var errors = []
 	if WormNode.is_empty() or not get_node(WormNode) is WormKB2D:
 		errors.append("WormNode is not a WormKB2D! Path:'" + str(WormNode) + "'")
-	if not TestMove is DanceMove:
-		errors.append("TestMove is not a DanceMove!")
 	var return_string = ""
 	for error in errors:
 		return_string += error
 		return_string += "\n"
 	return return_string
+
+
+
