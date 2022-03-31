@@ -22,4 +22,4 @@ script = ExtResource( 5 )
 
 [node name="Worm0" type="Node2D" parent="."]
 script = ExtResource( 1 )
-velocity = Vector2( 164.299, 153.018 )
+velocity = Vector2( 586.545, -243.351 )

@@ -11,65 +11,193 @@ export(Resource) var TestMove setget _set_test_move
 
 # broadcast once time in move > 0
 signal move_detected(move)
+signal move_continued(move)
+signal move_dropped(move)
 # broadcast move once executed successfully
 signal move_executed(move)
 
 # broadcast once first move in dance is detected
 signal dance_detected(dance)
+signal dance_continued(dance)
+signal dance_dropped(dance)
 # broadcast dance once executed successfully
 signal dance_executed(dance)
 
+class MoveTracker:
+	var score : float = 0
+	var time_in_move : float = 0
+	var pct_in_move : float = 0
+	
+class DanceTracker:
+	var num_moves_completed : int = 0
+	
+var current_move_sequence = []
+
+var possible_moves = {
+	# move: MoveTracker(), 
+	# move: MoveTracker()
+}
+var possible_dances = {
+	# dance: (num_moves_completed)
+}
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	connect("move_executed", self, "_on_move_executed")
+	connect("dance_executed", self, "_on_dance_executed")
+	connect("dance_continued", self, "_on_dance_continued")
+	connect("dance_detected", self, "_on_dance_detected")
 	$DebugDraw.worm = get_node(WormNode)
-	pass
+	
+func _on_move_executed(move : DanceMove):
+	print("move executed: ", move.display_name)
+	current_move_sequence.append(move)
+	update_possible_dances()
+	
+	
+func _on_dance_executed(dance : DanceSequence):
+	print("dance executed: %s" % dance.display_name)
+	$DebugDraw.display_detected_dance(dance)
+	possible_dances.erase(dance)
+	
+func _on_dance_continued(dance : DanceSequence):
+	print("dance continued: %s - %d" % 
+	[dance.display_name, possible_dances[dance]])
+	
+func _on_dance_detected(dance : DanceSequence):
+	print("dance detected: %s - %d" % 
+	[dance.display_name, possible_dances[dance]])
+	
+func get_moves() -> Array:
+	if !Engine.editor_hint:
+		return Autoload.get_dances_db(self).moves
+	return []
+	
+func get_dances() -> Array:
+	if not Engine.editor_hint:
+		return Autoload.get_dances_db(self).dances
+	return []
+
+	
+func update_possible_moves(delta : float):
+	var worm = get_node(WormNode) as WormKB2D
+	
+	for move in get_moves():
+		move = move as DanceMove
+		if not move:
+			continue
+
+		var flags = worm.get_dragged_segments_flags()
 		
-var time_in_move = 0
+		# hmm?
+		if not move.grabbed_segments && flags:
+			possible_moves.erase(move)
+			continue
+			
+		var time_in_move : float = 0
+		if possible_moves.has(move):
+			time_in_move = possible_moves[move].time_in_move
+
+		var result = calculate_score_max_dist(move, time_in_move)
+		var score_threshold = settings.score_threshold_detect
+		if result.get('pct_in_move', 0) > 0:
+			score_threshold = settings.score_threshold_drop
+		
+		if result.get('score', 0) > score_threshold:
+			time_in_move += delta
+			
+			if result.get('pct_in_move', 0) >= 1.0:
+				possible_moves.erase(move)
+				time_in_move = 0
+				emit_signal('move_executed', move)
+				
+			var move_tracker : MoveTracker = null
+			var new_move = false
+			if possible_moves.has(move):
+				move_tracker = possible_moves[move]
+			else:
+				move_tracker = MoveTracker.new()
+				possible_moves[move] = move_tracker
+				new_move = true
+				
+			possible_moves[move].time_in_move = time_in_move
+			possible_moves[move].score = result.get('score', 0)
+			possible_moves[move].pct_in_move = result.get('pct_in_move', 0)
+			
+			if new_move:
+				emit_signal('move_detected', move)
+			else:
+				emit_signal('move_continued', move)
+		elif possible_moves.has(move):
+			possible_moves.erase(move)
+			emit_signal('move_dropped', move)
+			
+func update_possible_dances():
+	var num_moves = current_move_sequence.size()
+	print("num_moves", num_moves)
+	var dance_executed = false
+	for dance in get_dances():
+		var prev_num_moves_completed = possible_dances.get(dance, 0)
+		for index in num_moves:
+			var move_in_seq = current_move_sequence[index]
+			
+			if num_moves <= dance.dance_moves.size():
+				var move_in_dance = dance.dance_moves[index]
+				if move_in_dance == move_in_seq:
+					possible_dances[dance] = index + 1
+				else:
+					possible_dances.erase(dance)
+					break
+					
+		var new_num_moves_completed = possible_dances.get(dance, 0)
+		if new_num_moves_completed == 1 and prev_num_moves_completed == 0:
+			emit_signal("dance_detected", dance)
+		elif new_num_moves_completed == dance.dance_moves.size():
+			possible_dances.erase(dance)
+			dance_executed = true
+			emit_signal("dance_executed", dance)
+		elif new_num_moves_completed > prev_num_moves_completed:
+			emit_signal("dance_continued", dance)
+		elif new_num_moves_completed < prev_num_moves_completed:
+			emit_signal("dance_dropped", dance)
+	
+	if possible_dances.size() == 0:
+		print('resetting current move sequence')
+		if current_move_sequence.size() > 1 and not dance_executed:
+			var last_move = current_move_sequence[-1]
+			current_move_sequence.clear()
+			current_move_sequence.append(last_move)
+			update_possible_dances()
+		else:
+			current_move_sequence.clear()
+		
 func _process(delta):
 	if Engine.editor_hint:
 		return
-		
-	if detector_type == Type.MSE:
-		var values = calculate_score_mse(TestMove, time_in_move)
-		$DebugDraw.update()
-		$DebugDraw.update_label_mse(values)
-		
-	elif detector_type == Type.MaxDistance and settings is MaxDistanceSettings:
-		var values = calculate_score_max_dist(TestMove, time_in_move)
-		
-		var score_threshold = settings.score_threshold_detect
-		if values.pct_in_move > 0:
-			score_threshold = settings.score_threshold_drop
+	
+	update_possible_moves(delta)
+	$DebugDraw.update()
+	$DebugDraw.update_label_moves(possible_moves)
+	$DebugDraw.update_label_dances(possible_dances)
 
-		if values.score > score_threshold:
-			time_in_move += delta
-		else:
-			time_in_move = 0
-			
-		if values.pct_in_move >= 1:
-			time_in_move = 0
-			
-		$DebugDraw.update()
-		$DebugDraw.update_label_area(values)
 		
 	
-func calculate_score_max_dist(move : DanceMove, time : float = 0):
+func calculate_score_max_dist(move : DanceMove, time : float = 0) -> Dictionary:
 	var worm = get_node(WormNode) as WormKB2D
 	if not worm is WormKB2D:
-		return
+		return {}
 	
 	if worm.num_segments <= 0:
-		push_warning("num of segments on worm is 0!")
-		return
+		push_error("num of segments on worm is 0!")
+		return {}
 		
 	if not move:
-		push_warning("no dance move to calculate score on!")
-		return
+		push_error("no dance move to calculate score on!")
+		return {}
 		
 	var worm_anim : WormAnimation = move.animation as WormAnimation
 	if not worm_anim:
-		push_warning("dance move does not have valid Worm Animatino!")
-		return
+		push_error("dance move does not have valid Worm Animation!")
+		return {}
 		
 	var head = worm.get_head()
 		
@@ -84,14 +212,14 @@ func calculate_score_max_dist(move : DanceMove, time : float = 0):
 	
 	if worm.num_segments != position_anim.size():
 		push_warning("num anim positions != num worm segments")
-		return
+		return {}
 
 	var num_vel_close = 0
 	var num_inside = 0
 	
 	if not settings is MaxDistanceSettings:
 		push_warning("settings aren't MaxDistanceSettings, but using max distance")
-		return
+		return {}
 		
 	for idx in worm.num_segments:
 		var segment = worm.get_segment(idx)
@@ -136,23 +264,23 @@ func calculate_score_max_dist(move : DanceMove, time : float = 0):
 		'num_vel_close': num_vel_close
 		}
 	
-func calculate_score_mse(move : DanceMove, time : float = 0):
+func calculate_score_mse(move : DanceMove, time : float = 0) -> Dictionary:
 	var worm = get_node(WormNode) as WormKB2D
 	if not worm is WormKB2D:
-		return
+		return {}
 	
 	if worm.num_segments <= 0:
 		push_warning("num of segments on worm is 0!")
-		return
+		return {}
 		
 	if not move:
 		push_warning("no dance move to calculate score on!")
-		return
+		return {}
 		
 	var worm_anim : WormAnimation = move.animation as WormAnimation
 	if not worm_anim:
 		push_warning("dance move does not have valid Worm Animatino!")
-		return
+		return {}
 		
 	var head = worm.get_head()
 	
@@ -167,7 +295,7 @@ func calculate_score_mse(move : DanceMove, time : float = 0):
 	
 	if worm.num_segments != position_anim.size():
 		push_warning("num anim positions != num worm segments")
-		return
+		return {}
 		
 	var mse_pos = Vector2()
 	var mse_rot = 0
@@ -188,7 +316,7 @@ func calculate_score_mse(move : DanceMove, time : float = 0):
 	
 	var score : float = 0
 	
-	var pct_in_move = time / worm_anim.length if worm_anim.length > 0 else 0
+	var pct_in_move = time / worm_anim.length if worm_anim.length > 0 else 0.0
 	
 	return {
 		'score': score,

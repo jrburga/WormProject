@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Dance/DanceSequence.gd" type="Script" id=1]
+[ext_resource path="res://Dance/Moves/Move_CircleCW.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+id = "dance_circle_cw"
+display_name = "Circle Dance CW"
+dance_moves = [ ExtResource( 2 ), ExtResource( 2 ), ExtResource( 2 ) ]

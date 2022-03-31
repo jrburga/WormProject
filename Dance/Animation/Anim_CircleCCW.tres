@@ -1,4 +1,6 @@
-[gd_resource type="Animation" format=2]
+[gd_resource type="Animation" load_steps=2 format=2]
+
+[ext_resource path="res://Dance/WormAnimation.gd" type="Script" id=1]
 
 [resource]
 resource_name = "Anim_CircleCCW"
@@ -472,3 +474,4 @@ tracks/38/keys = {
 "update": 0,
 "values": [ Vector2( -387.629, -73.5434 ) ]
 }
+script = ExtResource( 1 )

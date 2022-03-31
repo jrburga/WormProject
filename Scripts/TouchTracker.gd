@@ -2,7 +2,7 @@ extends Object
 
 class_name TouchTracker
 
-class TrackerObject extends Object:
+class TrackerObject:
 	var object = null
 	var touch_position = Vector2()
 	var touch_index = -1

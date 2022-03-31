@@ -98,6 +98,31 @@ func get_num_dragging_segments() -> int:
 			num += 1
 	return num
 	
+func get_dragged_segments() -> Array:
+	var dragged_segments = []
+	for tracker in touch_tracker.tracker_objects:
+		if tracker and tracker.object != null:
+			dragged_segments.append(tracker.object)
+	return dragged_segments
+	
+func get_dragged_segment_indices() -> Array:
+	var dragged_segments = []
+	for tracker in touch_tracker.tracker_objects:
+		var worm_body = tracker.object if tracker else null
+		if worm_body:
+			dragged_segments.append(worm_body.index)
+	return dragged_segments
+	
+# returns grabbed segments as an integer
+# interpreted as flags
+func get_dragged_segments_flags() -> int:
+	var flags = 0
+	for tracker in touch_tracker.tracker_objects:
+		var worm_body = tracker.object if tracker else null
+		if worm_body:
+			flags |= 1 << worm_body.index
+	return flags
+	
 func _get_closest_segment(location : Vector2, radius : float = 0):
 	var n_dist = Vector2()
 	var n_segment = null

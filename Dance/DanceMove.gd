@@ -38,7 +38,7 @@ func _get_property_list():
 func grabbed_segments_contains(index : int) -> bool:
 	if index < 0 or index >= num_segments:
 		return false
-	return pow(2, index) && grabbed_segments
+	return (1 << index) && grabbed_segments
 	
 func get_grabbed_segments_array() -> Array:
 	var grabbed_segments_array = []
