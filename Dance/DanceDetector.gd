@@ -46,7 +46,8 @@ func _ready():
 	connect("dance_executed", self, "_on_dance_executed")
 	connect("dance_continued", self, "_on_dance_continued")
 	connect("dance_detected", self, "_on_dance_detected")
-	$DebugDraw.worm = get_node(WormNode)
+	if not Engine.editor_hint:
+		$DebugDraw.worm = get_node(WormNode)
 	
 func _on_move_executed(move : DanceMove):
 	print("move executed: ", move.display_name)
