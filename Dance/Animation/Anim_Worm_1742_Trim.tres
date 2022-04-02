@@ -460,7 +460,7 @@ tracks/37/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ -12.7763 ]
+"values": [ 347.224 ]
 }
 tracks/38/type = "value"
 tracks/38/path = NodePath("Worm12:velocity")
@@ -475,3 +475,4 @@ tracks/38/keys = {
 "values": [ Vector2( -574.285, 50.4798 ) ]
 }
 script = ExtResource( 1 )
+flip_dance = false

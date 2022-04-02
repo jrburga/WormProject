@@ -1,5 +1,13 @@
+tool
 extends Animation
 class_name WormAnimation
+
+export(bool) var flip_dance = false setget _flip_dance
+
+func _flip_dance(value = false):
+	if value:
+		worm_tracks_flip_keys_y_axis()
+		ResourceSaver.save(resource_path, self)
 
 func worm_track_path(idx, value_name) -> String:
 	return "Worm" + str(idx) + ":" + value_name
@@ -94,6 +102,33 @@ func worm_value_tracks_interpolate_local_to_worm(worm : WormKB2D, time_sec : flo
 		idx += 1
 		
 	return out_dict
+	
+func worm_tracks_flip_keys_y_axis():
+	var track_count = get_track_count()
+	
+	for track_idx in track_count:
+		var key_count = track_get_key_count(track_idx)
+		for key_idx in key_count:
+			if track_idx % 3 == 0:
+				var position = track_get_key_value(track_idx, key_idx)
+				position.y *= -1
+				track_set_key_value(track_idx, key_idx, position)
+				track_idx += 1
+			
+			if track_idx % 3 == 1:
+				var rotation = track_get_key_value(track_idx, key_idx)
+				if rotation >= 0:
+					rotation = 180 - rotation
+				else:
+					rotation = - 180 - rotation
+				track_set_key_value(track_idx, key_idx, rotation)
+				track_idx += 1
+			
+			if track_idx % 3 == 2:
+				var velocity = track_get_key_value(track_idx, key_idx)
+				velocity.y *= -1
+				track_set_key_value(track_idx, key_idx, velocity)
+				track_idx += 1
 
 		
 func tracks_take_single_frame(frame_time : float):

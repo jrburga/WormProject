@@ -475,3 +475,4 @@ tracks/38/keys = {
 "values": [ Vector2( -387.629, -73.5434 ) ]
 }
 script = ExtResource( 1 )
+flip_dance = false
